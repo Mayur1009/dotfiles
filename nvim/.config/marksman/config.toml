@@ -1,0 +1,3 @@
+
+[core]
+markdown.file_extensions = ["md", "markdown", "qmd"]
