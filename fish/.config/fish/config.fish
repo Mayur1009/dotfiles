@@ -24,10 +24,16 @@ end
 # Theme
 source ~/.config/fish/carbonfox.fish
 
+# Starship
+starship init fish | source
+
+# Zoxide
+zoxide init fish | source
+
 # ABBR
 abbr n nvim
-abbr el "exa -al"
-abbr elt "exa -alT"
+abbr el "eza -al"
+abbr elt "eza -alT"
 abbr mv "mv -i"
 abbr lg lazygit
 abbr :q exit
@@ -40,12 +46,8 @@ else
     abbr qq exit
 end
 
-
-# Starship
-starship init fish | source
-
-# Zoxide
-zoxide init fish | source
+# Variables
+set -gx EDITOR nvim
 
 # Sesh
 function t
