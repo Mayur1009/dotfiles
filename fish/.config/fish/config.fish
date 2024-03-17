@@ -2,33 +2,44 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-# PATH
-fish_add_path -aP $HOME/.config/emacs/bin
+switch (uname)
+    case Linux
+        echo "Loading Linux config..."
 
-# Set
-set -gx FZF_DEFAULT_COMMAND 'rg --files --hidden --glob "!.git/*"'
-# Virtual fish
-set -gx VIRTUALFISH_HOME $HOME/ext/envs
-# Libvirt - winapps
-set -gx LIBVIRT_DEFAULT_URI "qemu:///system"
-# RIP
-set -gx GRAVEYARD $HOME/.graveyard
+        # Libvirt - winapps
+        set -gx LIBVIRT_DEFAULT_URI "qemu:///system"
+        # RIP
+        set -gx GRAVEYARD $HOME/.graveyard
+        # Virtual fish
+        set -gx VIRTUALFISH_HOME $HOME/ext/envs
 
+        function dbgconsole --wraps='qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole' --description 'alias dbgconsole=qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole'
+            qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole $argv;
+        end
+
+    case Darwin
+        echo "Loading MacOS config..."
+end
+
+# Theme
+source ~/.config/fish/carbonfox.fish
+
+# ABBR
 abbr n nvim
-abbr qq exit
 abbr el "exa -al"
 abbr elt "exa -alT"
 abbr mv "mv -i"
 abbr lg lazygit
-abbr gopt "g++ -std=c++17 -Wshadow -Wall -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -g"
-
-function compg -d "Compile .cpp with options" -a file
-    g++ -std=c++17 -Wshadow -Wall -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -g -o $(basename $file .cpp) $file
-    printf '%s' "Compiled $file -> $(basename $file .cpp)"
+abbr :q exit
+abbr tn "tmux new -s (pwd | sed 's/.*\///g')"
+abbr ta "tmux attach"
+abbr td "tmux detach"
+if set -q TMUX
+    abbr qq "tmux detach"
+else
+    abbr qq exit
 end
 
-# Created by `pipx` on 2023-06-27 07:19:47
-set PATH $PATH $HOME/.local/bin
 
 # Starship
 starship init fish | source
@@ -36,15 +47,21 @@ starship init fish | source
 # Zoxide
 zoxide init fish | source
 
+# Sesh
+function t
+    sesh connect $(sesh list -tz | fzf-tmux -p 55%,60% \
+    --border-label ' sesh ' --prompt '⚡  ' \
+    --header '  ^a all ^t tmux ^x zoxide ^f find ^g find-home' \
+    --bind 'tab:down,btab:up' \
+    --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list)' \
+    --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t)' \
+    --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z)' \
+    --bind 'ctrl-f:change-prompt(🔍  )+reload(fd -H -t d -L -i)' \
+    --bind 'ctrl-g:change-prompt(🔍  )+reload(fd -H -t d -L -i --base-directory ~)')
+end
 
-# fzf.fish
-fzf_configure_bindings --directory=\cf
-set fzf_fd_opts --hidden --exclude=.git
-set fzf_directory_opts --bind "ctrl-o:execute($EDITOR {} &> /dev/tty)"
-set fzf_directory_opts --bind ctrl-h:toggle-preview
+# fish reload
+function fish-reload -d "Reload the shell"
+    source ~/.config/fish/config.fish
+end
 
-# Tmux session management and abbrs
-fish_add_path -aP $HOME/.tmux/plugins/t-smart-tmux-session-manager/bin
-abbr tn "tmux new -s (pwd | sed 's/.*\///g')"
-abbr ta "tmux attach"
-abbr td "tmux detach"
