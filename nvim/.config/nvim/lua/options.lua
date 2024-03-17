@@ -2,10 +2,10 @@
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = "-"
 
-vim.g.python3_host_prog = vim.fn.expand("~/envs/neovim/bin/python3")
-vim.g.python_host_prog = vim.fn.expand("~/envs/neovim/bin/python")
+vim.g.python3_host_prog = vim.fn.stdpath("config") .. "/.venv/bin/python3"
+vim.g.python_host_prog = vim.fn.stdpath("config") .. "/.venv/bin/python"
 
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = true

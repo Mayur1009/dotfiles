@@ -243,17 +243,8 @@ return {
         -- ft = { "markdown", "quarto" },
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
-            vim.cmd([[highlight CodeBlock guibg=#25282e]])
+            vim.cmd([[highlight CodeBlock guibg=#111111]])
             require("headlines").setup({
-                -- markdown = {
-                --     query = vim.treesitter.query.parse(
-                --         "markdown",
-                --         [[
-                --             (fenced_code_block) @codeblock
-                --         ]]
-                --     ),
-                --     codeblock_highlight = "CodeBlock",
-                -- },
                 quarto = {
                     query = vim.treesitter.query.parse(
                         "markdown",
@@ -261,7 +252,16 @@ return {
                             (fenced_code_block) @codeblock
                         ]]
                     ),
+                    codeblock_highlight = "CodeBlock",
                     treesitter_language = "markdown",
+                },
+                markdown = {
+                    query = vim.treesitter.query.parse(
+                        "markdown",
+                        [[
+                            (fenced_code_block) @codeblock
+                        ]]
+                    ),
                     codeblock_highlight = "CodeBlock",
                 },
             })

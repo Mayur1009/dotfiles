@@ -55,6 +55,7 @@ return {
             })
             vim.keymap.set("v", "<localleader>r", runner.run_range, { desc = "Run visual range" })
             vim.keymap.set({ "n", "i" }, "<localleader>æ", runner.run_cell, { desc = "Run cell" })
+            vim.keymap.set({ "n", "i" }, "<localleader>0", runner.run_cell, { desc = "Run cell" })
         end,
     },
     {
