@@ -67,7 +67,8 @@ function fish-reload -d "Reload the shell"
     source ~/.config/fish/config.fish
 end
 
-if test -f "/home/mayur/miniforge3/etc/fish/conf.d/mamba.fish"
-    source "/home/mayur/miniforge3/etc/fish/conf.d/mamba.fish"
+if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+    source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
 end
+
 

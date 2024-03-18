@@ -1,0 +1,9 @@
+**/Library
+**/.nvim_venv
+**/.zsh_sessions
+**/.cache
+**/.Trash
+**/miniforge3
+**/.vscode
+**/.npm
+**/*OneDrive*
