@@ -1,3 +1,15 @@
+local nmap = function(key, effect, desc)
+    vim.keymap.set("n", key, effect, { desc = desc, silent = true, noremap = true })
+end
+
+local vmap = function(key, effect, desc)
+    vim.keymap.set("v", key, effect, { desc = desc, silent = true, noremap = true })
+end
+
+local imap = function(key, effect, desc)
+    vim.keymap.set("i", key, effect, { desc = desc, silent = true, noremap = true })
+end
+
 return {
     {
         "quarto-dev/quarto-nvim",
@@ -27,35 +39,28 @@ return {
 
             local quarto = require("quarto")
             local runner = require("quarto.runner")
-            local wk = require("which-key")
-            wk.register({
-                ["<localleader>q"] = {
-                    name = "quarto",
-                    a = { ":QuartoActivate<CR>", "Activate" },
-                    p = { quarto.quartoPreview, "Preview" },
-                    q = { quarto.quartoClosePreview, "Close Preview" },
-                    h = { ":QuartoHelp ", "Help" },
-                    e = { ":lua require'otter'.export()<cr>", "Export" },
-                    E = { ":lua require'otter'.export(true)<cr>", "Export Overwrite" },
-                    t = { show_table, "Show Table" },
-                },
-                ["<localleader>r"] = {
-                    name = "run",
-                    c = { runner.run_cell, "Cell" },
-                    a = { runner.run_above, "Cell and Above" },
-                    A = { runner.run_all, "All Cells" },
-                    l = { runner.run_line, "Line" },
-                    R = {
-                        function()
-                            runner.run_all(true)
-                        end,
-                        "All Cells of All Languages",
-                    },
-                },
-            })
-            vim.keymap.set("v", "<localleader>r", runner.run_range, { desc = "Run visual range" })
-            vim.keymap.set({ "n", "i" }, "<localleader>æ", runner.run_cell, { desc = "Run cell" })
-            vim.keymap.set({ "n", "i" }, "<localleader>0", runner.run_cell, { desc = "Run cell" })
+
+            nmap("<leader>qa", ":QuartoActivate<CR>", "Activate")
+            nmap("<leader>qp", quarto.quartoPreview, "Preview")
+            nmap("<leader>qq", quarto.quartoClosePreview, "Close Preview")
+            nmap("<leader>qh", ":QuartoHelp ", "Help")
+            nmap("<leader>qe", ":lua require'otter'.export()<cr>", "Export")
+            nmap("<leader>qE", ":lua require'otter'.export(true)<cr>", "Export Overwrite")
+            nmap("<leader>qt", show_table, "Show Table")
+
+            nmap("<leader>cc", runner.run_cell, "Run Cell")
+            nmap("<leader>ca", runner.run_above, "Run Cell and Above")
+            nmap("<leader>cA", runner.run_all, "Run All Cells")
+            nmap("<leader>cl", runner.run_line, "Run Line")
+            nmap("<leader>cC", function()
+                runner.run_all(true)
+            end, "All Cells of All Languages")
+            nmap("<leader><CR>", function()
+                runner.run_cell()
+                vim.cmd("normal ]b")
+            end, "Run Cell and move to next cell")
+
+            vmap("<leader><CR>", runner.run_range, "Run Visual range")
         end,
     },
     {
@@ -146,24 +151,18 @@ return {
                 end
             end
 
-            require("which-key").register({
-                ["<localleader>s"] = {
-                    name = "+slime",
-                    m = { mark_terminal, "mark terminal" },
-                    s = { set_terminal, "set terminal" },
-                    t = { toggle_slime_tmux_nvim, "toggle slime nvim/tmux" },
-                },
-                ["<localleader>s<cr>"] = { send_cell, "Slime Send Code chunk" },
-                ["<M-CR>"] = { send_cell, "Slime Send Code chunk" },
-                ["<C-CR>"] = {
-                    function()
-                        send_cell()
-                    end,
-                    "run code",
-                },
-            })
-            vim.keymap.set({ "i" }, "<M-cr>", "<esc><Plug>SlimeSendCell<cr>i", { silent = true, noremap = true, desc = "send code chunk" })
-            vim.keymap.set({ "v" }, "<M-cr>", "<Plug>SlimeRegionSend", { silent = true, noremap = true, desc = "send code chunk" })
+            nmap("<leader>qm", mark_terminal, "Slime Mark Terminal")
+            nmap("<leader>qs", set_terminal, "Slime Set Terminal")
+            nmap("<leader>qT", toggle_slime_tmux_nvim, "Slime Toggle Tmux/Nvim terminal")
+            nmap("<leader>q<CR>", send_cell, "Slime Send Code chunk")
+            nmap("<C-CR>", send_cell, "Slime Send Code chunk")
+            nmap("<M-CR>", function()
+                send_cell()
+                vim.cmd("normal ]b")
+            end, "Slime Send Code chunk and move to next cell")
+
+            imap("<C-CR>", "<esc><Plug>SlimeSendCell<cr>i", "Slime Send Code chunk")
+            vmap("<C-CR>", "<Plug>SlimeRegionSend", "Slime Send Code chunk")
         end,
     },
     {

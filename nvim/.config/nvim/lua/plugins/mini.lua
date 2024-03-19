@@ -42,6 +42,7 @@ return {
             require("mini.move").setup()
             require("mini.splitjoin").setup()
             require("mini.misc").setup()
+            require("mini.tabline").setup()
             require("mini.comment").setup({
                 -- options = {
                 --     custom_commentstring = function()

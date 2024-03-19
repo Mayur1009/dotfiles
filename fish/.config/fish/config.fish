@@ -30,6 +30,11 @@ starship init fish | source
 # Zoxide
 zoxide init fish | source
 
+# Mamba
+if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+    source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+end
+
 # ABBR
 abbr n nvim
 abbr el "eza -al"
@@ -45,9 +50,12 @@ if set -q TMUX
 else
     abbr qq exit
 end
+abbr ma "mamba activate"
+abbr md "mamba deactivate"
+abbr m "mamba"
 
 # Variables
-set -gx EDITOR nvim
+# set -gx EDITOR nvim
 
 # Sesh
 function t
@@ -66,9 +74,4 @@ end
 function fish-reload -d "Reload the shell"
     source ~/.config/fish/config.fish
 end
-
-if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
-    source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
-end
-
 

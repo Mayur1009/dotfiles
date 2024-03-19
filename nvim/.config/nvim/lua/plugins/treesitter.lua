@@ -42,6 +42,18 @@ return {
                 },
             },
             textobjects = {
+                select = {
+                    enable = true,
+                    lookahead = true,
+                    keymaps = {
+                        ["af"] = "@function.outer",
+                        ["if"] = "@function.inner",
+                        ["ac"] = "@class.outer",
+                        ["ic"] = "@class.inner",
+                        ["ib"] = { query = "@code_cell.inner", desc = "in block" },
+                        ["ab"] = { query = "@code_cell.outer", desc = "around block" },
+                    },
+                },
                 move = {
                     enable = true,
                     set_jumps = true, -- whether to set jumps in the jumplist
@@ -49,21 +61,21 @@ return {
                         ["]f"] = "@function.outer",
                         ["]c"] = "@class.outer",
                         ["]o"] = "@block.inner",
+                        ["]b"] = { query = "@code_cell.inner", desc = "next code block" },
                     },
                     goto_next_end = {
                         ["]F"] = "@function.outer",
                         ["]C"] = "@class.outer",
-                        ["]O"] = "@block.outer",
                     },
                     goto_previous_start = {
                         ["[f"] = "@function.outer",
                         ["[c"] = "@class.outer",
-                        ["]o"] = "@block.inner",
+                        ["[o"] = "@block.inner",
+                        ["[b"] = { query = "@code_cell.inner", desc = "previous code block" },
                     },
                     goto_previous_end = {
                         ["[F"] = "@function.outer",
                         ["[C"] = "@class.outer",
-                        ["]O"] = "@block.outer",
                     },
                 },
             },

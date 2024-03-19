@@ -83,19 +83,19 @@ return {
 
                     -- Fuzzy find all the symbols in your current document.
                     --  Symbols are things like variables, functions, types, etc.
-                    map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+                    map("<leader>ss", require("telescope.builtin").lsp_document_symbols, "[S]earch Document [s]ymbols")
 
                     -- Fuzzy find all the symbols in your current workspace
                     --  Similar to document symbols, except searches over your whole project.
-                    map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+                    map("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch Workspace [S]ymbols")
 
                     -- Rename the variable under your cursor
                     --  Most Language Servers support renaming across files, etc.
-                    map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+                    map("gR", vim.lsp.buf.rename, "[R]e[n]ame")
 
                     -- Execute a code action, usually your cursor needs to be on top of an error
                     -- or a suggestion from your LSP for this to activate.
-                    map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+                    map("ga", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
                     -- Opens a popup that displays documentation about the word under your cursor
                     --  See `:help K` for why this keymap
@@ -154,16 +154,13 @@ return {
                 -- gopls = {},
                 pyright = {
                     settings = {
-                        pyright = {
-                            -- Using Ruff's import organizer
-                            disableOrganizeImports = true,
-                        },
                         python = {
                             stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
                             analysis = {
-                                stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
-                                -- Ignore all files for analysis to exclusively use Ruff for linting
-                                ignore = { "*" },
+                                autoSearchPaths = true,
+                                autoImportCompletions = true,
+                                useLibraryCodeForTypes = true,
+                                diagnosticMode = "workspace",
                             },
                         },
                     },
@@ -175,22 +172,8 @@ return {
                             client.server_capabilities.hoverProvider = false
                         end
                     end,
-                    keys = {
-                        {
-                            "<leader>co",
-                            function()
-                                vim.lsp.buf.code_action({
-                                    apply = true,
-                                    context = {
-                                        only = { "source.organizeImports" },
-                                        diagnostics = {},
-                                    },
-                                })
-                            end,
-                            desc = "Organize Imports",
-                        },
-                    },
                 },
+                -- pylyzer = {},
                 r_language_server = {},
                 marksman = {
                     -- also needs:
@@ -246,6 +229,7 @@ return {
                 "latexindent",
                 "bibtex-tidy",
                 "clang-format",
+                "gitui",
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -261,6 +245,23 @@ return {
                     end,
                 },
             })
+            -- require("lspconfig").basedpyright.setup({
+            --     settings = {
+            --         basedpyright = {
+            --             -- stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
+            --             analysis = {
+            --                 autoSearchPaths = true,
+            --                 useLibraryCodeForTypes = true,
+            --                 diagnosticMode = "workspace",
+            --                 typeCheckingMode = "strict",
+            --                 -- stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
+            --                 reportMissingTypeStubs = true,
+            --                 reportAny = false,
+            --                 reportUnreachable = true,
+            --             },
+            --         },
+            --     },
+            -- })
         end,
     },
 }

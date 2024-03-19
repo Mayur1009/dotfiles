@@ -2,7 +2,7 @@
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = " "
-vim.g.maplocalleader = "-"
+vim.g.maplocalleader = " "
 
 vim.g.python3_host_prog = vim.fn.expand("$HOME/.nvim_venv/bin/python3")
 vim.g.python_host_prog = vim.fn.expand("$HOME/.nvim_venv/bin/python")
@@ -72,3 +72,5 @@ vim.opt.tabstop = 4
 vim.opt.mousescroll = "ver:1,hor:2"
 
 vim.opt.hlsearch = true
+
+vim.opt.pumheight = 15

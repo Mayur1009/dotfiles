@@ -1,20 +1,6 @@
 return {
     "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 
-    { -- Adds git related signs to the gutter, as well as utilities for managing changes
-        "lewis6991/gitsigns.nvim",
-        event = { "BufNewFile", "BufReadPre" },
-        opts = {
-            signs = {
-                add = { text = "+" },
-                change = { text = "~" },
-                delete = { text = "_" },
-                topdelete = { text = "‾" },
-                changedelete = { text = "~" },
-            },
-        },
-    },
-
     { -- Useful plugin to show you pending keybinds.
         "folke/which-key.nvim",
         event = "VimEnter", -- Sets the loading event to 'VimEnter'
@@ -23,13 +9,10 @@ return {
 
             -- Document existing key chains
             require("which-key").register({
-                ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-                ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
+                ["<leader>c"] = { name = "[C]ode Runner", _ = "which_key_ignore" },
                 ["<leader>f"] = { name = "[F]iles", _ = "which_key_ignore" },
-                ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
                 ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
                 ["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
-                ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
             })
         end,
     },
@@ -228,15 +211,6 @@ return {
                 harpoon:list():select(5)
             end, { desc = "Harpoon file 5" })
         end,
-        keys = {
-            "<leader>a",
-            "<leader>h",
-            "<leader>1",
-            "<leader>2",
-            "<leader>3",
-            "<leader>4",
-            "<leader>5",
-        },
     },
     { -- highlight markdown headings and code blocks etc.
         "lukas-reineke/headlines.nvim",
@@ -266,5 +240,33 @@ return {
                 },
             })
         end,
+    },
+    {
+        "stevearc/oil.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+            require("oil").setup({
+                columns = { "icon", "size", "type", "permissions" },
+                delete_to_trash = true,
+                experimental_watch_for_changes = true,
+                view_options = {
+                    show_hidden = true,
+                },
+                keymaps = {
+                    ["<C-d>"] = "actions.close",
+                    ["cd"] = "actions.cd",
+                    ["<C-r>"] = "actions.refresh",
+                    ["gt"] = "actions.toggle_trash",
+                },
+            })
+            vim.keymap.set("n", "<leader>e", require("oil").open_float, { desc = "Oil File Explorer" })
+        end,
+    },
+    { -- terminal
+        "akinsho/toggleterm.nvim",
+        opts = {
+            open_mapping = [[<M-/>]],
+            direction = "float",
+        },
     },
 }

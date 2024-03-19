@@ -1,3 +1,15 @@
+local nmap = function(key, effect, desc)
+    vim.keymap.set("n", key, effect, { desc = desc, silent = true, noremap = true })
+end
+
+local vmap = function(key, effect, desc)
+    vim.keymap.set("v", key, effect, { desc = desc, silent = true, noremap = true })
+end
+
+local imap = function(key, effect, desc)
+    vim.keymap.set("i", key, effect, { desc = desc, silent = true, noremap = true })
+end
+
 return {
     {
         "3rd/image.nvim",
@@ -67,7 +79,7 @@ return {
             local wk = require("which-key")
 
             wk.register({
-                ["<localleader>m"] = {
+                ["<leader>m"] = {
                     name = "+Molten",
                     i = { ":MoltenInit<CR>", "Molten Init" },
                     I = { ":MoltenInfo<CR>", "Molten Info" },
@@ -84,7 +96,12 @@ return {
                 },
             })
 
-            vim.keymap.set("v", "<localleader>mr", ":<C-u>MoltenEvaluateVisual<CR>gv", { silent = true, noremap = true, desc = "evaluate visual selection" })
+            -- vim.keymap.set("v", "<localleader>mr", ":<C-u>MoltenEvaluateVisual<CR>gv", { silent = true, noremap = true, desc = "evaluate visual selection" })
+            wk.register({
+                ["<leader>m"] = {
+                    r = { ":<C-u>MoltenEvaluateVisual<CR>", "Molten Evaluate Visual selection" },
+                },
+            }, { mode = "v" })
         end,
     },
 }
