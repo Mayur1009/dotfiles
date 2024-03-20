@@ -35,6 +35,8 @@ if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
     source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
 end
 
+set -gx EDITOR "$(which nvim)"
+
 # ABBR
 abbr n nvim
 abbr el "eza -al"
@@ -53,9 +55,6 @@ end
 abbr ma "mamba activate"
 abbr md "mamba deactivate"
 abbr m "mamba"
-
-# Variables
-# set -gx EDITOR nvim
 
 # Sesh
 function t
