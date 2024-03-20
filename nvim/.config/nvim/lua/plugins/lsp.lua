@@ -156,12 +156,12 @@ return {
                     settings = {
                         python = {
                             stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
-                            analysis = {
-                                autoSearchPaths = true,
-                                autoImportCompletions = true,
-                                useLibraryCodeForTypes = true,
-                                diagnosticMode = "workspace",
-                            },
+                            -- analysis = {
+                            --     autoSearchPaths = true,
+                            --     autoImportCompletions = true,
+                            --     useLibraryCodeForTypes = true,
+                            --     diagnosticMode = "workspace",
+                            -- },
                         },
                     },
                 },

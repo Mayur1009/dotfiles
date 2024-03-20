@@ -4,7 +4,7 @@ end
 
 switch (uname)
     case Linux
-        echo "Loading Linux config..."
+        echo "fish: Loading Linux config..."
 
         # Libvirt - winapps
         set -gx LIBVIRT_DEFAULT_URI "qemu:///system"
@@ -18,7 +18,7 @@ switch (uname)
         end
 
     case Darwin
-        echo "Loading MacOS config..."
+        echo "fish: Loading MacOS config..."
 end
 
 # Theme
@@ -35,7 +35,13 @@ if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
     source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
 end
 
+
 set -gx EDITOR "$(which nvim)"
+if test -n "$TMUX"
+    set -gx IS_TMUX 1
+else
+    set -gx IS_TMUX 0
+end
 
 # ABBR
 abbr n nvim
@@ -60,13 +66,12 @@ abbr m "mamba"
 function t
     sesh connect $(sesh list -tz | fzf-tmux -p 55%,60% \
     --border-label ' sesh ' --prompt '⚡  ' \
-    --header '  ^a all ^t tmux ^x zoxide ^f find ^g find-home' \
+    --header '  ^a all ^t tmux ^x zoxide ^f find' \
     --bind 'tab:down,btab:up' \
     --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list)' \
     --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t)' \
     --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z)' \
-    --bind 'ctrl-f:change-prompt(🔍  )+reload(fd -H -t d -L -i)' \
-    --bind 'ctrl-g:change-prompt(🔍  )+reload(fd -H -t d -L -i --base-directory ~)')
+    --bind 'ctrl-f:change-prompt(🔍  )+reload(fd -H -t d -L -i . ~)')
 end
 
 # fish reload
