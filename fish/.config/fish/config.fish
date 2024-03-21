@@ -19,24 +19,37 @@ switch (uname)
 
     case Darwin
         echo "fish: Loading MacOS config..."
+
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+
+        # >>> conda initialize >>>
+        # !! Contents within this block are managed by 'conda init' !!
+        if test -f $HOME/miniforge3/bin/conda
+            eval $HOME/miniforge3/bin/conda "shell.fish" "hook" $argv | source
+        else
+            if test -f "$HOME/miniforge3/etc/fish/conf.d/conda.fish"
+                . "$HOME/miniforge3/etc/fish/conf.d/conda.fish"
+            else
+                # set -x PATH "$HOME/miniforge3/bin" $PATH
+                fish_add_path -gP $HOME/miniforge3/bin
+            end
+        end
+
+        if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+            source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+        end
+        # <<< conda initialize <<<
+
+        fish_add_path -gaP $HOME/.local/bin
 end
 
 # Theme
-source ~/.config/fish/carbonfox.fish
+source $HOME/.config/fish/carbonfox.fish
 
 # Starship
 starship init fish | source
 
-# Zoxide
-zoxide init fish | source
-
-# Mamba
-if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
-    source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
-end
-
-
-set -gx EDITOR "$(which nvim)"
+set -gx EDITOR nvim
 if test -n "$TMUX"
     set -gx IS_TMUX 1
 else
@@ -53,7 +66,7 @@ abbr :q exit
 abbr tn "tmux new -s (pwd | sed 's/.*\///g')"
 abbr ta "tmux attach"
 abbr td "tmux detach"
-if set -q TMUX
+if test $IS_TMUX -eq 1
     abbr qq "tmux detach"
 else
     abbr qq exit
@@ -62,20 +75,17 @@ abbr ma "mamba activate"
 abbr md "mamba deactivate"
 abbr m "mamba"
 
-# Sesh
-function t
-    sesh connect $(sesh list -tz | fzf-tmux -p 55%,60% \
-    --border-label ' sesh ' --prompt '⚡  ' \
-    --header '  ^a all ^t tmux ^x zoxide ^f find' \
-    --bind 'tab:down,btab:up' \
-    --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list)' \
-    --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t)' \
-    --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z)' \
-    --bind 'ctrl-f:change-prompt(🔍  )+reload(fd -H -t d -L -i . ~)')
-end
-
 # fish reload
 function fish-reload -d "Reload the shell"
-    source ~/.config/fish/config.fish
+    source $HOME/.config/fish/config.fish
+end
+
+# t
+function t -d "Create or connect to session from fzf"
+    if test -f $HOME/.scripts/t
+        $HOME/.scripts/t
+    else 
+        echo "t: script not found"
+    end
 end
 
