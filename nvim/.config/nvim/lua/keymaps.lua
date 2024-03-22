@@ -66,3 +66,10 @@ vim.keymap.set("n", "<leader>cr", function()
     vim.cmd("vsplit term://R")
 end, { desc = "Terminal: R" })
 vim.keymap.set("n", "<leader>ci", "<cmd>vsplit term://ipython<cr>", { desc = "Terminal: ipython" })
+
+-- Norwegian keybord layout
+vim.keymap.set("n", "ø", "[", { remap = true })
+vim.keymap.set("n", "æ", "]", { remap = true })
+vim.keymap.set("n", "Ø", "{", { remap = true })
+vim.keymap.set("n", "Æ", "}", { remap = true })
+vim.keymap.set("n", "-", "/", { remap = true })

@@ -41,6 +41,7 @@ switch (uname)
         # <<< conda initialize <<<
 
         fish_add_path -gaP $HOME/.local/bin
+        # set -gx EDITOR /opt/homebrew/bin/nvim
 end
 
 # Theme

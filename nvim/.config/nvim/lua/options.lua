@@ -34,6 +34,9 @@ vim.opt.clipboard = "unnamedplus"
 
 -- Enable break indent
 vim.opt.breakindent = true
+vim.opt.breakindentopt = "shift:2,sbr"
+vim.opt.showbreak = "↪"
+vim.opt.cpoptions:append("n")
 
 -- Save undo history
 vim.opt.undofile = true
@@ -69,7 +72,11 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
 vim.opt.mousescroll = "ver:1,hor:2"
+vim.opt.formatoptions = "jcroqlnt" -- tcqj
+vim.opt.grepprg = "rg --vimgrep"
 
 vim.opt.hlsearch = true
 

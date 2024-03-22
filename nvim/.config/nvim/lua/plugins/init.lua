@@ -19,27 +19,70 @@ return {
 
     { -- Autoformat
         "stevearc/conform.nvim",
-        opts = {
-            notify_on_error = false,
-            format_on_save = {
-                timeout_ms = 500,
-                lsp_fallback = true,
-            },
-            formatters_by_ft = {
-                r = { "styler" },
-                tex = { "latexindent" },
-                bib = { "bibtex-tidy" },
-                c = { "clang-format" },
-                cpp = { "clang-format" },
-                lua = { "stylua" },
-                -- Conform can also run multiple formatters sequentially
-                -- python = { "isort", "black" },
-                --
-                -- You can use a sub-list to tell conform to run *until* a formatter
-                -- is found.
-                -- javascript = { { "prettierd", "prettier" } },
-            },
-        },
+        config = function()
+            require("conform").setup({
+
+                notify_on_error = false,
+                format_on_save = {
+                    timeout_ms = 500,
+                    lsp_fallback = true,
+                },
+                formatters_by_ft = {
+                    r = { "rprettify" },
+                    tex = { "latexindent" },
+                    bib = { "bibtex-tidy" },
+                    c = { "clang-format" },
+                    cpp = { "clang-format" },
+                    lua = { "stylua" },
+                    -- python = { "ruff_format", "isort", "black" },
+                    fish = { "fish_indent" },
+                    sh = { "shfmt" },
+                    quarto = { "injected" },
+                    markdown = { "injected" },
+                },
+                formatters = {
+                    rprettify = {
+                        -- Create script `rprettify` in your PATH($HOME/.local/share/nvim/mason/bin/)
+                        -- #!/usr/bin/env sh
+                        -- R --quiet --no-echo -e "styler::style_file(\"$1\")" 1>/dev/null 2>&1
+                        -- cat "$1"
+                        inherit = false,
+                        stdin = false,
+                        command = "rprettify",
+                        args = { "$FILENAME" },
+                    },
+                },
+            })
+            -- Customize the "injected" formatter
+            require("conform").formatters.injected = {
+                -- Set the options field
+                options = {
+                    -- Set to true to ignore errors
+                    ignore_errors = true,
+                    -- Map of treesitter language to file extension
+                    -- A temporary file name with this extension will be generated during formatting
+                    -- because some formatters care about the filename.
+                    lang_to_ext = {
+                        bash = "sh",
+                        c_sharp = "cs",
+                        elixir = "exs",
+                        javascript = "js",
+                        julia = "jl",
+                        latex = "tex",
+                        markdown = "md",
+                        python = "py",
+                        ruby = "rb",
+                        rust = "rs",
+                        teal = "tl",
+                        r = "r",
+                        typescript = "ts",
+                    },
+                    -- Map of treesitter language to formatters to use
+                    -- (defaults to the value from formatters_by_ft)
+                    -- lang_to_formatters = {},
+                },
+            }
+        end,
     },
 
     {
@@ -267,6 +310,7 @@ return {
         opts = {
             open_mapping = [[<M-/>]],
             direction = "float",
+            shell = "fish",
         },
     },
 }
