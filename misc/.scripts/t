@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# selected=$(fd -H -t d -L -i . ~ | fzf)
+selected=$(rg -. --files --no-messages -L -0 ~ | xargs -0 dirname | awk '!a[$0]++' | fzf)
+
+if [[ -z $selected ]]; then
+	exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+
+if [ $(pgrep tmux) ]; then
+	if ! tmux has -t=$selected_name 2>/dev/null; then
+		tmux new -ds $selected_name -c $selected
+	fi
+else
+	tmux new -ds $selected_name -c $selected
+fi
+
+if [ "$TMUX" ]; then
+	tmux switch -t $selected_name
+else
+	tmux attach -t $selected_name
+fi

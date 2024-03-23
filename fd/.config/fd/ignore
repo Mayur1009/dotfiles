@@ -1,3 +1,4 @@
+**/.git
 **/Library
 **/.nvim_venv
 **/.zsh_sessions
@@ -6,4 +7,5 @@
 **/miniforge3
 **/.vscode
 **/.npm
+**/.cargo
 **/*OneDrive*
