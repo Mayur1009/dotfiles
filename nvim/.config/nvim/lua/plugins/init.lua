@@ -219,73 +219,100 @@ return {
     },
     {
         "ThePrimeagen/harpoon",
+        event = "VimEnter",
         branch = "harpoon2",
-        config = function()
-            local harpoon = require("harpoon")
-            harpoon.setup({
-                menu = {
-                    width = vim.api.nvim_win_get_width(0) - 4,
-                },
-            })
-            vim.keymap.set("n", "<leader>a", function()
-                harpoon:list():append()
-            end, { desc = "Harpoon add file" })
-
-            vim.keymap.set("n", "<leader>h", function()
-                harpoon.ui:toggle_quick_menu(harpoon:list())
-            end, { desc = "Harpoon Menu" })
-
-            vim.keymap.set("n", "<leader>1", function()
-                harpoon:list():select(1)
-            end, { desc = "Harpoon file 1" })
-            vim.keymap.set("n", "<leader>2", function()
-                harpoon:list():select(2)
-            end, { desc = "Harpoon file 2" })
-            vim.keymap.set("n", "<leader>3", function()
-                harpoon:list():select(3)
-            end, { desc = "Harpoon file 3" })
-
-            vim.keymap.set("n", "<leader>4", function()
-                harpoon:list():select(4)
-            end, { desc = "Harpoon file 4" })
-
-            vim.keymap.set("n", "<leader>5", function()
-                harpoon:list():select(5)
-            end, { desc = "Harpoon file 5" })
-        end,
+        opts = {},
+        keys = {
+            {
+                "<leader>a",
+                function()
+                    require("harpoon"):list():append()
+                end,
+                { desc = "Harpoon add file" },
+            },
+            {
+                "<leader>th",
+                function()
+                    require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
+                end,
+                { desc = "Toggle Harpoon Menu" },
+            },
+            {
+                "<leader>1",
+                function()
+                    require("harpoon"):list():select(1)
+                end,
+                { desc = "Harpoon file 1" },
+            },
+            {
+                "<leader>2",
+                function()
+                    require("harpoon"):list():select(2)
+                end,
+                { desc = "Harpoon file 2" },
+            },
+            {
+                "<leader>3",
+                function()
+                    require("harpoon"):list():select(3)
+                end,
+                { desc = "Harpoon file 3" },
+            },
+            {
+                "<leader>4",
+                function()
+                    require("harpoon"):list():select(4)
+                end,
+                { desc = "Harpoon file 4" },
+            },
+            {
+                "<leader>5",
+                function()
+                    require("harpoon"):list():select(5)
+                end,
+                { desc = "Harpoon file 5" },
+            },
+        },
     },
     { -- highlight markdown headings and code blocks etc.
         "lukas-reineke/headlines.nvim",
         -- ft = { "markdown", "quarto" },
+        ft = { "markdown", "norg", "rmd", "org" },
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
             vim.cmd([[highlight CodeBlock guibg=#111111]])
-            require("headlines").setup({
-                quarto = {
-                    query = vim.treesitter.query.parse(
-                        "markdown",
-                        [[
+            vim.schedule(function()
+                require("headlines").setup({
+                    quarto = {
+                        query = vim.treesitter.query.parse(
+                            "markdown",
+                            [[
                             (fenced_code_block) @codeblock
                         ]]
-                    ),
-                    codeblock_highlight = "CodeBlock",
-                    treesitter_language = "markdown",
-                },
-                markdown = {
-                    query = vim.treesitter.query.parse(
-                        "markdown",
-                        [[
+                        ),
+                        codeblock_highlight = "CodeBlock",
+                        treesitter_language = "markdown",
+                    },
+                    markdown = {
+                        query = vim.treesitter.query.parse(
+                            "markdown",
+                            [[
                             (fenced_code_block) @codeblock
                         ]]
-                    ),
-                    codeblock_highlight = "CodeBlock",
-                },
-            })
+                        ),
+                        codeblock_highlight = "CodeBlock",
+                    },
+                })
+                require("headlines").refresh()
+            end)
         end,
     },
     {
         "stevearc/oil.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
+        keys = {
+            { "<leader>e" },
+        },
         config = function()
             require("oil").setup({
                 columns = { "icon", "size", "type", "permissions" },
@@ -306,10 +333,25 @@ return {
     },
     { -- terminal
         "akinsho/toggleterm.nvim",
+        event = "VeryLazy",
         opts = {
             open_mapping = [[<M-/>]],
             direction = "float",
             shell = "fish",
+        },
+    },
+    {
+        "jiaoshijie/undotree",
+        dependencies = "nvim-lua/plenary.nvim",
+        config = function()
+            require("undotree").setup({
+                window = { winblend = 10 },
+            })
+
+            vim.keymap.set("n", "<leader>tu", require("undotree").toggle, { desc = "Toggle [U]ndo Tree" })
+        end,
+        keys = { -- load the plugin only when using it's keybinding:
+            { "<leader>tu" },
         },
     },
 }

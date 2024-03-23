@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
 # selected=$(fd -H -t d -L -i . ~ | fzf)
-selected=$(rg -. --files --no-messages -L -0 ~ | xargs -0 dirname | awk '!a[$0]++' | fzf)
+
+selected=$({
+	tmux list-sessions 2>/dev/null | awk -F: '{print $1}'
+	rg -. --files --no-messages -L -0 ~ | xargs -0 dirname | awk '!a[$0]++'
+} | fzf)
 
 if [[ -z $selected ]]; then
 	exit 0
