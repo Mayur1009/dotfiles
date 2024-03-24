@@ -14,38 +14,36 @@ switch (uname)
         set -gx VIRTUALFISH_HOME $HOME/ext/envs
 
         function dbgconsole --wraps='qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole' --description 'alias dbgconsole=qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole'
-            qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole $argv;
+            qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole $argv
         end
 
     case Darwin
         echo "fish: Loading MacOS config..."
-
         eval "$(/opt/homebrew/bin/brew shellenv)"
-
-        # >>> conda initialize >>>
-        # !! Contents within this block are managed by 'conda init' !!
-        if test -f $HOME/miniforge3/bin/conda
-            eval $HOME/miniforge3/bin/conda "shell.fish" "hook" $argv | source
-        else
-            if test -f "$HOME/miniforge3/etc/fish/conf.d/conda.fish"
-                . "$HOME/miniforge3/etc/fish/conf.d/conda.fish"
-            else
-                # set -x PATH "$HOME/miniforge3/bin" $PATH
-                fish_add_path -gP $HOME/miniforge3/bin
-            end
-        end
-
-        if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
-            source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
-        end
-        # <<< conda initialize <<<
-
-        fish_add_path -gaP $HOME/.local/bin
-        # set -gx EDITOR /opt/homebrew/bin/nvim
 end
 
 # Theme
 source $HOME/.config/fish/carbonfox.fish
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if test -f $HOME/miniforge3/bin/conda
+    eval $HOME/miniforge3/bin/conda "shell.fish" hook $argv | source
+else
+    if test -f "$HOME/miniforge3/etc/fish/conf.d/conda.fish"
+        . "$HOME/miniforge3/etc/fish/conf.d/conda.fish"
+    else
+        # set -x PATH "$HOME/miniforge3/bin" $PATH
+        fish_add_path -gP $HOME/miniforge3/bin
+    end
+end
+
+if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+    source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+end
+# <<< conda initialize <<<
+
+fish_add_path -gaP $HOME/.local/bin
 
 # Starship
 starship init fish | source
@@ -74,7 +72,7 @@ else
 end
 abbr ma "mamba activate"
 abbr md "mamba deactivate"
-abbr m "mamba"
+abbr m mamba
 
 # fish reload
 function fish-reload -d "Reload the shell"
@@ -85,8 +83,7 @@ end
 function t -d "Create or connect to session from fzf"
     if test -f $HOME/.scripts/t
         $HOME/.scripts/t
-    else 
+    else
         echo "t: script not found"
     end
 end
-
