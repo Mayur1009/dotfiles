@@ -14,12 +14,8 @@ return {
             { "j-hui/fidget.nvim", opts = {} },
             { "folke/neodev.nvim", opts = {} },
 
-            -- Pyright type stubs
-            {
-                "microsoft/python-type-stubs",
-                cond = false,
-            },
             "p00f/clangd_extensions.nvim",
+            { "microsoft/python-type-stubs", cond = false },
         },
         config = function()
             -- Brief Aside: **What is LSP?**
@@ -105,6 +101,11 @@ return {
                     --  For example, in C this would take you to the header
                     map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
+                    map("gH", function()
+                        vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+                        vim.notify("Inlay hints " .. (vim.lsp.inlay_hint.is_enabled() and "enabled" or "disabled"))
+                    end, "Toggle Inlay [H]ints")
+
                     -- The following two autocommands are used to highlight references of the
                     -- word under your cursor when your cursor rests there for a little while.
                     --    See `:help CursorHold` for information about when this is executed
@@ -142,6 +143,19 @@ return {
             --  - settings (table): Override the default settings passed when initializing the server.
             --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
             local servers = {
+                basedpyright = {
+                    settings = {
+                        basedpyright = {
+                            stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs/stubs",
+                            typeCheckingMode = "standard",
+                        },
+                    },
+                    on_attach = function(client, bufnr)
+                        -- if client.server_capabilities.inlayHintProvider then
+                        vim.lsp.inlay_hint.enable(bufnr, true)
+                        -- end
+                    end,
+                },
                 clangd = {
                     -- capabilities = {
                     --     offsetEncoding = { 'utf-16' },
@@ -151,29 +165,6 @@ return {
                         require("clangd_extensions.inlay_hints").set_inlay_hints()
                     end,
                 },
-                -- gopls = {},
-                pyright = {
-                    settings = {
-                        python = {
-                            stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
-                            -- analysis = {
-                            --     autoSearchPaths = true,
-                            --     autoImportCompletions = true,
-                            --     useLibraryCodeForTypes = true,
-                            --     diagnosticMode = "workspace",
-                            -- },
-                        },
-                    },
-                },
-                ruff_lsp = {
-                    on_attach = function(client, _)
-                        if client.name == "ruff_lsp" then
-                            -- Disable hover in favor of Pyright
-                            client.server_capabilities.hoverProvider = false
-                        end
-                    end,
-                },
-                -- pylyzer = {},
                 r_language_server = {},
                 marksman = {
                     -- also needs:
@@ -183,15 +174,6 @@ return {
                     filetypes = { "markdown", "quarto" },
                     root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
                 },
-                -- rust_analyzer = {},
-                -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-                --
-                -- Some languages (like typescript) have entire language plugins that can be useful:
-                --    https://github.com/pmizio/typescript-tools.nvim
-                --
-                -- But for many setups, the LSP (`tsserver`) will work just fine
-                -- tsserver = {},
-                --
                 texlab = {
                     keys = {
                         { "<Leader>K", "<plug>(vimtex-doc-package)", desc = "Vimtex Docs", silent = true },
@@ -210,6 +192,11 @@ return {
                             -- diagnostics = { disable = { 'missing-fields' } },
                         },
                     },
+                    on_attach = function(client, bufnr)
+                        -- if client.server_capabilities.inlayHintProvider then
+                        vim.lsp.inlay_hint.enable(bufnr, true)
+                        -- end
+                    end,
                 },
             }
 
@@ -229,11 +216,14 @@ return {
                 "latexindent",
                 "bibtex-tidy",
                 "clang-format",
-                "gitui",
+                "ruff",
+                "isort",
+                "black",
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
             require("mason-lspconfig").setup({
+                ensure_installed = vim.tbl_keys(servers or {}),
                 handlers = {
                     function(server_name)
                         local server = servers[server_name] or {}
@@ -245,23 +235,6 @@ return {
                     end,
                 },
             })
-            -- require("lspconfig").basedpyright.setup({
-            --     settings = {
-            --         basedpyright = {
-            --             -- stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
-            --             analysis = {
-            --                 autoSearchPaths = true,
-            --                 useLibraryCodeForTypes = true,
-            --                 diagnosticMode = "workspace",
-            --                 typeCheckingMode = "strict",
-            --                 -- stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
-            --                 reportMissingTypeStubs = true,
-            --                 reportAny = false,
-            --                 reportUnreachable = true,
-            --             },
-            --         },
-            --     },
-            -- })
         end,
     },
 }

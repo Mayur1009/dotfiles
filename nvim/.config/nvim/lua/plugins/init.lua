@@ -9,10 +9,12 @@ return {
 
             -- Document existing key chains
             require("which-key").register({
-                ["<leader>c"] = { name = "[C]ode Runner", _ = "which_key_ignore" },
                 ["<leader>f"] = { name = "[F]iles", _ = "which_key_ignore" },
                 ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
                 ["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
+                ["<leader>x"] = { name = "+Terminal", _ = "which_key_ignore" },
+                ["<leader>g"] = { name = "+Git", _ = "which_key_ignore" },
+                ["<leader>gc"] = { name = "+Git Confict", _ = "which_key_ignore" },
             })
         end,
     },
@@ -33,7 +35,7 @@ return {
                     c = { "clang-format" },
                     cpp = { "clang-format" },
                     lua = { "stylua" },
-                    -- python = { "ruff_format", "isort", "black" },
+                    python = { "ruff_format", "isort", "black" },
                     fish = { "fish_indent" },
                     sh = { "shfmt" },
                     quarto = { "injected" },
@@ -277,7 +279,7 @@ return {
     { -- highlight markdown headings and code blocks etc.
         "lukas-reineke/headlines.nvim",
         -- ft = { "markdown", "quarto" },
-        ft = { "markdown", "norg", "rmd", "org" },
+        ft = { "quarto", "markdown", "norg", "rmd", "org" },
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
             vim.cmd([[highlight CodeBlock guibg=#111111]])

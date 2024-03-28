@@ -10,8 +10,8 @@ return {
                     auto_trigger = true,
                     keymap = {
                         accept = "<M-y>",
-                        accept_word = false,
-                        accept_line = false,
+                        accept_word = "<M-w>",
+                        accept_line = "<M-l>",
                         next = "<M-n>",
                         prev = "<M-p>",
                         dismiss = "<M-d>",

@@ -8,6 +8,10 @@ return {
             vim.g.vimtex_quickfix_method = vim.fn.executable("pplatex") == 1 and "pplatex" or "latexlog"
             -- vim.g.vimtex_view_method = "sioyek"
             vim.g.vimtex_view_method = vim.uv.os_uname().sysname == "Darwin" and "skim" or "zathura"
+
+            require("which-key").register({
+                ["<leader>l"] = { name = "+latex(vimtex)", _ = "which_key_ignore" },
+            })
         end,
     },
 }

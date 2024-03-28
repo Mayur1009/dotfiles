@@ -59,13 +59,22 @@ vim.keymap.set("i", ",", ",<c-g>u")
 vim.keymap.set("i", ".", ".<c-g>u")
 vim.keymap.set("i", ";", ";<c-g>u")
 
-vim.keymap.set("n", "<leader>ct", "<cmd>vsplit term://fish<cr>", { desc = "Terminal: Shell(fish)" })
-vim.keymap.set("n", "<leader>cp", "<cmd>vsplit term://python<cr>", { desc = "Terminal: python" })
-vim.keymap.set("n", "<leader>cr", function()
+-- Toggle Diagnostics
+vim.keymap.set("n", "<leader>td", function()
+    if vim.diagnostic.is_disabled() then
+        vim.diagnostic.enable()
+    else
+        vim.diagnostic.disable()
+    end
+end, { desc = "[T]oggle [D]iagnostics" })
+
+vim.keymap.set("n", "<leader>xt", "<cmd>vsplit term://fish<cr>", { desc = "Terminal: Shell(fish)" })
+vim.keymap.set("n", "<leader>xp", "<cmd>vsplit term://python<cr>", { desc = "Terminal: python" })
+vim.keymap.set("n", "<leader>xr", function()
     vim.b["quarto_is_r_mode"] = true
     vim.cmd("vsplit term://R")
 end, { desc = "Terminal: R" })
-vim.keymap.set("n", "<leader>ci", "<cmd>vsplit term://ipython<cr>", { desc = "Terminal: ipython" })
+vim.keymap.set("n", "<leader>xi", "<cmd>vsplit term://ipython<cr>", { desc = "Terminal: ipython" })
 
 -- Norwegian keybord layout
 vim.keymap.set("n", "ø", "[", { remap = true })

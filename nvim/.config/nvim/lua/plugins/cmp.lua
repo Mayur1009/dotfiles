@@ -35,11 +35,13 @@ return {
             { "jmbuhr/cmp-pandoc-references" },
             { "jmbuhr/otter.nvim" },
             { "micangl/cmp-vimtex" },
+            { "onsails/lspkind.nvim" },
         },
         config = function()
             -- See `:help cmp`
             local cmp = require("cmp")
             local luasnip = require("luasnip")
+            local lspkind = require("lspkind")
             luasnip.config.setup({})
 
             require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snips" } })
@@ -76,7 +78,9 @@ return {
                     --  This will auto-import if your LSP supports it.
                     --  This will expand snippets if the LSP sent a snippet.
                     ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-
+                    -- Scroll the documentation window [b]ack / [f]orward
+                    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
                     -- Manually trigger a completion from nvim-cmp.
                     --  Generally you don't need this, because nvim-cmp will display
                     --  completions whenever it has completion options available.
@@ -108,6 +112,21 @@ return {
                         end
                     end, { "i", "s" }),
                 }),
+                formatting = {
+                    format = lspkind.cmp_format({
+                        mode = "symbol_text",
+                        menu = {
+                            nvim_lsp = "",
+                            otter = "🦦",
+                            vimtex = "",
+                            luasnip = "",
+                            path = "",
+                            latex_symbols = "",
+                            pandoc_references = "",
+                            emoji = "😇",
+                        },
+                    }),
+                },
                 sources = {
                     { name = "nvim_lsp" },
                     { name = "otter" },

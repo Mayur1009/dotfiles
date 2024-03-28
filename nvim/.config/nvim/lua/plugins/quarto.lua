@@ -48,28 +48,52 @@ return {
             nmap("<leader>qE", ":lua require'otter'.export(true)<cr>", "Export Overwrite")
             nmap("<leader>qt", show_table, "Show Table")
 
-            nmap("<leader>cc", runner.run_cell, "Run Cell")
-            nmap("<leader>ca", runner.run_above, "Run Cell and Above")
-            nmap("<leader>cA", runner.run_all, "Run All Cells")
-            nmap("<leader>cl", runner.run_line, "Run Line")
-            nmap("<leader>cC", function()
+            nmap("<leader>rr", runner.run_cell, "Run Cell")
+            nmap("<leader>ra", runner.run_above, "Run Cell and Above")
+            nmap("<leader>rR", runner.run_all, "Run All Cells")
+            nmap("<leader>rl", runner.run_line, "Run Line")
+            nmap("<leader>rA", function()
                 runner.run_all(true)
             end, "All Cells of All Languages")
-            nmap("<leader><CR>", function()
-                runner.run_cell()
-                vim.cmd("normal ]b")
-            end, "Run Cell and move to next cell")
+            vmap("<leader>rr", runner.run_range, "Run Visual range")
 
-            vmap("<leader><CR>", runner.run_range, "Run Visual range")
+            nmap("<leader>cr", "<esc>o```{r}<cr>```<esc>O", "Code cell [R]")
+            nmap("<leader>cp", "<esc>o```{python}<cr>```<esc>O", "Code cell [P]ython")
+
+            imap("<M-r>", "<esc>o```{r}<cr>```<esc>O", "Code cell [R]")
+            imap("<M-e>", "<esc>o```{python}<cr>```<esc>O", "Code cell [P]ython")
+
+            nmap("<M-m>", function()
+                runner.run_cell()
+                vim.cmd("normal ]bzz")
+            end, "Molten Run Cell and move to next cell")
+            nmap("<M-M>", runner.run_cell, "Molten Run Cell")
+
+            imap("<M-m>", function()
+                runner.run_cell()
+                vim.cmd("normal ]bzz")
+            end, "Molten Run Cell and move to next cell")
+            imap("<M-M>", runner.run_cell, "Molten Run Cell")
+
+            require("which-key").register({
+                ["<leader>q"] = { name = "+Quarto", _ = "which_key_ignore" },
+                ["<leader>r"] = { name = "+Run", _ = "which_key_ignore" },
+                ["<leader>c"] = { name = "+Code/Cell", _ = "which_key_ignore" },
+            })
         end,
     },
     {
         "jmbuhr/otter.nvim",
         lazy = true,
         opts = {
+            lsp = {
+                diagnostic_update_events = { "BufWritePost", "InsertLeave", "TextChanged" },
+            },
             buffers = {
                 set_filetype = true,
+                write_to_disk = true,
             },
+            handle_leading_whitespace = true,
         },
     },
     {
@@ -154,15 +178,24 @@ return {
             nmap("<leader>qm", mark_terminal, "Slime Mark Terminal")
             nmap("<leader>qs", set_terminal, "Slime Set Terminal")
             nmap("<leader>qT", toggle_slime_tmux_nvim, "Slime Toggle Tmux/Nvim terminal")
-            nmap("<leader>q<CR>", send_cell, "Slime Send Code chunk")
-            nmap("<C-CR>", send_cell, "Slime Send Code chunk")
-            nmap("<M-CR>", function()
-                send_cell()
-                vim.cmd("normal ]b")
-            end, "Slime Send Code chunk and move to next cell")
 
-            imap("<C-CR>", "<esc><Plug>SlimeSendCell<cr>i", "Slime Send Code chunk")
-            vmap("<C-CR>", "<Plug>SlimeRegionSend", "Slime Send Code chunk")
+            nmap("<M-s>", function()
+                send_cell()
+                vim.cmd("normal ]bzz")
+            end, "Slime Run Cell and move to next cell")
+            nmap("<M-S>", send_cell, "Slime Run Cell")
+
+            vmap("<M-s>", "<Plug>SlimeRegionSend", "Slime Run Visual")
+
+            imap("<M-s>", function()
+                vim.cmd("<esc><Plug>SlimeSendCell<cr>i")
+                vim.cmd("normal ]bzz")
+            end, "Slime Run Cell and move to next cell")
+            imap("<M-S>", "<esc><Plug>SlimeSendCell<cr>i", "Slime Run Cell")
+
+            require("which-key").register({
+                ["<leader>q"] = { name = "+Slime", _ = "which_key_ignore" },
+            })
         end,
     },
     {
