@@ -35,6 +35,7 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.b.miniindentscope_disable = true
     end,
 })
+
 -- go to last loc when opening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
     group = augroup("last_loc"),

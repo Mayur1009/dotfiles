@@ -150,11 +150,6 @@ return {
                             typeCheckingMode = "standard",
                         },
                     },
-                    on_attach = function(client, bufnr)
-                        -- if client.server_capabilities.inlayHintProvider then
-                        vim.lsp.inlay_hint.enable(bufnr, true)
-                        -- end
-                    end,
                 },
                 clangd = {
                     -- capabilities = {
@@ -164,20 +159,6 @@ return {
                         require("clangd_extensions.inlay_hints").setup_autocmd()
                         require("clangd_extensions.inlay_hints").set_inlay_hints()
                     end,
-                },
-                r_language_server = {},
-                marksman = {
-                    -- also needs:
-                    -- $home/.config/marksman/config.toml :
-                    -- [core]
-                    -- markdown.file_extensions = ["md", "markdown", "qmd"]
-                    filetypes = { "markdown", "quarto" },
-                    root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
-                },
-                texlab = {
-                    keys = {
-                        { "<Leader>K", "<plug>(vimtex-doc-package)", desc = "Vimtex Docs", silent = true },
-                    },
                 },
                 lua_ls = {
                     -- cmd = {...},
@@ -192,11 +173,25 @@ return {
                             -- diagnostics = { disable = { 'missing-fields' } },
                         },
                     },
-                    on_attach = function(client, bufnr)
-                        -- if client.server_capabilities.inlayHintProvider then
-                        vim.lsp.inlay_hint.enable(bufnr, true)
-                        -- end
+                },
+                marksman = {
+                    -- also needs:
+                    -- $home/.config/marksman/config.toml :
+                    -- [core]
+                    -- markdown.file_extensions = ["md", "markdown", "qmd"]
+                    filetypes = { "markdown", "quarto" },
+                    root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
+                },
+                r_language_server = {},
+                ruff_lsp = {
+                    on_attach = function(client, _)
+                        client.server_capabilities.hoverProvider = false
                     end,
+                },
+                texlab = {
+                    keys = {
+                        { "<Leader>K", "<plug>(vimtex-doc-package)", desc = "Vimtex Docs", silent = true },
+                    },
                 },
             }
 
@@ -216,9 +211,8 @@ return {
                 "latexindent",
                 "bibtex-tidy",
                 "clang-format",
+                "shfmt",
                 "ruff",
-                "isort",
-                "black",
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

@@ -35,7 +35,7 @@ return {
                     c = { "clang-format" },
                     cpp = { "clang-format" },
                     lua = { "stylua" },
-                    python = { "ruff_format", "isort", "black" },
+                    python = { "ruff_format" },
                     fish = { "fish_indent" },
                     sh = { "shfmt" },
                     quarto = { "injected" },
@@ -122,6 +122,11 @@ return {
         lazy = false,
         priority = 1000,
         config = function()
+            require("nightfox").setup({
+                options = {
+                    transparent = false,
+                },
+            })
             vim.cmd([[colorscheme carbonfox]])
         end,
     },
@@ -203,6 +208,10 @@ return {
                     "toggleterm",
                     "lazyterm",
                 },
+            },
+            scope = {
+                show_end = false,
+                highlight = { "Function", "Label" },
             },
         },
         main = "ibl",

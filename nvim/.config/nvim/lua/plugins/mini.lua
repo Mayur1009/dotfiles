@@ -42,7 +42,6 @@ return {
             require("mini.move").setup()
             require("mini.splitjoin").setup()
             require("mini.misc").setup()
-            require("mini.tabline").setup()
             require("mini.comment").setup({
                 -- options = {
                 --     custom_commentstring = function()
@@ -79,6 +78,12 @@ return {
             local statusline = require("mini.statusline")
             -- set use_icons to true if you have a Nerd Font
             statusline.setup({ use_icons = vim.g.have_nerd_font })
+            require("mini.tabline").setup({
+                tabpage_section = "right",
+            })
+            vim.api.nvim_set_hl(0, "MiniTablineCurrent", { link = "MiniStatuslineModeOther" })
+            vim.api.nvim_set_hl(0, "MiniTablineModifiedCurrent", { link = "MiniStatuslineModeNormal" })
+            vim.api.nvim_set_hl(0, "MiniTablineModifiedVisible", { link = "MiniStatuslineModeVisual" })
 
             -- You can configure sections in the statusline by overriding their
             -- default behavior. For example, here we set the section for

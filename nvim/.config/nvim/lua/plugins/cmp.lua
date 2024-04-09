@@ -74,6 +74,14 @@ return {
                     -- Select the [p]revious item
                     ["<C-p>"] = cmp.mapping.select_prev_item(),
 
+                    ["<Tab>"] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace })
+                        else
+                            fallback()
+                        end
+                    end, { "i", "s", "c" }),
+
                     -- Accept ([y]es) the completion.
                     --  This will auto-import if your LSP supports it.
                     --  This will expand snippets if the LSP sent a snippet.

@@ -20,6 +20,7 @@ switch (uname)
     case Darwin
         echo "fish: Loading MacOS config..."
         eval "$(/opt/homebrew/bin/brew shellenv)"
+        test -e /Users/mayurks/.iterm2_shell_integration.fish; and source /Users/mayurks/.iterm2_shell_integration.fish; or true
 end
 
 # Theme
