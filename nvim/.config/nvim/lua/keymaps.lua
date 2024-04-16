@@ -59,6 +59,8 @@ vim.keymap.set("i", ",", ",<c-g>u")
 vim.keymap.set("i", ".", ".<c-g>u")
 vim.keymap.set("i", ";", ";<c-g>u")
 
+vim.keymap.set("n", "<leader>bd", ":bd<cr>", { desc = "Buffer Delete" })
+
 -- Toggle Diagnostics
 vim.keymap.set("n", "<leader>td", function()
     if vim.diagnostic.is_disabled() then
@@ -68,13 +70,16 @@ vim.keymap.set("n", "<leader>td", function()
     end
 end, { desc = "[T]oggle [D]iagnostics" })
 
-vim.keymap.set("n", "<leader>xt", "<cmd>vsplit term://fish<cr>", { desc = "Terminal: Shell(fish)" })
-vim.keymap.set("n", "<leader>xp", "<cmd>vsplit term://python<cr>", { desc = "Terminal: python" })
-vim.keymap.set("n", "<leader>xr", function()
+vim.keymap.set("n", "<leader>Tt", "<cmd>vsplit term://fish<cr>", { desc = "Terminal: Shell(fish)" })
+vim.keymap.set("n", "<leader>Tp", "<cmd>vsplit term://python<cr>", { desc = "Terminal: python" })
+vim.keymap.set("n", "<leader>Tr", function()
     vim.b["quarto_is_r_mode"] = true
     vim.cmd("vsplit term://R")
 end, { desc = "Terminal: R" })
-vim.keymap.set("n", "<leader>xi", "<cmd>vsplit term://ipython<cr>", { desc = "Terminal: ipython" })
+vim.keymap.set("n", "<leader>Ti", "<cmd>vsplit term://ipython<cr>", { desc = "Terminal: ipython" })
+
+vim.keymap.set("n", "[q", ":cprev<cr>", { desc = "Quickfix previous" })
+vim.keymap.set("n", "]q", ":cnext<cr>", { desc = "Quickfix next" })
 
 -- Norwegian keybord layout
 vim.keymap.set("n", "ø", "[", { remap = true })

@@ -30,7 +30,11 @@ return {
             },
             -- Autoinstall languages that are not installed
             auto_install = true,
-            highlight = { enable = true, additional_vim_regex_highlighting = false },
+            highlight = {
+                enable = true,
+                disable = { "latex" },
+                additional_vim_regex_highlighting = { "latex", "markdown" },
+            },
             indent = { enable = true },
             incremental_selection = {
                 enable = true,
@@ -46,12 +50,12 @@ return {
                     enable = true,
                     lookahead = true,
                     keymaps = {
-                        ["af"] = "@function.outer",
-                        ["if"] = "@function.inner",
-                        ["ac"] = "@class.outer",
-                        ["ic"] = "@class.inner",
-                        ["ib"] = { query = "@code_cell.inner", desc = "in block" },
-                        ["ab"] = { query = "@code_cell.outer", desc = "around block" },
+                        ["af"] = { query = "@function.outer", desc = "around function" },
+                        ["if"] = { query = "@function.inner", desc = "in function" },
+                        ["ac"] = { query = "@class.outer", desc = "around class" },
+                        ["ic"] = { query = "@class.inner", desc = "in class" },
+                        ["ib"] = { query = "@code_cell.inner", desc = "in code block" },
+                        ["ab"] = { query = "@code_cell.outer", desc = "around code block" },
                     },
                 },
                 move = {
@@ -66,6 +70,7 @@ return {
                     goto_next_end = {
                         ["]F"] = "@function.outer",
                         ["]C"] = "@class.outer",
+                        ["]O"] = "@block.outer",
                     },
                     goto_previous_start = {
                         ["[f"] = "@function.outer",
@@ -76,6 +81,7 @@ return {
                     goto_previous_end = {
                         ["[F"] = "@function.outer",
                         ["[C"] = "@class.outer",
+                        ["[O"] = "@block.outer",
                     },
                 },
             },

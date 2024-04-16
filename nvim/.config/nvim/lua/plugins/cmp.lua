@@ -80,7 +80,7 @@ return {
                         else
                             fallback()
                         end
-                    end, { "i", "s", "c" }),
+                    end, { "i" }),
 
                     -- Accept ([y]es) the completion.
                     --  This will auto-import if your LSP supports it.

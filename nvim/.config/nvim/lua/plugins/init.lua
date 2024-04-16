@@ -1,5 +1,5 @@
 return {
-    "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
+    -- "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 
     { -- Useful plugin to show you pending keybinds.
         "folke/which-key.nvim",
@@ -9,29 +9,32 @@ return {
 
             -- Document existing key chains
             require("which-key").register({
-                ["<leader>f"] = { name = "[F]iles", _ = "which_key_ignore" },
-                ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-                ["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
-                ["<leader>x"] = { name = "+Terminal", _ = "which_key_ignore" },
-                ["<leader>g"] = { name = "+Git", _ = "which_key_ignore" },
-                ["<leader>gc"] = { name = "+Git Confict", _ = "which_key_ignore" },
+                ["<leader>f"] = { name = "+[f]iles", _ = "which_key_ignore" },
+                ["<leader>s"] = { name = "+[s]earch", _ = "which_key_ignore" },
+                ["<leader>b"] = { name = "+[b]uffer", _ = "which_key_ignore" },
+                ["<leader>t"] = { name = "+[t]oggle", _ = "which_key_ignore" },
+                ["<leader>T"] = { name = "+[T]erminal", _ = "which_key_ignore" },
+                ["<leader>x"] = { name = "+Trouble", _ = "which_key_ignore" },
+                ["<leader>g"] = { name = "+[g]it", _ = "which_key_ignore" },
+                ["<leader>gc"] = { name = "+git [c]onfict", _ = "which_key_ignore" },
             })
         end,
     },
 
     { -- Autoformat
         "stevearc/conform.nvim",
+        lazy = false,
         config = function()
             require("conform").setup({
                 notify_on_error = false,
                 format_on_save = {
-                    timeout_ms = 500,
+                    timeout_ms = 2000,
                     lsp_fallback = true,
                 },
                 formatters_by_ft = {
                     r = { "rprettify" },
-                    tex = { "latexindent" },
                     bib = { "bibtex-tidy" },
+                    tex = { "latexindent" },
                     c = { "clang-format" },
                     cpp = { "clang-format" },
                     lua = { "stylua" },
@@ -99,32 +102,22 @@ return {
     },
 
     {
-        "navarasu/onedark.nvim",
-        lazy = false, -- make sure we load this during startup if it is your main colorscheme
-        priority = 1000, -- make sure to load this before all the other start plugins
-        config = function()
-            require("onedark").setup({
-                style = "warmer",
-            })
-            -- vim.cmd([[colorscheme onedark]])
-        end,
-    },
-
-    {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        opts = { variant = "main" },
-        lazy = false,
-        priority = 1000,
-    },
-    {
         "EdenEast/nightfox.nvim",
         lazy = false,
         priority = 1000,
         config = function()
             require("nightfox").setup({
                 options = {
-                    transparent = false,
+                    styles = {
+                        comments = "italic",
+                        conditionals = "italic",
+                        types = "italic,bold",
+                    },
+                },
+                groups = {
+                    carbonfox = {
+                        Visual = { bg = "#224747" }, -- #421717, #832d2d, #581e1e, #632f39, #182440
+                    },
                 },
             })
             vim.cmd([[colorscheme carbonfox]])
@@ -138,7 +131,6 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         opts = { signs = false },
     },
-
     {
         "folke/flash.nvim",
         event = "VeryLazy",
@@ -154,7 +146,7 @@ return {
             },
             {
                 "S",
-                mode = { "n", "x", "o" },
+                mode = { "n", "o", "x" },
                 function()
                     require("flash").treesitter()
                 end,
@@ -186,6 +178,7 @@ return {
             },
         },
     },
+
     {
         "lukas-reineke/indent-blankline.nvim",
         event = { "BufReadPost", "BufNewFile" },
@@ -232,58 +225,28 @@ return {
         "ThePrimeagen/harpoon",
         event = "VimEnter",
         branch = "harpoon2",
-        opts = {},
-        keys = {
-            {
-                "<leader>a",
-                function()
-                    require("harpoon"):list():append()
-                end,
-                { desc = "Harpoon add file" },
-            },
-            {
-                "<leader>th",
-                function()
-                    require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
-                end,
-                { desc = "Toggle Harpoon Menu" },
-            },
-            {
-                "<leader>1",
-                function()
-                    require("harpoon"):list():select(1)
-                end,
-                { desc = "Harpoon file 1" },
-            },
-            {
-                "<leader>2",
-                function()
-                    require("harpoon"):list():select(2)
-                end,
-                { desc = "Harpoon file 2" },
-            },
-            {
-                "<leader>3",
-                function()
-                    require("harpoon"):list():select(3)
-                end,
-                { desc = "Harpoon file 3" },
-            },
-            {
-                "<leader>4",
-                function()
-                    require("harpoon"):list():select(4)
-                end,
-                { desc = "Harpoon file 4" },
-            },
-            {
-                "<leader>5",
-                function()
-                    require("harpoon"):list():select(5)
-                end,
-                { desc = "Harpoon file 5" },
-            },
-        },
+        config = function()
+            local harpoon = require("harpoon")
+            harpoon:setup()
+            vim.keymap.set("n", "<leader>a", function()
+                harpoon:list():add()
+            end, { desc = "Harpoon add" })
+            vim.keymap.set("n", "<leader>th", function()
+                harpoon.ui:toggle_quick_menu(harpoon:list())
+            end, { desc = "Toggle Harpoon  Menu" })
+            vim.keymap.set("n", "<leader>1", function()
+                harpoon:list():select(1)
+            end, { desc = "Harpoon File 1" })
+            vim.keymap.set("n", "<leader>2", function()
+                harpoon:list():select(2)
+            end, { desc = "Harpoon File 2" })
+            vim.keymap.set("n", "<leader>3", function()
+                harpoon:list():select(3)
+            end, { desc = "Harpoon File 3" })
+            vim.keymap.set("n", "<leader>4", function()
+                harpoon:list():select(4)
+            end, { desc = "Harpoon File 4" })
+        end,
     },
     { -- highlight markdown headings and code blocks etc.
         "lukas-reineke/headlines.nvim",
@@ -321,9 +284,6 @@ return {
     {
         "stevearc/oil.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        keys = {
-            { "<leader>e" },
-        },
         config = function()
             require("oil").setup({
                 columns = { "icon", "size", "type", "permissions" },
@@ -339,17 +299,8 @@ return {
                     ["gt"] = "actions.toggle_trash",
                 },
             })
-            vim.keymap.set("n", "<leader>e", require("oil").open_float, { desc = "Oil File Explorer" })
+            vim.keymap.set("n", "<leader>fe", require("oil").open_float, { desc = "Oil [f]ile [e]xplorer" })
         end,
-    },
-    { -- terminal
-        "akinsho/toggleterm.nvim",
-        event = "VeryLazy",
-        opts = {
-            open_mapping = [[<M-/>]],
-            direction = "float",
-            shell = "fish",
-        },
     },
     {
         "jiaoshijie/undotree",
@@ -359,10 +310,17 @@ return {
                 window = { winblend = 10 },
             })
 
-            vim.keymap.set("n", "<leader>tu", require("undotree").toggle, { desc = "Toggle [U]ndo Tree" })
+            vim.keymap.set("n", "<leader>tu", require("undotree").toggle, { desc = "[T]oggle [U]ndo Tree" })
         end,
         keys = { -- load the plugin only when using it's keybinding:
             { "<leader>tu" },
+        },
+    },
+    {
+        "NStefan002/speedtyper.nvim",
+        cmd = "Speedtyper",
+        opts = {
+            -- your config
         },
     },
 }

@@ -78,12 +78,17 @@ return {
             local statusline = require("mini.statusline")
             -- set use_icons to true if you have a Nerd Font
             statusline.setup({ use_icons = vim.g.have_nerd_font })
+
+            -- vim.api.nvim_set_hl(0, "nCursor", { link = "MiniStatuslineModeNormal" })
+            vim.api.nvim_set_hl(0, "vCursor", { link = "MiniStatuslineModeVisual" })
+            vim.api.nvim_set_hl(0, "rCursor", { link = "MiniStatuslineModeReplace" })
+            vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20-rCursor,v:vCursor"
+
             require("mini.tabline").setup({
                 tabpage_section = "right",
             })
-            vim.api.nvim_set_hl(0, "MiniTablineCurrent", { link = "MiniStatuslineModeOther" })
-            vim.api.nvim_set_hl(0, "MiniTablineModifiedCurrent", { link = "MiniStatuslineModeNormal" })
-            vim.api.nvim_set_hl(0, "MiniTablineModifiedVisible", { link = "MiniStatuslineModeVisual" })
+            vim.api.nvim_set_hl(0, "MiniTablineCurrent", { link = "MiniStatuslineModeNormal" })
+            vim.api.nvim_set_hl(0, "MiniTablineModifiedCurrent", { link = "MiniStatuslineModeInsert" })
 
             -- You can configure sections in the statusline by overriding their
             -- default behavior. For example, here we set the section for

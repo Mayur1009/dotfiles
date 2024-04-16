@@ -2,6 +2,8 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
+set fish_greeting 0
+
 switch (uname)
     case Linux
         echo "fish: Loading Linux config..."
@@ -50,6 +52,15 @@ fish_add_path -gaP $HOME/.local/bin
 starship init fish | source
 
 set -gx EDITOR nvim
+
+
+# Start tmux server
+
+if ! test -n "$(pgrep tmux)"
+    echo "fish: Starting TMUX..."
+    tmux start-server
+end
+
 if test -n "$TMUX"
     set -gx IS_TMUX 1
 else
@@ -62,14 +73,14 @@ abbr el "eza -al"
 abbr elt "eza -alT"
 abbr mv "mv -i"
 abbr lg lazygit
-abbr :q exit
+abbr qq exit
 abbr tn "tmux new -s (pwd | sed 's/.*\///g')"
 abbr ta "tmux attach"
 abbr td "tmux detach"
 if test $IS_TMUX -eq 1
-    abbr qq "tmux detach"
+    abbr :q "tmux detach"
 else
-    abbr qq exit
+    abbr :q exit
 end
 abbr ma "mamba activate"
 abbr md "mamba deactivate"

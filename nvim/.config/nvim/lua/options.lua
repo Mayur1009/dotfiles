@@ -81,3 +81,6 @@ vim.opt.grepprg = "rg --vimgrep"
 vim.opt.hlsearch = true
 
 vim.opt.pumheight = 15
+vim.opt.confirm = true
+vim.opt.textwidth = 160
+vim.opt.linebreak = true

@@ -146,7 +146,6 @@ require("lazy").setup({
             lazy = "💤 ",
         },
     },
-    change_detection = { enabled = false },
     profiling = {
         -- Enables extra stats on the debug tab related to the loader cache.
         -- Additionally gathers stats about all package.loaders
