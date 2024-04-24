@@ -81,6 +81,8 @@ vim.keymap.set("n", "<leader>Ti", "<cmd>vsplit term://ipython<cr>", { desc = "Te
 vim.keymap.set("n", "[q", ":cprev<cr>", { desc = "Quickfix previous" })
 vim.keymap.set("n", "]q", ":cnext<cr>", { desc = "Quickfix next" })
 
+vim.keymap.set("i", "jk", "<Esc>")
+
 -- Norwegian keybord layout
 vim.keymap.set("n", "ø", "[", { remap = true })
 vim.keymap.set("n", "æ", "]", { remap = true })

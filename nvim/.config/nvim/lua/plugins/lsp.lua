@@ -183,7 +183,7 @@ return {
                     root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
                 },
                 r_language_server = {},
-                ruff_lsp = {
+                ruff = {
                     on_attach = function(client, _)
                         client.server_capabilities.hoverProvider = false
                     end,
@@ -211,8 +211,10 @@ return {
                 "bibtex-tidy",
                 "clang-format",
                 "shfmt",
-                "ruff",
                 "latexindent",
+                "codelldb",
+                "debugpy",
+                "ruff",
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

@@ -35,6 +35,7 @@ return {
             { "jmbuhr/cmp-pandoc-references" },
             { "jmbuhr/otter.nvim" },
             { "micangl/cmp-vimtex" },
+            { "hrsh7th/cmp-buffer" },
             { "onsails/lspkind.nvim" },
         },
         config = function()
@@ -124,18 +125,21 @@ return {
                     format = lspkind.cmp_format({
                         mode = "symbol_text",
                         menu = {
-                            nvim_lsp = "",
+                            nvim_lsp = " ",
                             otter = "🦦",
                             vimtex = "",
-                            luasnip = "",
-                            path = "",
-                            latex_symbols = "",
-                            pandoc_references = "",
+                            dap = " ",
+                            luasnip = " ",
+                            path = " ",
+                            latex_symbols = " ",
+                            pandoc_references = " ",
                             emoji = "😇",
+                            buffer = "󰈔",
                         },
                     }),
                 },
-                sources = {
+
+                sources = cmp.config.sources({
                     { name = "nvim_lsp" },
                     { name = "otter" },
                     { name = "vimtex" },
@@ -145,7 +149,9 @@ return {
                     { name = "latex_symbols" },
                     { name = "pandoc_references" },
                     { name = "emoji" },
-                },
+                }, {
+                    { name = "buffer" },
+                }),
 
                 view = {
                     entries = {

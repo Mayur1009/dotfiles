@@ -17,6 +17,7 @@ return {
                 ["<leader>x"] = { name = "+Trouble", _ = "which_key_ignore" },
                 ["<leader>g"] = { name = "+[g]it", _ = "which_key_ignore" },
                 ["<leader>gc"] = { name = "+git [c]onfict", _ = "which_key_ignore" },
+                ["<leader>d"] = { name = "+[d]ap", _ = "which_key_ignore" },
             })
         end,
     },
@@ -32,13 +33,13 @@ return {
                     lsp_fallback = true,
                 },
                 formatters_by_ft = {
+                    python = { "ruff_format" },
                     r = { "rprettify" },
                     bib = { "bibtex-tidy" },
                     tex = { "latexindent" },
                     c = { "clang-format" },
                     cpp = { "clang-format" },
                     lua = { "stylua" },
-                    python = { "ruff_format" },
                     fish = { "fish_indent" },
                     sh = { "shfmt" },
                     quarto = { "injected" },
@@ -131,61 +132,61 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         opts = { signs = false },
     },
-    {
-        "folke/flash.nvim",
-        event = "VeryLazy",
-        opts = {},
-        keys = {
-            {
-                "s",
-                mode = { "n", "x", "o" },
-                function()
-                    require("flash").jump()
-                end,
-                desc = "Flash",
-            },
-            {
-                "S",
-                mode = { "n", "o", "x" },
-                function()
-                    require("flash").treesitter()
-                end,
-                desc = "Flash Treesitter",
-            },
-            {
-                "r",
-                mode = "o",
-                function()
-                    require("flash").remote()
-                end,
-                desc = "Remote Flash",
-            },
-            {
-                "R",
-                mode = { "o", "x" },
-                function()
-                    require("flash").treesitter_search()
-                end,
-                desc = "Treesitter Search",
-            },
-            {
-                "<c-s>",
-                mode = { "c" },
-                function()
-                    require("flash").toggle()
-                end,
-                desc = "Toggle Flash Search",
-            },
-        },
-    },
+    -- {
+    --     "folke/flash.nvim",
+    --     event = "VeryLazy",
+    --     opts = {},
+    --     keys = {
+    --         {
+    --             "s",
+    --             mode = { "n", "x", "o" },
+    --             function()
+    --                 require("flash").jump()
+    --             end,
+    --             desc = "Flash",
+    --         },
+    --         {
+    --             "S",
+    --             mode = { "n", "o", "x" },
+    --             function()
+    --                 require("flash").treesitter()
+    --             end,
+    --             desc = "Flash Treesitter",
+    --         },
+    --         {
+    --             "r",
+    --             mode = "o",
+    --             function()
+    --                 require("flash").remote()
+    --             end,
+    --             desc = "Remote Flash",
+    --         },
+    --         {
+    --             "R",
+    --             mode = { "o", "x" },
+    --             function()
+    --                 require("flash").treesitter_search()
+    --             end,
+    --             desc = "Treesitter Search",
+    --         },
+    --         {
+    --             "<c-s>",
+    --             mode = { "c" },
+    --             function()
+    --                 require("flash").toggle()
+    --             end,
+    --             desc = "Toggle Flash Search",
+    --         },
+    --     },
+    -- },
 
     {
         "lukas-reineke/indent-blankline.nvim",
         event = { "BufReadPost", "BufNewFile" },
         opts = {
             indent = {
-                char = "│",
-                tab_char = "│",
+                char = "▏",
+                tab_char = "▏",
             },
             exclude = {
                 filetypes = {

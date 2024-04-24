@@ -84,3 +84,5 @@ vim.opt.pumheight = 15
 vim.opt.confirm = true
 vim.opt.textwidth = 160
 vim.opt.linebreak = true
+
+vim.opt.colorcolumn = "+0"

@@ -153,4 +153,5 @@ require("lazy").setup({
         -- Track each new require in the Lazy profiling tab
         require = true,
     },
+    change_detection = { enabled = false },
 })

@@ -46,6 +46,12 @@ return {
 
             -- [[ Configure Telescope ]]
             -- See `:help telescope` and `:help telescope.setup()`
+
+            local actions = require("telescope.actions")
+            local builtin = require("telescope.builtin")
+            local hidden_toggle = false
+            local recent_toggle = true
+
             require("telescope").setup({
                 -- You can put your default mappings / updates / etc. in here
                 --  All the info you're looking for is in `:help telescope.setup()`
@@ -61,6 +67,32 @@ return {
                         require("telescope.themes").get_dropdown(),
                     },
                 },
+                defaults = {
+                    mappings = {
+                        i = {
+                            ["<C-f>"] = actions.preview_scrolling_down,
+                            ["<C-b>"] = actions.preview_scrolling_up,
+                            ["<C-Down>"] = actions.cycle_history_next,
+                            ["<C-Up>"] = actions.cycle_history_prev,
+                            ["<a-r>"] = function()
+                                recent_toggle = not recent_toggle
+                                builtin.oldfiles({ only_cwd = recent_toggle })
+                            end,
+                            ["<a-h>"] = function()
+                                hidden_toggle = not hidden_toggle
+                                builtin.find_files({ hidden = hidden_toggle, no_ignore = hidden_toggle, no_ignore_parent = hidden_toggle })
+                            end,
+                        },
+                    },
+                },
+                pickers = {
+                    find_files = {
+                        follow = true,
+                    },
+                    oldfiles = {
+                        only_cwd = true,
+                    },
+                },
             })
 
             -- Enable telescope extensions, if they are installed
@@ -69,43 +101,40 @@ return {
             pcall(require("telescope").load_extension, "helpgrep")
 
             -- See `:help telescope.builtin`
-            local builtin = require("telescope.builtin")
             vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp_tags" })
             vim.keymap.set("n", "<leader>sH", ":Telescope helpgrep<cr>", { desc = "[S]earch [H]elpgrep" })
             vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
             vim.keymap.set("n", "<leader>sb", builtin.builtin, { desc = "[S]earch Telescope [B]uiltins" })
             vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
             vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
-            vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
+            vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "Telescope [r]esume" })
             vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]iles live [G]rep" })
             vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Search [R]ecent [F]iles" })
-            vim.keymap.set("n", "<leader><leader>", function()
-                builtin.find_files({ hidden = true })
-            end, { desc = "[F]ind files including [H]idden" })
-            vim.keymap.set("n", "<leader>.", builtin.buffers, { desc = "[ ] Find existing buffers" })
+            vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "Find files" })
+            vim.keymap.set("n", "<leader>.", builtin.buffers, { desc = "Find existing buffers" })
 
             -- Slightly advanced example of overriding default behavior and theme
-            vim.keymap.set("n", "<leader>/", function()
-                -- You can pass additional configuration to telescope to change theme, layout, etc.
-                builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-                    winblend = 4,
-                    previewer = false,
-                }))
-            end, { desc = "[/] Fuzzily search in current buffer" })
+            -- vim.keymap.set("n", "<leader>/", function()
+            --     -- You can pass additional configuration to telescope to change theme, layout, etc.
+            --     builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+            --         winblend = 4,
+            --         previewer = false,
+            --     }))
+            -- end, { desc = "[/] Fuzzily search in current buffer" })
 
             -- Also possible to pass additional configuration options.
             --  See `:help telescope.builtin.live_grep()` for information about particular keys
-            vim.keymap.set("n", "<leader>s/", function()
-                builtin.live_grep({
-                    grep_open_files = true,
-                    prompt_title = "Live Grep in Open Files",
-                })
-            end, { desc = "[S]earch [/] in Open Files" })
+            -- vim.keymap.set("n", "<leader>s/", function()
+            --     builtin.live_grep({
+            --         grep_open_files = true,
+            --         prompt_title = "Live Grep in Open Files",
+            --     })
+            -- end, { desc = "[S]earch [/] in Open Files" })
 
             -- Shortcut for searching your neovim configuration files
-            vim.keymap.set("n", "<leader>sn", function()
+            vim.keymap.set("n", "<leader>sc", function()
                 builtin.find_files({ cwd = vim.fn.stdpath("config") })
-            end, { desc = "[S]earch [N]eovim config files" })
+            end, { desc = "[S]earch Neovim [c]onfig files" })
         end,
         keys = {
             "<leader>sh",
@@ -114,14 +143,12 @@ return {
             "<leader>sb",
             "<leader>sw",
             "<leader>sd",
-            "<leader>ff",
+            "<leader>sr",
             "<leader>fg",
             "<leader>fr",
             "<leader><leader>",
             "<leader>.",
-            "<leader>/",
-            "<leader>s/",
-            "<leader>sn",
+            "<leader>sc",
         },
     },
 }

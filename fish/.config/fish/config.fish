@@ -2,7 +2,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-set fish_greeting 0
+set fish_greeting
 
 switch (uname)
     case Linux
@@ -22,7 +22,8 @@ switch (uname)
     case Darwin
         echo "fish: Loading MacOS config..."
         eval "$(/opt/homebrew/bin/brew shellenv)"
-        test -e /Users/mayurks/.iterm2_shell_integration.fish; and source /Users/mayurks/.iterm2_shell_integration.fish; or true
+        # test -e /Users/mayurks/.iterm2_shell_integration.fish; and source /Users/mayurks/.iterm2_shell_integration.fish; or true
+        set -gx DEBUGPY_LOG_DIR "~/.debugpy_logs"
 end
 
 # Theme
@@ -56,10 +57,10 @@ set -gx EDITOR nvim
 
 # Start tmux server
 
-if ! test -n "$(pgrep tmux)"
-    echo "fish: Starting TMUX..."
-    tmux start-server
-end
+# if ! test -n "$(pgrep tmux)"
+#     echo "fish: Starting TMUX..."
+#     tmux start-server
+# end
 
 if test -n "$TMUX"
     set -gx IS_TMUX 1
@@ -92,9 +93,9 @@ function fish-reload -d "Reload the shell"
 end
 
 # t
-function t -d "Create or connect to session from fzf"
-    if test -f $HOME/.scripts/t
-        $HOME/.scripts/t
+function t -d "Create or connect to session using fzf"
+    if test -f $HOME/.config/fish/tmux-session.fish
+        $HOME/.config/fish/tmux-session.fish
     else
         echo "t: script not found"
     end
