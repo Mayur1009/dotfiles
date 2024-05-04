@@ -12,58 +12,58 @@ end
 
 return {
     {
-        "3rd/image.nvim",
-        opts = {
-            backend = "kitty",
-            integrations = {
-                markdown = {
-                    enabled = true,
-                    -- clear_in_insert_mode = false,
-                    -- download_remote_images = true,
-                    only_render_image_at_cursor = true,
-                    filetypes = { "markdown", "vimwiki", "quarto" }, -- markdown extensions (ie. quarto) can go here
-                },
-                neorg = {
-                    enabled = true,
-                    clear_in_insert_mode = false,
-                    download_remote_images = true,
-                    only_render_image_at_cursor = false,
-                    filetypes = { "norg" },
-                },
-            },
-            max_width = 100,
-            max_height = 30,
-            max_width_window_percentage = math.huge,
-            max_height_window_percentage = math.huge,
-            window_overlap_clear_enabled = true,
-            window_overlap_clear_ft_ignore = { "" },
-            editor_only_render_when_focused = true, -- auto show/hide images when the editor gains/looses focus
-            tmux_show_only_in_active_window = true, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
-        },
-    },
-    {
-        "GCBallesteros/jupytext.nvim",
-        config = function()
-            require("jupytext").setup({
-                -- style = "markdown",
-                -- output_extension = "md",
-                -- force_ft = "markdown",
-                style = "quarto",
-                output_extension = "qmd",
-                force_ft = "quarto",
-            })
-        end,
-    },
-    {
         "benlubas/molten-nvim",
         dependencies = {
-            "3rd/image.nvim",
-            "GCBallesteros/jupytext.nvim",
+            {
+                "3rd/image.nvim",
+                opts = {
+                    backend = "kitty",
+                    integrations = {
+                        markdown = {
+                            enabled = true,
+                            -- clear_in_insert_mode = false,
+                            -- download_remote_images = true,
+                            only_render_image_at_cursor = true,
+                            filetypes = { "markdown", "vimwiki", "quarto" }, -- markdown extensions (ie. quarto) can go here
+                        },
+                        neorg = {
+                            enabled = true,
+                            clear_in_insert_mode = false,
+                            download_remote_images = true,
+                            only_render_image_at_cursor = false,
+                            filetypes = { "norg" },
+                        },
+                    },
+                    max_width = 100,
+                    max_height = 50,
+                    max_width_window_percentage = math.huge,
+                    max_height_window_percentage = math.huge,
+                    window_overlap_clear_enabled = true,
+                    window_overlap_clear_ft_ignore = { "" },
+                    -- editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
+                    -- tmux_show_only_in_active_window = true, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
+                },
+            },
+            {
+                "GCBallesteros/jupytext.nvim",
+                config = function()
+                    require("jupytext").setup({
+                        -- style = "markdown",
+                        -- output_extension = "md",
+                        -- force_ft = "markdown",
+                        style = "quarto",
+                        output_extension = "qmd",
+                        force_ft = "quarto",
+                    })
+                end,
+            },
+            {
+                "willothy/wezterm.nvim",
+                config = true,
+            },
         },
         build = ":UpdateRemotePlugins",
         init = function()
-            -- these are examples, not defaults. Please see the readme
-            --
             vim.g.auto_image_popup = true
             vim.g.molten_auto_open_output = false
             vim.g.molten_enter_output_behavior = "open_and_enter"
@@ -147,14 +147,14 @@ return {
             })
 
             -- automatically export output chunks to a jupyter notebook on write
-            -- vim.api.nvim_create_autocmd("BufWritePost", {
-            --     pattern = { "*.ipynb" },
-            --     callback = function()
-            --         if require("molten.status").initialized() == "Molten" then
-            --             vim.cmd("MoltenExportOutput!")
-            --         end
-            --     end,
-            -- })
+            vim.api.nvim_create_autocmd("BufWritePost", {
+                pattern = { "*.ipynb" },
+                callback = function()
+                    if require("molten.status").initialized() == "Molten" then
+                        vim.cmd("MoltenExportOutput!")
+                    end
+                end,
+            })
         end,
     },
 }

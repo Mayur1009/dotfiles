@@ -12,15 +12,95 @@ return {
             },
         },
         config = function()
-            local dap_icons = {
-                Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
-                Breakpoint = " ",
-                BreakpointCondition = " ",
-                BreakpointRejected = { " ", "DiagnosticError" },
-                LogPoint = ".>",
-            }
             local dap, dapui = require("dap"), require("dapui")
-            dapui.setup()
+            dapui.setup({
+                controls = {
+                    element = "repl",
+                    enabled = true,
+                    icons = {
+                        disconnect = "",
+                        pause = "",
+                        play = "",
+                        run_last = "",
+                        step_back = "",
+                        step_into = "",
+                        step_out = "",
+                        step_over = "",
+                        terminate = "",
+                    },
+                },
+                element_mappings = {},
+                expand_lines = true,
+                floating = {
+                    border = "single",
+                    mappings = {
+                        close = { "q", "<Esc>" },
+                    },
+                },
+                force_buffers = true,
+                icons = {
+                    collapsed = "",
+                    current_frame = "",
+                    expanded = "",
+                },
+                layouts = {
+                    {
+                        elements = {
+                            {
+                                id = "scopes",
+                                size = 0.50,
+                            },
+                            {
+                                id = "watches",
+                                size = 0.25,
+                            },
+                            {
+                                id = "breakpoints",
+                                size = 0.15,
+                            },
+                            {
+                                id = "stacks",
+                                size = 0.10,
+                            },
+                        },
+                        position = "left",
+                        size = 0.2,
+                    },
+                    {
+                        elements = {
+                            {
+                                id = "repl",
+                                size = 1,
+                            },
+                        },
+                        position = "right",
+                        size = 0.3,
+                    },
+                    {
+                        elements = {
+                            {
+                                id = "console",
+                                size = 1,
+                            },
+                        },
+                        position = "bottom",
+                        size = 0.3,
+                    },
+                },
+                mappings = {
+                    edit = "e",
+                    expand = { "<CR>", "<2-LeftMouse>" },
+                    open = "o",
+                    remove = "d",
+                    repl = "r",
+                    toggle = "t",
+                },
+                render = {
+                    indent = 4,
+                    max_type_length = 25,
+                    max_value_lines = 50,
+                },
+            })
             dap.listeners.before.attach.dapui_config = function()
                 dapui.open()
             end
@@ -34,19 +114,22 @@ return {
                 dapui.close()
             end
 
-            vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
+            vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "DiffDelete" })
+            vim.api.nvim_set_hl(0, "DapBreakpointCursorline", { default = true, bg = "#311d26" })
 
-            for name, sign in pairs(dap_icons) do
-                sign = type(sign) == "table" and sign or { sign }
-                vim.fn.sign_define("Dap" .. name, { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] })
-            end
+            local sign = vim.fn.sign_define
+
+            sign("DapBreakpoint", { text = "●", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
+            sign("DapBreakpointCondition", { text = "●", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
+            sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "DapLogPoint", numhl = "DapLogPoint" })
+            sign("DapStopped", { text = "󰁕 ", texthl = "DiagnosticWarn", linehl = "DapStoppedLine", numhl = "DiagnosticWarn" })
+            sign("DapBreakpointRejected", { text = " ", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
 
             vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "DAP: UI Toggle" })
             vim.keymap.set({ "n", "v" }, "<leader>de", dapui.eval, { desc = "DAP: UI Eval" })
         end,
         keys = {
             "<leader>du",
-            "<leader>de",
         },
     },
     {
@@ -78,13 +161,11 @@ return {
             dap_py.setup(path .. "/venv/bin/python")
             table.insert(dap.configurations.python, {
                 console = "integratedTerminal",
-                name = "My custom Launch file configuration",
+                name = "Launch file -nojustMyCode",
                 program = "${file}",
                 request = "launch",
                 type = "python",
                 justMyCode = "false",
-                logToFile = "true",
-                stopOnEntry = "true",
             })
 
             if not dap.adapters["codelldb"] then
@@ -138,9 +219,9 @@ return {
             vim.keymap.set("n", "<F6>", dap.toggle_breakpoint, { desc = "DAP: Toggle Breakpoint" })
             vim.keymap.set("n", "<F7>", dap.step_out, { desc = "DAP: Step out" })
             vim.keymap.set("n", "<F8>", dap.continue, { desc = "DAP: Continue/Start" })
-            vim.keymap.set("n", "<S-F8>", dap.terminate, { desc = "DAP: Terminate" })
             vim.keymap.set("n", "<F9>", dap.step_over, { desc = "DAP: Step over" })
-            vim.keymap.set("n", "<S-F9>", dap.step_into, { desc = "DAP: Step into" })
+            vim.keymap.set("n", "<F10>", dap.step_into, { desc = "DAP: Step into" })
+            vim.keymap.set("n", "<F12>", dap.terminate, { desc = "DAP: Terminate" })
         end,
         keys = {
             "<leader>db",
@@ -156,9 +237,9 @@ return {
             "<F6>",
             "<F7>",
             "<F8>",
-            "<S-F8>",
             "<F9>",
-            "<S-F9>",
+            "<F10>",
+            "<F12>",
         },
     },
 }

@@ -60,7 +60,11 @@ vim.opt.splitbelow = true
 --  See `:help 'list'`
 --  and `:help 'listchars'`
 vim.opt.list = true
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣", eol = "↲" }
+vim.opt.listchars = {
+    tab = "» ",
+    trail = "·",
+    nbsp = "␣", --[[eol = ""]]
+}
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = "split"
@@ -82,7 +86,9 @@ vim.opt.hlsearch = true
 
 vim.opt.pumheight = 15
 vim.opt.confirm = true
-vim.opt.textwidth = 160
 vim.opt.linebreak = true
 
-vim.opt.colorcolumn = "+0"
+vim.opt.colorcolumn = "+1"
+
+vim.opt.spelllang = "en_us"
+vim.opt.spell = true

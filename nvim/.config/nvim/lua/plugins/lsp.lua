@@ -16,6 +16,7 @@ return {
 
             "p00f/clangd_extensions.nvim",
             { "microsoft/python-type-stubs", cond = false },
+            { "barreiroleo/ltex-extra.nvim" },
         },
         config = function()
             -- Brief Aside: **What is LSP?**
@@ -102,7 +103,7 @@ return {
                     map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
                     map("gH", function()
-                        vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+                        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
                         vim.notify("Inlay hints " .. (vim.lsp.inlay_hint.is_enabled() and "enabled" or "disabled"))
                     end, "Toggle Inlay [H]ints")
 
@@ -111,18 +112,18 @@ return {
                     --    See `:help CursorHold` for information about when this is executed
                     --
                     -- When you move your cursor, the highlights will be cleared (the second autocommand).
-                    local client = vim.lsp.get_client_by_id(event.data.client_id)
-                    if client and client.server_capabilities.documentHighlightProvider then
-                        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-                            buffer = event.buf,
-                            callback = vim.lsp.buf.document_highlight,
-                        })
-
-                        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-                            buffer = event.buf,
-                            callback = vim.lsp.buf.clear_references,
-                        })
-                    end
+                    -- local client = vim.lsp.get_client_by_id(event.data.client_id)
+                    -- if client and client.server_capabilities.documentHighlightProvider then
+                    --     vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+                    --         buffer = event.buf,
+                    --         callback = vim.lsp.buf.document_highlight,
+                    --     })
+                    --
+                    --     vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+                    --         buffer = event.buf,
+                    --         callback = vim.lsp.buf.clear_references,
+                    --     })
+                    -- end
                 end,
             })
 
@@ -158,6 +159,19 @@ return {
                     on_attach = function(_, _)
                         require("clangd_extensions.inlay_hints").setup_autocmd()
                         require("clangd_extensions.inlay_hints").set_inlay_hints()
+                    end,
+                },
+                ltex = {
+                    settings = {
+                        ltex = {
+                            language = "en-US",
+                            additionalRules = {
+                                languageModel = "~/ngrams/",
+                            },
+                        },
+                    },
+                    on_attach = function(client, bufnr)
+                        require("ltex_extra").setup({})
                     end,
                 },
                 lua_ls = {
@@ -214,7 +228,6 @@ return {
                 "latexindent",
                 "codelldb",
                 "debugpy",
-                "ruff",
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

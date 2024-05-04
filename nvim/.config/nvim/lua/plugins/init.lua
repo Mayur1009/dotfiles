@@ -1,6 +1,4 @@
 return {
-    -- "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
-
     { -- Useful plugin to show you pending keybinds.
         "folke/which-key.nvim",
         event = "VimEnter", -- Sets the loading event to 'VimEnter'
@@ -27,11 +25,11 @@ return {
         lazy = false,
         config = function()
             require("conform").setup({
-                notify_on_error = false,
-                format_on_save = {
-                    timeout_ms = 2000,
-                    lsp_fallback = true,
-                },
+                notify_on_error = true,
+                -- format_on_save = {
+                --     timeout_ms = 2000,
+                --     lsp_fallback = true,
+                -- },
                 formatters_by_ft = {
                     python = { "ruff_format" },
                     r = { "rprettify" },
@@ -87,18 +85,75 @@ return {
                     -- lang_to_formatters = {},
                 },
             }
+            require("conform").formatters.latexindent = {
+                prepend_args = { "-m", "-l=" .. vim.fn.expand("$HOME/.latexindent.yaml"), },
+            }
+
+            vim.keymap.set("n", "<leader>ff", require("conform").format, { desc = "Format File" })
         end,
     },
 
     {
         "folke/tokyonight.nvim",
-        lazy = false, -- make sure we load this during startup if it is your main colorscheme
-        priority = 1000, -- make sure to load this before all the other start plugins
+        -- lazy = false, -- make sure we load this during startup if it is your main colorscheme
+        -- priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
             require("tokyonight").setup({
                 style = "night",
             })
             -- vim.cmd([[colorscheme tokyonight]])
+        end,
+    },
+
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        priority = 1000,
+        config = function()
+            require("catppuccin").setup({
+                flavour = "mocha",
+                dim_inactive = {
+                    enabled = true,
+                    shade = "dark",
+                    percentage = 0.01,
+                },
+                integrations = {
+                    aerial = true,
+                    alpha = true,
+                    cmp = true,
+                    dashboard = true,
+                    flash = true,
+                    gitsigns = true,
+                    headlines = true,
+                    illuminate = true,
+                    indent_blankline = { enabled = true },
+                    leap = true,
+                    lsp_trouble = true,
+                    mason = true,
+                    markdown = true,
+                    mini = true,
+                    native_lsp = {
+                        enabled = true,
+                        underlines = {
+                            errors = { "undercurl" },
+                            hints = { "undercurl" },
+                            warnings = { "undercurl" },
+                            information = { "undercurl" },
+                        },
+                    },
+                    navic = { enabled = true, custom_bg = "lualine" },
+                    neotest = true,
+                    neotree = true,
+                    noice = true,
+                    notify = true,
+                    semantic_tokens = true,
+                    telescope = true,
+                    treesitter = true,
+                    treesitter_context = true,
+                    which_key = true,
+                },
+            })
+            -- vim.cmd([[colorscheme catppuccin]])
         end,
     },
 
@@ -109,6 +164,7 @@ return {
         config = function()
             require("nightfox").setup({
                 options = {
+                    -- dim_inactive = true,
                     styles = {
                         comments = "italic",
                         conditionals = "italic",
@@ -117,11 +173,36 @@ return {
                 },
                 groups = {
                     carbonfox = {
-                        Visual = { bg = "#224747" }, -- #421717, #832d2d, #581e1e, #632f39, #182440
+                        Visual = { bg = "#182440" }, -- #224747 #421717, #832d2d, #581e1e, #632f39, #182440
+                        NormalNC = { bg = "#101010" },
                     },
                 },
             })
-            vim.cmd([[colorscheme carbonfox]])
+            -- vim.cmd([[colorscheme carbonfox]])
+        end,
+    },
+
+    {
+        "rose-pine/neovim",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require("rose-pine").setup({
+                variant = "main",
+                dim_inactive_windows = true,
+                styles = {
+                    italic = false,
+                },
+                highlight_groups = {
+                    Comment = { italic = true },
+                    Conditionals = { italic = true },
+                    Keyword = { italic = true },
+                    Type = { bold = true, italic = true },
+                    PmenuSel = { fg = "base", bg = "rose" },
+                    Pmenu = { bg = "highlight_low" },
+                },
+            })
+            vim.cmd([[colorscheme rose-pine]])
         end,
     },
 
@@ -132,53 +213,6 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         opts = { signs = false },
     },
-    -- {
-    --     "folke/flash.nvim",
-    --     event = "VeryLazy",
-    --     opts = {},
-    --     keys = {
-    --         {
-    --             "s",
-    --             mode = { "n", "x", "o" },
-    --             function()
-    --                 require("flash").jump()
-    --             end,
-    --             desc = "Flash",
-    --         },
-    --         {
-    --             "S",
-    --             mode = { "n", "o", "x" },
-    --             function()
-    --                 require("flash").treesitter()
-    --             end,
-    --             desc = "Flash Treesitter",
-    --         },
-    --         {
-    --             "r",
-    --             mode = "o",
-    --             function()
-    --                 require("flash").remote()
-    --             end,
-    --             desc = "Remote Flash",
-    --         },
-    --         {
-    --             "R",
-    --             mode = { "o", "x" },
-    --             function()
-    --                 require("flash").treesitter_search()
-    --             end,
-    --             desc = "Treesitter Search",
-    --         },
-    --         {
-    --             "<c-s>",
-    --             mode = { "c" },
-    --             function()
-    --                 require("flash").toggle()
-    --             end,
-    --             desc = "Toggle Flash Search",
-    --         },
-    --     },
-    -- },
 
     {
         "lukas-reineke/indent-blankline.nvim",
@@ -202,10 +236,6 @@ return {
                     "toggleterm",
                     "lazyterm",
                 },
-            },
-            scope = {
-                show_end = false,
-                highlight = { "Function", "Label" },
             },
         },
         main = "ibl",
@@ -251,7 +281,6 @@ return {
     },
     { -- highlight markdown headings and code blocks etc.
         "lukas-reineke/headlines.nvim",
-        -- ft = { "markdown", "quarto" },
         ft = { "quarto", "markdown", "norg", "rmd", "org" },
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
@@ -284,6 +313,7 @@ return {
     },
     {
         "stevearc/oil.nvim",
+        event = "VeryLazy",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
             require("oil").setup({
@@ -302,26 +332,5 @@ return {
             })
             vim.keymap.set("n", "<leader>fe", require("oil").open_float, { desc = "Oil [f]ile [e]xplorer" })
         end,
-    },
-    {
-        "jiaoshijie/undotree",
-        dependencies = "nvim-lua/plenary.nvim",
-        config = function()
-            require("undotree").setup({
-                window = { winblend = 10 },
-            })
-
-            vim.keymap.set("n", "<leader>tu", require("undotree").toggle, { desc = "[T]oggle [U]ndo Tree" })
-        end,
-        keys = { -- load the plugin only when using it's keybinding:
-            { "<leader>tu" },
-        },
-    },
-    {
-        "NStefan002/speedtyper.nvim",
-        cmd = "Speedtyper",
-        opts = {
-            -- your config
-        },
     },
 }

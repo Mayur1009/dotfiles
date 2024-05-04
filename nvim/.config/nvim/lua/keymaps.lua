@@ -63,11 +63,7 @@ vim.keymap.set("n", "<leader>bd", ":bd<cr>", { desc = "Buffer Delete" })
 
 -- Toggle Diagnostics
 vim.keymap.set("n", "<leader>td", function()
-    if vim.diagnostic.is_disabled() then
-        vim.diagnostic.enable()
-    else
-        vim.diagnostic.disable()
-    end
+    vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "[T]oggle [D]iagnostics" })
 
 vim.keymap.set("n", "<leader>Tt", "<cmd>vsplit term://fish<cr>", { desc = "Terminal: Shell(fish)" })
@@ -82,6 +78,11 @@ vim.keymap.set("n", "[q", ":cprev<cr>", { desc = "Quickfix previous" })
 vim.keymap.set("n", "]q", ":cnext<cr>", { desc = "Quickfix next" })
 
 vim.keymap.set("i", "jk", "<Esc>")
+
+-- Toggle buffer lock
+vim.keymap.set("n", "<leader>tl", function()
+    vim.bo.modifiable = not vim.bo.modifiable
+end, { desc = "Toggle file [l]ock" })
 
 -- Norwegian keybord layout
 vim.keymap.set("n", "ø", "[", { remap = true })
