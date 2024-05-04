@@ -1,6 +1,10 @@
 local wezterm = require("wezterm")
 
-local scheme = wezterm.get_builtin_color_schemes()['rose-pine']
+local is_macos = function()
+	return wezterm.target_triple:find("darwin") ~= nil
+end
+
+local scheme = wezterm.get_builtin_color_schemes()["rose-pine"]
 -- local select_bg = scheme.selection_fg
 -- local select_fg = scheme.selection_bg
 -- print(select_bg, select_fg)
@@ -8,18 +12,15 @@ local scheme = wezterm.get_builtin_color_schemes()['rose-pine']
 scheme.selection_bg = "#403d52"
 
 local config = {
-    color_schemes  = {
-        ['myrosepine'] = scheme
-    },
-    color_scheme = "myrosepine",
-	font = wezterm.font(
-        "Maple Mono NF",
-        { weight = "Medium", }
-    ),
+	color_schemes = {
+		["myrosepine"] = scheme,
+	},
+	color_scheme = "myrosepine",
+	font = wezterm.font("Maple Mono NF", { weight = "Medium" }),
 	line_height = 1.15,
 	enable_tab_bar = false,
 	term = "wezterm",
-	default_prog = { "/opt/homebrew/bin/fish", "--interactive", "--login" },
+	default_prog = { is_macos() and "/opt/homebrew/bin/fish" or "fish", "--interactive", "--login" },
 	enable_kitty_keyboard = true,
 	max_fps = 165,
 	front_end = "WebGpu",
@@ -29,8 +30,8 @@ local config = {
 		-- top = 2,
 		bottom = 0,
 	},
-    force_reverse_video_cursor = true,
-    -- debug_key_events = true,
+	force_reverse_video_cursor = true,
+	-- debug_key_events = true,
 }
 
 return config
