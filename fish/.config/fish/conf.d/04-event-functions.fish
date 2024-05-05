@@ -1,4 +1,4 @@
-function auto_activate_mamba -d "Auto activate mamba environment (in .venv file) on directory change" --on-variable PWD --on-variable IS_TMUX
+function auto_activate_mamba -d "Auto activate mamba environment (in .venv file) on directory change" --on-variable PWD --on-event inside_tmux
     if test -f "$PWD/.venv"
         set -l venv (cat $PWD/.venv)
 
@@ -14,7 +14,7 @@ function auto_activate_mamba -d "Auto activate mamba environment (in .venv file)
 
         # If the environment is not valid, abort.
         if not contains "$venv" (mamba env list | tail -n +3 | awk '{print $1}')
-            echo ".venv: Environment not found. Fix the name of environment in .venv file. Aborting..."
+            echo "auto_activate_mamba: `$venv` environment not found. Fix the name of environment in .venv file. Aborting..."
             return
         end
 
@@ -22,4 +22,9 @@ function auto_activate_mamba -d "Auto activate mamba environment (in .venv file)
         echo "auto_activate_mamba: Activating environment $venv"
         mamba activate "$venv"
     end
+end
+
+# inside_tmux event
+if set -q TMUX
+    emit inside_tmux
 end

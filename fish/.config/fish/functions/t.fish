@@ -1,7 +1,7 @@
 # t
 function t -d "Create or connect to session using fzf"
 
-    if [ $IS_TMUX = 1 ]
+    if set -q TMUX
         echo "Use tmux keybind...(C-a f)"
         return
     end

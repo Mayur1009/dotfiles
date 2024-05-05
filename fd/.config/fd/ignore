@@ -3,9 +3,15 @@
 **/.nvim_venv
 **/.zsh_sessions
 **/.cache
-**/.Trash
+**/.Trash*
 **/miniforge3
 **/.vscode
 **/.npm
 **/.cargo
 **/*OneDrive*
+
+**/.graveyard
+**/ext
+**/Games
+**/.steam
+

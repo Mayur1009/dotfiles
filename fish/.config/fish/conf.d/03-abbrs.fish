@@ -12,7 +12,7 @@ abbr td "tmux detach"
 abbr ma "mamba activate"
 abbr md "mamba deactivate"
 abbr m mamba
-if test $IS_TMUX -eq 1
+if set -q TMUX
     abbr :q "tmux detach"
 else
     abbr :q exit
