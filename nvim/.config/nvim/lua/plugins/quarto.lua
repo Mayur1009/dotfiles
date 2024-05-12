@@ -13,20 +13,98 @@ end
 return {
     {
         "quarto-dev/quarto-nvim",
+        dev = false,
         ft = { "quarto", "markdown" },
         dependencies = {
-            "jmbuhr/otter.nvim",
-            "jpalardy/vim-slime",
-            "benlubas/molten-nvim",
+            { -- send code from python/r/qmd documets to a terminal or REPL
+                -- like ipython, R, bash
+                "jpalardy/vim-slime",
+                init = function()
+                    vim.b["quarto_is_python_chunk"] = false
+                    Quarto_is_in_python_chunk = function()
+                        require("otter.tools.functions").is_otter_language_context("python")
+                    end
+
+                    vim.cmd([[
+                    let g:slime_dispatch_ipython_pause = 100
+                    function SlimeOverride_EscapeText_quarto(text)
+                    call v:lua.Quarto_is_in_python_chunk()
+                    if exists('g:slime_python_ipython') && len(split(a:text,"\n")) > 1 && b:quarto_is_python_chunk && !(exists('b:quarto_is_r_mode') && b:quarto_is_r_mode)
+                    return ["%cpaste -q\n", g:slime_dispatch_ipython_pause, a:text, "--", "\n"]
+                    else
+                    if exists('b:quarto_is_r_mode') && b:quarto_is_r_mode && b:quarto_is_python_chunk
+                    return [a:text, "\n"]
+                    else
+                    return [a:text]
+                    end
+                    end
+                    endfunction
+                    ]])
+
+                    vim.g.slime_target = "neovim"
+                    vim.g.slime_python_ipython = 1
+                end,
+                config = function()
+                    local function mark_terminal()
+                        vim.g.slime_last_channel = vim.b.terminal_job_id
+                    end
+
+                    local function set_terminal()
+                        vim.b.slime_config = { jobid = vim.g.slime_last_channel }
+                    end
+
+                    local function toggle_slime_tmux_nvim()
+                        if vim.g.slime_target == "tmux" then
+                            pcall(function()
+                                vim.b.slime_config = nil
+                                vim.g.slime_default_config = nil
+                            end)
+                            -- slime, neovvim terminal
+                            vim.g.slime_target = "neovim"
+                            vim.g.slime_bracketed_paste = 0
+                            vim.g.slime_python_ipython = 1
+                        elseif vim.g.slime_target == "neovim" then
+                            pcall(function()
+                                vim.b.slime_config = nil
+                                vim.g.slime_default_config = nil
+                            end)
+                            -- -- slime, tmux
+                            vim.g.slime_target = "tmux"
+                            vim.g.slime_bracketed_paste = 1
+                            vim.g.slime_default_config = { socket_name = "default", target_pane = ".2" }
+                        end
+                    end
+
+                    nmap("<leader>qm", mark_terminal, "Slime Mark Terminal")
+                    nmap("<leader>qs", set_terminal, "Slime Set Terminal")
+                    nmap("<leader>qT", toggle_slime_tmux_nvim, "Slime Toggle Tmux/Nvim terminal")
+                end,
+            },
+            {
+                "jmbuhr/otter.nvim",
+                dev = false,
+                dependencies = {
+                    "neovim/nvim-lspconfig",
+                    "nvim-treesitter/nvim-treesitter",
+                    "hrsh7th/nvim-cmp",
+                },
+                opts = {
+                    buffers = {
+                        set_filetype = true,
+                        write_to_disk = false,
+                    },
+                    handle_leading_whitespace = true,
+                },
+            },
         },
         config = function()
             require("quarto").setup({
+                lspFeatures = {
+                    languages = { "r", "python", "julia", "bash", "lua", "html", "dot", "javascript", "typescript", "ojs" },
+                },
                 codeRunner = {
-                    enable = true,
-                    default_method = "molten",
-                    ft_runners = {
-                        r = "slime",
-                    },
+                    enabled = true,
+                    default_method = "slime",
                 },
             })
 
@@ -63,127 +141,67 @@ return {
             imap("<M-r>", "<esc>o```{r}<cr>```<esc>O", "Code cell [R]")
             imap("<M-e>", "<esc>o```{python}<cr>```<esc>O", "Code cell [P]ython")
 
-            nmap("<M-m>", function()
-                runner.run_cell()
-                vim.cmd("normal ]bzz")
-            end, "Molten Run Cell and move to next cell")
-            nmap("<M-M>", runner.run_cell, "Molten Run Cell")
-
             imap("<M-m>", function()
                 runner.run_cell()
                 vim.cmd("normal ]bzz")
-            end, "Molten Run Cell and move to next cell")
-            imap("<M-M>", runner.run_cell, "Molten Run Cell")
+            end, "Quarto Run Cell and move to next cell")
 
             require("which-key").register({
                 ["<leader>q"] = { name = "+Quarto", _ = "which_key_ignore" },
                 ["<leader>r"] = { name = "+Run", _ = "which_key_ignore" },
                 ["<leader>c"] = { name = "+Code/Cell", _ = "which_key_ignore" },
             })
-        end,
-    },
-    {
-        "jmbuhr/otter.nvim",
-        lazy = true,
-        opts = {
-            lsp = {
-                diagnostic_update_events = { "BufWritePost", "InsertLeave", "TextChanged" },
-            },
-            buffers = {
-                set_filetype = true,
-                write_to_disk = true,
-            },
-            handle_leading_whitespace = true,
-        },
-    },
-    {
-        "jpalardy/vim-slime",
-        init = function()
-            vim.b["quarto_is_" .. "python" .. "_chunk"] = false
-            Quarto_is_in_python_chunk = function()
-                require("otter.tools.functions").is_otter_language_context("python")
-            end
 
-            vim.cmd([[
-            let g:slime_dispatch_ipython_pause = 100
-            function SlimeOverride_EscapeText_quarto(text)
-            call v:lua.Quarto_is_in_python_chunk()
-            if exists('g:slime_python_ipython') && len(split(a:text,"\n")) > 1 && b:quarto_is_python_chunk && !(exists('b:quarto_is_r_mode') && b:quarto_is_r_mode)
-            return ["%cpaste -q\n", g:slime_dispatch_ipython_pause, a:text, "--", "\n"]
-            else
-            if exists('b:quarto_is_r_mode') && b:quarto_is_r_mode && b:quarto_is_python_chunk
-            return [a:text, "\n"]
-            else
-            return [a:text]
-            end
-            end
-            endfunction
-            ]])
-
-            local function mark_terminal()
-                vim.g.slime_last_channel = vim.b.terminal_job_id
-                vim.print(vim.g.slime_last_channel)
-            end
-
-            local function set_terminal()
-                vim.b.slime_config = { jobid = vim.g.slime_last_channel }
-            end
-
-            local function toggle_slime_tmux_nvim()
-                if vim.g.slime_target == "tmux" then
-                    pcall(function()
-                        vim.b.slime_config = nil
-                        vim.g.slime_default_config = nil
-                    end)
-                    -- slime, neovvim terminal
-                    vim.g.slime_target = "neovim"
-                    vim.g.slime_bracketed_paste = 0
-                    vim.g.slime_python_ipython = 1
-                elseif vim.g.slime_target == "neovim" then
-                    pcall(function()
-                        vim.b.slime_config = nil
-                        vim.g.slime_default_config = nil
-                    end)
-                    -- -- slime, tmux
-                    vim.g.slime_target = "tmux"
-                    vim.g.slime_bracketed_paste = 1
-                    vim.g.slime_default_config = { socket_name = "default", target_pane = ".2" }
-                end
-            end
-
-            -- slime, neovvim terminal
-            vim.g.slime_target = "tmux"
-            vim.g.slime_python_ipython = 1
+            vim.g["quarto_is_r_mode"] = nil
+            vim.g["reticulate_running"] = false
 
             local function send_cell()
                 if vim.b["quarto_is_r_mode"] == nil then
-                    vim.cmd([[call slime#send_cell()]])
+                    vim.fn["slime#send_cell"]()
                     return
                 end
                 if vim.b["quarto_is_r_mode"] == true then
                     vim.g.slime_python_ipython = 0
                     local is_python = require("otter.tools.functions").is_otter_language_context("python")
                     if is_python and not vim.b["reticulate_running"] then
-                        vim.cmd([[call slime#send("reticulate::repl_python()" . "\r")]])
+                        vim.fn["slime#send"]("reticulate::repl_python()" .. "\r")
                         vim.b["reticulate_running"] = true
                     end
                     if not is_python and vim.b["reticulate_running"] then
-                        vim.cmd([[call slime#send("exit" . "\r")]])
+                        vim.fn["slime#send"]("exit" .. "\r")
                         vim.b["reticulate_running"] = false
                     end
-                    vim.cmd([[call slime#send_cell()]])
+                    vim.fn["slime#send_cell"]()
                 end
             end
 
-            nmap("<leader>qm", mark_terminal, "Slime Mark Terminal")
-            nmap("<leader>qs", set_terminal, "Slime Set Terminal")
-            nmap("<leader>qT", toggle_slime_tmux_nvim, "Slime Toggle Tmux/Nvim terminal")
+            local slime_send_region_cmd = ":<C-u>call slime#send_op(visualmode(), 1)<CR>"
+            slime_send_region_cmd = vim.api.nvim_replace_termcodes(slime_send_region_cmd, true, false, true)
+            local function send_region()
+                -- if filetyps is not quarto, just send_region
+                if vim.bo.filetype ~= "quarto" or vim.b["quarto_is_r_mode"] == nil then
+                    vim.cmd("normal" .. slime_send_region_cmd)
+                    return
+                end
+                if vim.b["quarto_is_r_mode"] == true then
+                    vim.g.slime_python_ipython = 0
+                    local is_python = require("otter.tools.functions").is_otter_language_context("python")
+                    if is_python and not vim.b["reticulate_running"] then
+                        vim.fn["slime#send"]("reticulate::repl_python()" .. "\r")
+                        vim.b["reticulate_running"] = true
+                    end
+                    if not is_python and vim.b["reticulate_running"] then
+                        vim.fn["slime#send"]("exit" .. "\r")
+                        vim.b["reticulate_running"] = false
+                    end
+                    vim.cmd("normal" .. slime_send_region_cmd)
+                end
+            end
 
             nmap("<M-s>", function()
                 send_cell()
                 vim.cmd("normal ]bzz")
             end, "Slime Run Cell and move to next cell")
-            nmap("<M-S>", send_cell, "Slime Run Cell")
 
             vmap("<M-s>", "<Plug>SlimeRegionSend", "Slime Run Visual")
 
@@ -191,13 +209,56 @@ return {
                 vim.cmd("<esc><Plug>SlimeSendCell<cr>i")
                 vim.cmd("normal ]bzz")
             end, "Slime Run Cell and move to next cell")
-            imap("<M-S>", "<esc><Plug>SlimeSendCell<cr>i", "Slime Run Cell")
 
-            require("which-key").register({
-                ["<leader>q"] = { name = "+Slime", _ = "which_key_ignore" },
+            local function augroup(name)
+                return vim.api.nvim_create_augroup("kickstart_" .. name, { clear = true })
+            end
+
+            local ns = vim.api.nvim_create_namespace("my-plugin")
+            -- vim.cmd([[
+            --     highlight default link QuartoBlockHeader WildMenu
+            --     highlight QuartoBlock bg
+            -- ]])
+            -- vim.api.nvim_set_hl(0, "QuartoBlockHeader", { link = "TreesitterContext" })
+            vim.api.nvim_set_hl(0, "CodeBlock", { bg = "#16161e" })
+            vim.api.nvim_create_autocmd({ "BufEnter", "FileChangedShellPost", "Syntax", "TextChanged", "InsertLeave", "WinScrolled" }, {
+                desc = "Hightlight Code Blocks in quarto file.",
+                group = augroup("quarto_code_block"),
+                pattern = "*.qmd",
+                callback = function(event)
+                    local bufnr = event.buf
+                    local language_tree = vim.treesitter.get_parser(bufnr, "markdown")
+                    local syntax_tree = language_tree:parse()
+                    local root = syntax_tree[1]:root()
+                    local query = vim.treesitter.query.parse("markdown", [[(fenced_code_block) @codeblock]])
+                    for _, match, metadata in query:iter_matches(root, bufnr) do
+                        for id, node in pairs(match) do
+                            local start_row, _, end_row, _ = unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
+                            vim.api.nvim_buf_set_extmark(bufnr, ns, start_row, 0, {
+                                end_col = 0,
+                                end_row = start_row + 1,
+                                hl_group = "TreesitterContext",
+                                hl_eol = true,
+                            })
+                            vim.api.nvim_buf_set_extmark(bufnr, ns, end_row - 1, 0, {
+                                end_col = 0,
+                                end_row = end_row,
+                                hl_group = "TreesitterContext",
+                                hl_eol = true,
+                            })
+                            vim.api.nvim_buf_set_extmark(bufnr, ns, start_row + 1, 0, {
+                                end_col = 0,
+                                end_row = end_row - 1,
+                                hl_eol = true,
+                                hl_group = "CodeBlock",
+                            })
+                        end
+                    end
+                end,
             })
         end,
     },
+
     {
         "HakonHarnes/img-clip.nvim",
         event = "BufEnter",

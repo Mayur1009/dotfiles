@@ -113,20 +113,25 @@ package.path = package.path .. ";" .. vim.fn.expand("$HOME/.luarocks/share/lua/5
 -- NOTE: Here is where you install your plugins.
 require("lazy").setup({
     { import = "plugins" },
-
-    --  Here are some example plugins that I've included in the kickstart repository.
-    --  Uncomment any of the lines below to enable them (you will need to restart nvim).
-    --
-    -- require 'kickstart.plugins.debug',
-    -- require 'kickstart.plugins.indent_line',
-
-    -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-    --    This is the easiest way to modularize your config.
-    --
-    --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-    --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-    -- { import = 'custom.plugins' },
 }, {
+    defaults = {
+        lazy = true,
+        version = false,
+    },
+    performance = {
+        rtp = {
+            -- disable some rtp plugins
+            disabled_plugins = {
+                "gzip",
+                -- "matchit",
+                -- "matchparen",
+                -- "netrwPlugin",
+                "tarPlugin",
+                "tohtml",
+                "zipPlugin",
+            },
+        },
+    },
     ui = {
         -- If you have a Nerd Font, set icons to an empty table which will use the
         -- default lazy.nvim defined Nerd Font icons otherwise define a unicode icons table

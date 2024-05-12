@@ -19,7 +19,7 @@ function t -d "Create or connect to session using fzf"
     set -l sname (basename $selected | tr . _)
 
     if not tmux has -t=$sname 2>/dev/null
-        tmux new -s "$sname" -c $selected -d \; send-keys -t "$sname:1.1" nvim C-m
+        tmux new -s "$sname" -n "nvim" -c $selected -d \; send-keys -t "$sname:nvim.1" nvim C-m
         # tmux send-keys -t $sname nvim Enter
     end
 

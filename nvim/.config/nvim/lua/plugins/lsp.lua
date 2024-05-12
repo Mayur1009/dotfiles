@@ -5,7 +5,7 @@ return {
         cmd = { "LspInfo", "LspInstall", "LspUninstall" },
         dependencies = {
             -- Automatically install LSPs and related tools to stdpath for neovim
-            { "williamboman/mason.nvim" },
+            { "williamboman/mason.nvim", cmd = {"Mason"}, opts = {} },
             "williamboman/mason-lspconfig.nvim",
             "WhoIsSethDaniel/mason-tool-installer.nvim",
 
@@ -16,38 +16,9 @@ return {
 
             "p00f/clangd_extensions.nvim",
             { "microsoft/python-type-stubs", cond = false },
-            { "barreiroleo/ltex-extra.nvim" },
+            -- { "barreiroleo/ltex-extra.nvim" },
         },
         config = function()
-            -- Brief Aside: **What is LSP?**
-            --
-            -- LSP is an acronym you've probably heard, but might not understand what it is.
-            --
-            -- LSP stands for Language Server Protocol. It's a protocol that helps editors
-            -- and language tooling communicate in a standardized fashion.
-            --
-            -- In general, you have a "server" which is some tool built to understand a particular
-            -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc). These Language Servers
-            -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
-            -- processes that communicate with some "client" - in this case, Neovim!
-            --
-            -- LSP provides Neovim with features like:
-            --  - Go to definition
-            --  - Find references
-            --  - Autocompletion
-            --  - Symbol Search
-            --  - and more!
-            --
-            -- Thus, Language Servers are external tools that must be installed separately from
-            -- Neovim. This is where `mason` and related plugins come into play.
-            --
-            -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
-            -- and elegantly composed help section, `:help lsp-vs-treesitter`
-
-            --  This function gets run when an LSP attaches to a particular buffer.
-            --    That is to say, every time a new file is opened that is associated with
-            --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
-            --    function will be executed to configure the current buffer
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
                 callback = function(event)
@@ -127,22 +98,23 @@ return {
                 end,
             })
 
-            -- LSP servers and clients are able to communicate to each other what features they support.
-            --  By default, Neovim doesn't support everything that is in the LSP Specification.
-            --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-            --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-            -- Enable the following language servers
-            --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-            --
-            --  Add any additional override configuration in the following tables. Available keys are:
-            --  - cmd (table): Override the default command used to start the server
-            --  - filetypes (table): Override the default list of associated filetypes for the server
-            --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-            --  - settings (table): Override the default settings passed when initializing the server.
-            --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+            local on_attach = function(client, buffer)
+                if client.supports_method("textDocument/inlayHint") then
+                    vim.lsp.inlay_hint.enable()
+                end
+                if client.supports_method("textDocument/codeLens") then
+                    vim.lsp.codelens.refresh()
+                    --- autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
+                    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+                        buffer = buffer,
+                        callback = vim.lsp.codelens.refresh,
+                    })
+                end
+            end
+
             local servers = {
                 basedpyright = {
                     settings = {
@@ -151,42 +123,35 @@ return {
                             typeCheckingMode = "standard",
                         },
                     },
+                    on_attach = function(client, buffer)
+                        on_attach(client, buffer)
+                    end,
                 },
                 clangd = {
                     -- capabilities = {
                     --     offsetEncoding = { 'utf-16' },
                     -- },
-                    on_attach = function(_, _)
+                    on_attach = function(client, buffer)
                         require("clangd_extensions.inlay_hints").setup_autocmd()
                         require("clangd_extensions.inlay_hints").set_inlay_hints()
-                    end,
-                },
-                ltex = {
-                    settings = {
-                        ltex = {
-                            language = "en-US",
-                            additionalRules = {
-                                languageModel = "~/ngrams/",
-                            },
-                        },
-                    },
-                    on_attach = function(client, bufnr)
-                        require("ltex_extra").setup({})
+                        on_attach(client, buffer)
                     end,
                 },
                 lua_ls = {
-                    -- cmd = {...},
-                    -- filetypes { ...},
-                    -- capabilities = {},
                     settings = {
                         Lua = {
                             completion = {
                                 callSnippet = "Replace",
                             },
                             -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-                            -- diagnostics = { disable = { 'missing-fields' } },
+                            diagnostics = {
+                                disable = { "missing-fields" },
+                            },
                         },
                     },
+                    on_attach = function(client, buffer)
+                        on_attach(client, buffer)
+                    end,
                 },
                 marksman = {
                     -- also needs:
@@ -196,7 +161,11 @@ return {
                     filetypes = { "markdown", "quarto" },
                     root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
                 },
-                r_language_server = {},
+                r_language_server = {
+                    on_attach = function(client, buffer)
+                        on_attach(client, buffer)
+                    end,
+                },
                 ruff = {
                     on_attach = function(client, _)
                         client.server_capabilities.hoverProvider = false
@@ -206,15 +175,12 @@ return {
                     keys = {
                         { "<Leader>K", "<plug>(vimtex-doc-package)", desc = "Vimtex Docs", silent = true },
                     },
+                    on_attach = function(client, buffer)
+                        on_attach(client, buffer)
+                    end,
                 },
             }
 
-            -- Ensure the servers and tools above are installed
-            --  To check the current status of installed tools and/or manually install
-            --  other tools, you can run
-            --    :Mason
-            --
-            --  You can press `g?` for help in this menu
             require("mason").setup()
 
             -- You can add other tools here that you want Mason to install
@@ -244,6 +210,44 @@ return {
                     end,
                 },
             })
+            -- options for vim.diagnostic.config()
+            ---@type vim.diagnostic.Opts
+            local icons = require("icons").icons
+            local diagnostics = {
+                underline = true,
+                update_in_insert = false,
+                virtual_text = {
+                    spacing = 4,
+                    source = "if_many",
+                    -- prefix = "●",
+                    -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+                    -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+                    -- prefix = "icons",
+                    prefix = function(diagnostic)
+                        local ico = icons.diagnostics
+                        for d, icon in pairs(ico) do
+                            if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+                                return icon
+                            end
+                        end
+                    end,
+                },
+                severity_sort = true,
+                signs = {
+                    text = {
+                        [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+                        [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+                        [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+                        [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+                    },
+                },
+            }
+            for severity, icon in pairs(diagnostics.signs.text) do
+                local name = vim.diagnostic.severity[severity]:lower():gsub("^%l", string.upper)
+                name = "DiagnosticSign" .. name
+                vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+            end
+            vim.diagnostic.config(vim.deepcopy(diagnostics))
         end,
     },
 }
