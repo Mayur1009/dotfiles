@@ -30,7 +30,7 @@ local config = {
 		-- top = 2,
 		bottom = 0,
 	},
-	force_reverse_video_cursor = true,
+	-- force_reverse_video_cursor = true,
 	-- debug_key_events = true,
 }
 

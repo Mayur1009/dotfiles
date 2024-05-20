@@ -34,25 +34,25 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("disable_indent"),
-    pattern = {
-        "help",
-        "alpha",
-        "dashboard",
-        "neo-tree",
-        "Trouble",
-        "trouble",
-        "lazy",
-        "mason",
-        "notify",
-        "toggleterm",
-        "lazyterm",
-    },
-    callback = function()
-        vim.b.miniindentscope_disable = true
-    end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+--     group = augroup("disable_indent"),
+--     pattern = {
+--         "help",
+--         "alpha",
+--         "dashboard",
+--         "neo-tree",
+--         "Trouble",
+--         "trouble",
+--         "lazy",
+--         "mason",
+--         "notify",
+--         "toggleterm",
+--         "lazyterm",
+--     },
+--     callback = function()
+--         vim.b.miniindentscope_disable = true
+--     end,
+-- })
 
 -- go to last loc when opening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {

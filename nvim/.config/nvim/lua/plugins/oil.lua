@@ -19,7 +19,7 @@ return {
                     ["q"] = "actions.close",
                 },
             })
-            vim.keymap.set("n", "<leader>fe", oil.open, { desc = "Oil [f]ile [e]xplorer" })
+            vim.keymap.set("n", "<leader>,", oil.open, { desc = "Oil [f]ile [e]xplorer" })
         end,
     },
 }

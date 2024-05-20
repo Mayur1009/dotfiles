@@ -41,7 +41,7 @@ return {
                     endfunction
                     ]])
 
-                    vim.g.slime_target = "neovim"
+                    vim.g.slime_target = "tmux"
                     vim.g.slime_python_ipython = 1
                 end,
                 config = function()
@@ -89,12 +89,18 @@ return {
                     "hrsh7th/nvim-cmp",
                 },
                 opts = {
+                    lsp = {
+                            diagnostic_update_events = { "BufWritePost", "CompleteDone"},
+                    },
                     buffers = {
                         set_filetype = true,
                         write_to_disk = false,
                     },
                     handle_leading_whitespace = true,
                 },
+                config = function(_, opts)
+                    require("otter").setup(opts)
+                end
             },
         },
         config = function()
@@ -105,6 +111,11 @@ return {
                 codeRunner = {
                     enabled = true,
                     default_method = "slime",
+                },
+                keymap = {
+                    rename = "gR",
+                    format = "gF",
+                    document_symbols = "<leader>ss"
                 },
             })
 
@@ -210,52 +221,52 @@ return {
                 vim.cmd("normal ]bzz")
             end, "Slime Run Cell and move to next cell")
 
-            local function augroup(name)
-                return vim.api.nvim_create_augroup("kickstart_" .. name, { clear = true })
-            end
-
-            local ns = vim.api.nvim_create_namespace("my-plugin")
-            -- vim.cmd([[
-            --     highlight default link QuartoBlockHeader WildMenu
-            --     highlight QuartoBlock bg
-            -- ]])
-            -- vim.api.nvim_set_hl(0, "QuartoBlockHeader", { link = "TreesitterContext" })
-            vim.api.nvim_set_hl(0, "CodeBlock", { bg = "#16161e" })
-            vim.api.nvim_create_autocmd({ "BufEnter", "FileChangedShellPost", "Syntax", "TextChanged", "InsertLeave", "WinScrolled" }, {
-                desc = "Hightlight Code Blocks in quarto file.",
-                group = augroup("quarto_code_block"),
-                pattern = "*.qmd",
-                callback = function(event)
-                    local bufnr = event.buf
-                    local language_tree = vim.treesitter.get_parser(bufnr, "markdown")
-                    local syntax_tree = language_tree:parse()
-                    local root = syntax_tree[1]:root()
-                    local query = vim.treesitter.query.parse("markdown", [[(fenced_code_block) @codeblock]])
-                    for _, match, metadata in query:iter_matches(root, bufnr) do
-                        for id, node in pairs(match) do
-                            local start_row, _, end_row, _ = unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
-                            vim.api.nvim_buf_set_extmark(bufnr, ns, start_row, 0, {
-                                end_col = 0,
-                                end_row = start_row + 1,
-                                hl_group = "TreesitterContext",
-                                hl_eol = true,
-                            })
-                            vim.api.nvim_buf_set_extmark(bufnr, ns, end_row - 1, 0, {
-                                end_col = 0,
-                                end_row = end_row,
-                                hl_group = "TreesitterContext",
-                                hl_eol = true,
-                            })
-                            vim.api.nvim_buf_set_extmark(bufnr, ns, start_row + 1, 0, {
-                                end_col = 0,
-                                end_row = end_row - 1,
-                                hl_eol = true,
-                                hl_group = "CodeBlock",
-                            })
-                        end
-                    end
-                end,
-            })
+            -- local function augroup(name)
+            --     return vim.api.nvim_create_augroup("kickstart_" .. name, { clear = true })
+            -- end
+            --
+            -- local ns = vim.api.nvim_create_namespace("my-plugin")
+            -- -- vim.cmd([[
+            -- --     highlight default link QuartoBlockHeader WildMenu
+            -- --     highlight QuartoBlock bg
+            -- -- ]])
+            -- vim.api.nvim_set_hl(0, "QuartoBlockHeader", {fg = "#393552", bg = "#ea9d34", bold = true, italic = true, reverse = true })
+            -- -- vim.api.nvim_set_hl(0, "CodeBlock", { bg = "#232136" })
+            -- vim.api.nvim_create_autocmd({ "BufEnter", "FileChangedShellPost", "Syntax", "TextChanged", "InsertLeave", "WinScrolled" }, {
+            --     desc = "Hightlight Code Blocks in quarto file.",
+            --     group = augroup("quarto_code_block"),
+            --     pattern = "*.qmd",
+            --     callback = function(event)
+            --         local bufnr = event.buf
+            --         local language_tree = vim.treesitter.get_parser(bufnr, "markdown")
+            --         local syntax_tree = language_tree:parse()
+            --         local root = syntax_tree[1]:root()
+            --         local query = vim.treesitter.query.parse("markdown", [[(fenced_code_block) @codeblock]])
+            --         for _, match, metadata in query:iter_matches(root, bufnr) do
+            --             for id, node in pairs(match) do
+            --                 local start_row, _, end_row, _ = unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
+            --                 vim.api.nvim_buf_set_extmark(bufnr, ns, start_row, 0, {
+            --                     end_col = 0,
+            --                     end_row = start_row + 1,
+            --                     hl_group = "QuartoBlockHeader",
+            --                     hl_eol = true,
+            --                 })
+            --                 vim.api.nvim_buf_set_extmark(bufnr, ns, end_row - 1, 0, {
+            --                     end_col = 0,
+            --                     end_row = end_row,
+            --                     hl_group = "QuartoBlockHeader",
+            --                     hl_eol = true,
+            --                 })
+            --                 vim.api.nvim_buf_set_extmark(bufnr, ns, start_row + 1, 0, {
+            --                     end_col = 0,
+            --                     end_row = end_row - 1,
+            --                     hl_eol = true,
+            --                     hl_group = "CodeBlock",
+            --                 })
+            --             end
+            --         end
+            --     end,
+            -- })
         end,
     },
 

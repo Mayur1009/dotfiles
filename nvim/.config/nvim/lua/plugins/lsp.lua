@@ -5,14 +5,14 @@ return {
         cmd = { "LspInfo", "LspInstall", "LspUninstall" },
         dependencies = {
             -- Automatically install LSPs and related tools to stdpath for neovim
-            { "williamboman/mason.nvim", cmd = {"Mason"}, opts = {} },
+            { "williamboman/mason.nvim", cmd = { "Mason" }, opts = {} },
             "williamboman/mason-lspconfig.nvim",
             "WhoIsSethDaniel/mason-tool-installer.nvim",
 
             -- Useful status updates for LSP.
             -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-            { "j-hui/fidget.nvim", opts = {} },
-            { "folke/neodev.nvim", opts = {} },
+            { "j-hui/fidget.nvim",       opts = {} },
+            { "folke/neodev.nvim",       opts = {} },
 
             "p00f/clangd_extensions.nvim",
             { "microsoft/python-type-stubs", cond = false },
@@ -55,7 +55,8 @@ return {
 
                     -- Fuzzy find all the symbols in your current workspace
                     --  Similar to document symbols, except searches over your whole project.
-                    map("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch Workspace [S]ymbols")
+                    map("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols,
+                        "[S]earch Workspace [S]ymbols")
 
                     -- Rename the variable under your cursor
                     --  Most Language Servers support renaming across files, etc.
@@ -98,7 +99,12 @@ return {
                 end,
             })
 
+            local utils = require("lspconfig").util
             local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities.textDocument.foldingRange = {
+                dynamicRegistration = false,
+                lineFoldingOnly = true,
+            }
             capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
             local on_attach = function(client, buffer)
@@ -126,6 +132,7 @@ return {
                     on_attach = function(client, buffer)
                         on_attach(client, buffer)
                     end,
+                    root_dir = utils.root_pattern({ ".git", ".venv" }),
                 },
                 clangd = {
                     -- capabilities = {
@@ -133,7 +140,7 @@ return {
                     -- },
                     on_attach = function(client, buffer)
                         require("clangd_extensions.inlay_hints").setup_autocmd()
-                        require("clangd_extensions.inlay_hints").set_inlay_hints()
+                        -- require("clangd_extensions.inlay_hints").set_inlay_hints()
                         on_attach(client, buffer)
                     end,
                 },
@@ -170,6 +177,7 @@ return {
                     on_attach = function(client, _)
                         client.server_capabilities.hoverProvider = false
                     end,
+                    root_dir = utils.root_pattern({ ".git", ".venv" }),
                 },
                 texlab = {
                     keys = {
@@ -210,9 +218,13 @@ return {
                     end,
                 },
             })
-            -- options for vim.diagnostic.config()
-            ---@type vim.diagnostic.Opts
-            local icons = require("icons").icons
+
+            local icons = {
+                Error = " ",
+                Warn = " ",
+                Hint = " ",
+                Info = " ",
+            }
             local diagnostics = {
                 underline = true,
                 update_in_insert = false,
@@ -224,8 +236,7 @@ return {
                     -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
                     -- prefix = "icons",
                     prefix = function(diagnostic)
-                        local ico = icons.diagnostics
-                        for d, icon in pairs(ico) do
+                        for d, icon in pairs(icons) do
                             if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
                                 return icon
                             end
@@ -235,10 +246,10 @@ return {
                 severity_sort = true,
                 signs = {
                     text = {
-                        [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
-                        [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
-                        [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
-                        [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+                        [vim.diagnostic.severity.ERROR] = icons.Error,
+                        [vim.diagnostic.severity.WARN] = icons.Warn,
+                        [vim.diagnostic.severity.HINT] = icons.Hint,
+                        [vim.diagnostic.severity.INFO] = icons.Info,
                     },
                 },
             }

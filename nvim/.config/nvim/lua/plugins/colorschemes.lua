@@ -14,7 +14,6 @@ return {
     {
         "catppuccin/nvim",
         name = "catppuccin",
-        priority = 1000,
         config = function()
             require("catppuccin").setup({
                 flavour = "mocha",
@@ -65,8 +64,6 @@ return {
 
     {
         "EdenEast/nightfox.nvim",
-        lazy = false,
-        priority = 1000,
         config = function()
             require("nightfox").setup({
                 options = {
@@ -114,8 +111,6 @@ return {
 
     {
         "dgox16/oldworld.nvim",
-        lazy = false,
-        priority = 1000,
         config = function()
             require("oldworld").setup({})
             -- vim.cmd([[colorscheme oldworld]])

@@ -23,36 +23,36 @@ return {
     -- Highlight todo, notes, etc in comments
     {
         "folke/todo-comments.nvim",
-        event = "VimEnter",
+        event = { "BufReadPost", "BufNewFile" },
         dependencies = { "nvim-lua/plenary.nvim" },
         opts = {},
     },
 
     {
-        "lukas-reineke/indent-blankline.nvim",
+        "nvimdev/indentmini.nvim",
         event = { "BufReadPost", "BufNewFile" },
-        opts = {
-            indent = {
-                char = "▎",
-            },
-            exclude = {
-                filetypes = {
-                    "help",
-                    "alpha",
-                    "dashboard",
-                    "neo-tree",
-                    "Trouble",
-                    "trouble",
-                    "lazy",
-                    "mason",
-                    "notify",
-                    "toggleterm",
-                    "lazyterm",
-                },
-            },
-            scope = { enabled = false },
+        config = function()
+            require("indentmini").setup({})
+            vim.api.nvim_set_hl(0, "IndentLine", { link = "IblIndent" })
+            vim.api.nvim_set_hl(0, "IndentLineCurrent", { link = "IblScope" })
+        end,
+    },
+    {
+        "ThePrimeagen/refactoring.nvim",
+        event = { "BufReadPost", "BufNewFile" },
+        cmd = { "Refactor" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
         },
-        main = "ibl",
+        config = function()
+            local refactoring = require("refactoring")
+            refactoring.setup({})
+            vim.keymap.set({ "n", "x" }, "<leader>rr", function()
+                refactoring.select_refactor({})
+            end)
+        end,
+        keys = {},
     },
 
     {
@@ -70,11 +70,16 @@ return {
 
     {
         "ThePrimeagen/harpoon",
-        event = "VimEnter",
+        event = { "BufReadPost", "BufNewFile" },
         branch = "harpoon2",
         config = function()
             local harpoon = require("harpoon")
-            harpoon:setup()
+            harpoon:setup({
+                settings = {
+                    save_on_toggle = true,
+                    sync_on_ui_close = true,
+                },
+            })
             vim.keymap.set("n", "<leader>a", function()
                 harpoon:list():add()
             end, { desc = "Harpoon add" })
@@ -105,5 +110,4 @@ return {
         end,
         keys = { "<leader>tu" },
     },
-
 }
