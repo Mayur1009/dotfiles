@@ -37,8 +37,8 @@ local user_opts = {
     seekrange = true,		-- show seekrange overlay
     seekrangealpha = 64,      	-- transparency of seekranges
     seekbarkeyframes = true,    -- use keyframes when dragging the seekbar
-    showjump = true,            -- show "jump forward/backward 5 seconds" buttons 
-                                -- shift+left-click to step 1 frame and 
+    showjump = true,            -- show "jump forward/backward 5 seconds" buttons
+                                -- shift+left-click to step 1 frame and
                                 -- right-click to jump 1 minute
     jumpamount = 5,             -- change the jump amount (in seconds by default)
     jumpiconnumber = true,      -- show different icon when jumpamount is 5, 10, or 30
@@ -54,18 +54,18 @@ local user_opts = {
     windowcontrols = 'auto',    -- whether to show window controls
     greenandgrumpy = false,     -- disable santa hat
     language = 'eng',		-- eng=English, chs=Chinese
-    volumecontrol = true,       -- whether to show mute button and volumne slider
+    volumecontrol = true,       -- whether to show mute button and volume slider
     keyboardnavigation = false, -- enable directional keyboard navigation
     chapter_fmt = "Chapter: %s", -- chapter print format for seekbar-hover. "no" to disable
 }
 
--- Icons for jump button depending on jumpamount 
-local jumpicons = { 
-    [5] = {'\239\142\177', '\239\142\163'}, 
-    [10] = {'\239\142\175', '\239\142\161'}, 
-    [30] = {'\239\142\176', '\239\142\162'}, 
-    default = {'\239\142\178	', '\239\142\178'}, -- second icon is mirrored in layout() 
-} 
+-- Icons for jump button depending on jumpamount
+local jumpicons = {
+    [5] = {'\239\142\177', '\239\142\163'},
+    [10] = {'\239\142\175', '\239\142\161'},
+    [30] = {'\239\142\176', '\239\142\162'},
+    default = {'\239\142\178	', '\239\142\178'}, -- second icon is mirrored in layout()
+}
 
 local icons = {
   previous = '\239\142\181',
@@ -79,7 +79,7 @@ local icons = {
   volume_mute = '\239\142\187',
   sub = '\239\143\147',
   minimize = '\239\133\172',
-  fullscreen = '\239\133\173',  
+  fullscreen = '\239\133\173',
   info = '',
 }
 
@@ -724,10 +724,10 @@ function render_elements(master_ass)
         if user_opts.keyboardnavigation and state.highlight_element == element.name then
             style_ass:append(osc_styles.elementHighlight)
         end
-        
+
         local elem_ass = assdraw.ass_new()
         elem_ass:merge(style_ass)
-        
+
         if not (element.type == 'button') then
             elem_ass:merge(element.static_ass)
         end
@@ -743,7 +743,7 @@ function render_elements(master_ass)
             local seekRanges = element.slider.seekRangesF()
 			local rh = user_opts.seekbarhandlesize * elem_geo.h / 2 -- Handle radius
             local xp
-            
+
             if pos then
                 xp = get_slider_ele_pos_for(element, pos)
 				ass_draw_cir_cw(elem_ass, xp, elem_geo.h/2, rh)
@@ -764,7 +764,7 @@ function render_elements(master_ass)
             end
 
             elem_ass:draw_stop()
-            
+
             -- add tooltip
             if not (element.slider.tooltipF == nil) then
                 if mouse_hit(element) then
@@ -802,7 +802,7 @@ function render_elements(master_ass)
                     elem_ass:append(slider_lo.tooltip_style)
                     ass_append_alpha(elem_ass, slider_lo.alpha, 0)
                     elem_ass:append(tooltiplabel)
-                    
+
                     -- thumbnail
                     if not thumbfast.disabled then
                         local osd_w = mp.get_property_number("osd-width")
@@ -823,6 +823,7 @@ function render_elements(master_ass)
 
                             elem_ass:new_event()
                             elem_ass:pos(thumbX * r_w, ty - thumbMarginY - thumbfast.height * r_h)
+                            elem_ass:an(7)
                             elem_ass:append(osc_styles.Tooltip)
                             elem_ass:draw_start()
                             elem_ass:rect_cw(-thumbPad * r_w, -thumbPad * r_h, (thumbfast.width + thumbPad) * r_w, (thumbfast.height + thumbPad) * r_h)
@@ -867,7 +868,7 @@ function render_elements(master_ass)
             elseif not (element.content == nil) then
                 buttontext = element.content -- text objects
             end
-			
+
 			buttontext = buttontext:gsub(':%((.?.?.?)%) unknown ', ':%(%1%)')  --gsub('%) unknown %(\'', '')
 
             local maxchars = element.layout.button.maxchars
@@ -886,7 +887,7 @@ function render_elements(master_ass)
             end
 
             elem_ass:append(buttontext)
-            
+
             -- add tooltip
 			if not (element.tooltipF == nil) and element.enabled then
                 if mouse_hit(element) then
@@ -894,7 +895,7 @@ function render_elements(master_ass)
                     local an = 1
                     local ty = element.hitbox.y1
                     local tx = get_virt_mouse_pos()
-                    
+
                     if ty < osc_param.playresy / 2 then
 						ty = element.hitbox.y2
 						an = 7
@@ -1157,7 +1158,7 @@ function window_controls()
     lo.geometry = first_geo
     lo.style = osc_styles.WinCtrl
     lo.alpha[3] = 0
-    
+
     -- Maximize: ?? /??
     ne = new_element('maximize', 'button')
     if state.maximized or state.fullscreen then
@@ -1220,14 +1221,14 @@ layouts = function ()
 	lo.style = osc_styles.TransBg
 	lo.layer = 10
 	lo.alpha[3] = 0
-	
+
     --
     -- Alignment
     --
 	local refX = osc_w / 2
 	local refY = posY
 	local geo
-	
+
     --
     -- Seekbar
     --
@@ -1248,7 +1249,7 @@ layouts = function ()
 
     local showjump = user_opts.showjump
     local offset = showjump and 60 or 0
-    
+
     --
     -- Volumebar
     --
@@ -1259,7 +1260,7 @@ layouts = function ()
     lo.layer = 13
     lo.style = osc_styles.VolumebarBg
 
-    
+
     lo = add_layout('volumebar')
     lo.geometry = {x = 155, y = refY - 40, an = 4, w = 80, h = 8}
     lo.style = osc_styles.VolumebarFg
@@ -1282,10 +1283,10 @@ layouts = function ()
         lo.geometry = {x = refX - 60, y = refY - 40 , an = 5, w = 30, h = 24}
         lo.style = osc_styles.Ctrl2
     end
-			
+
     lo = add_layout('playpause')
     lo.geometry = {x = refX, y = refY - 40 , an = 5, w = 45, h = 45}
-    lo.style = osc_styles.Ctrl1	
+    lo.style = osc_styles.Ctrl1
 
     if showjump then
         lo = add_layout('jumpfrwd')
@@ -1298,7 +1299,7 @@ layouts = function ()
 
     lo = add_layout('skipfrwd')
     lo.geometry = {x = refX + 60 + offset, y = refY - 40 , an = 5, w = 30, h = 24}
-    lo.style = osc_styles.Ctrl2	
+    lo.style = osc_styles.Ctrl2
 
     lo = add_layout('pl_next')
     lo.geometry = {x = refX + 120 + offset, y = refY - 40 , an = 5, w = 30, h = 24}
@@ -1308,18 +1309,18 @@ layouts = function ()
 	-- Time
     lo = add_layout('tc_left')
     lo.geometry = {x = 25, y = refY - 84, an = 7, w = 64, h = 20}
-    lo.style = osc_styles.Time	
-	
+    lo.style = osc_styles.Time
+
 
     lo = add_layout('tc_right')
     lo.geometry = {x = osc_geo.w - 25 , y = refY -84, an = 9, w = 64, h = 20}
-    lo.style = osc_styles.Time	
+    lo.style = osc_styles.Time
 
     lo = add_layout('cy_audio')
 	lo.geometry = {x = 37, y = refY - 40, an = 5, w = 24, h = 24}
     lo.style = osc_styles.Ctrl3
     lo.visible = (osc_param.playresx >= 540)
-	
+
     lo = add_layout('cy_sub')
     lo.geometry = {x = 87, y = refY - 40, an = 5, w = 24, h = 24}
     lo.style = osc_styles.Ctrl3
@@ -1333,13 +1334,13 @@ layouts = function ()
 	lo = add_layout('tog_fs')
     lo.geometry = {x = osc_geo.w - 37, y = refY - 40, an = 5, w = 24, h = 24}
     lo.style = osc_styles.Ctrl3
-    lo.visible = (osc_param.playresx >= 540)    
+    lo.visible = (osc_param.playresx >= 540)
 
 	lo = add_layout('tog_info')
     lo.geometry = {x = osc_geo.w - 87, y = refY - 40, an = 5, w = 24, h = 24}
     lo.style = osc_styles.Ctrl3
     lo.visible = (osc_param.playresx >= 600)
-    
+
     geo = { x = 25, y = refY - 132, an = 1, w = osc_geo.w - 50, h = 48 }
     lo = add_layout('title')
     lo.geometry = geo
@@ -1495,7 +1496,7 @@ function osc_init()
             --function () mp.command('seek +5') end
             function () mp.commandv('seek', jumpamount, jumpmode) end
     end
-    
+
 
     --skipback
     ne = new_element('skipback', 'button')
@@ -1541,7 +1542,7 @@ function osc_init()
 
     --
     update_tracklist()
-    
+
     --cy_audio
     ne = new_element('cy_audio', 'button')
     ne.enabled = (#tracks_osc.audio > 0)
@@ -1574,7 +1575,7 @@ function osc_init()
         function () show_message(get_tracklist('audio')) end
     ne.eventresponder['enter'] =
         function () set_track('audio', 1); show_message(get_tracklist('audio')) end
-                
+
     --cy_sub
     ne = new_element('cy_sub', 'button')
     ne.enabled = (#tracks_osc.sub > 0)
@@ -1607,7 +1608,7 @@ function osc_init()
         function () show_message(get_tracklist('sub')) end
     ne.eventresponder['enter'] =
         function () set_track('sub', 1); show_message(get_tracklist('sub')) end
-    
+
     -- vol_ctrl
     ne = new_element('vol_ctrl', 'button')
     ne.enabled = (get_track('audio')>0)
@@ -1625,7 +1626,7 @@ function osc_init()
         function () mp.commandv("osd-auto", "add", "volume", 5) end
     ne.eventresponder["wheel_down_press"] =
         function () mp.commandv("osd-auto", "add", "volume", -5) end
-    
+
     --tog_fs
     ne = new_element('tog_fs', 'button')
     ne.content = function ()
@@ -1659,7 +1660,7 @@ function osc_init()
         return not (title == '') and title or ' '
     end
     ne.visible = osc_param.playresy >= 320 and user_opts.showtitle
-    
+
     --seekbar
     ne = new_element('seekbar', 'slider')
 
@@ -1800,7 +1801,7 @@ function osc_init()
         function () mp.commandv("osd-auto", "add", "volume", 5) end
     ne.eventresponder["wheel_down_press"] =
         function () mp.commandv("osd-auto", "add", "volume", -5) end
-    
+
     -- tc_left (current pos)
     ne = new_element('tc_left', 'button')
     ne.content = function ()
@@ -1830,7 +1831,7 @@ function osc_init()
 		else
 			return (mp.get_property_osd('duration'))
 		end
-			
+
         end
     end
     ne.eventresponder['mbtn_left_up'] =
@@ -1849,7 +1850,7 @@ function osc_init()
 end
 
 function shutdown()
-    
+
 end
 
 --
@@ -1866,7 +1867,7 @@ function show_osc()
     state.showtime = mp.get_time()
 
     osc_visible(true)
-    
+
     if user_opts.keyboardnavigation == true then
         osc_enable_key_bindings()
     end
@@ -1905,7 +1906,7 @@ end
 
 function pause_state(name, enabled)
     state.paused = enabled
-    mp.add_timeout(0.1, function() state.osd:update() end) 
+    mp.add_timeout(0.1, function() state.osd:update() end)
     if user_opts.showonpause then
 		if enabled then
 			state.lastvisibility = user_opts.visibility
@@ -2246,7 +2247,7 @@ function tick()
     if (not state.enabled) then return end
 
     if (state.idle) then
-	   
+
         -- render idle message
         msg.trace('idle message')
         local _, _, display_aspect = mp.get_osd_size()
@@ -2272,7 +2273,7 @@ function tick()
                 ass:append(line_prefix .. line)
             end
         end
-   
+
         if user_opts.idlescreen then
             ass:new_event()
             ass:pos(display_w / 2, icon_y + 65)
@@ -2513,8 +2514,8 @@ function visibility_mode(mode, no_osd)
         return
     end
 
-	user_opts.visibility = mode
-    utils.shared_script_property_set("osc-visibility", mode)
+    user_opts.visibility = mode
+    mp.set_property_native("user-data/osc/visibility", user_opts.visibility)
 
     if not no_osd and tonumber(mp.get_property('osd-level')) >= 1 then
         mp.osd_message('OSC visibility: ' .. mode)
@@ -2607,7 +2608,7 @@ end
 function osc_kb_control_left()
     visibility_mode('always', true)
     local keyboard_controls = build_keyboard_controls()
-    
+
     local active_control_name = nil
     for row_name, row_controls in pairs(keyboard_controls) do
         local controls = {}
@@ -2630,7 +2631,7 @@ function osc_kb_control_left()
             if active_control_index - 1 < 0 then
                 return
             end
-        
+
             local next_control_index = active_control_index - 1
             state.highlight_element = controls[next_control_index]
             return
@@ -2642,7 +2643,7 @@ end
 function osc_kb_control_right()
     visibility_mode('always', true)
     local keyboard_controls = build_keyboard_controls()
-    
+
     local active_control_name = nil
     for row_name, row_controls in pairs(keyboard_controls) do
         local controls = {}
@@ -2665,7 +2666,7 @@ function osc_kb_control_right()
             if active_control_index + 1 > #controls then
                 return
             end
-        
+
             local next_control_index = active_control_index + 1
             state.highlight_element = controls[next_control_index]
             return
@@ -2682,7 +2683,7 @@ function osc_kb_control_enter()
     visibility_mode('always', true)
     for n = 1, #elements do
         if elements[n].name == state.highlight_element then
-            
+
             local action = 'enter'
             if element_has_action(elements[n], action) then
                 elements[n].eventresponder[action](elements[n])
