@@ -28,6 +28,15 @@ return {
         opts = {},
     },
 
+    -- {
+    --     "folke/ts-comments.nvim",
+    --     opts = {
+    --         quarto = "<!-- %s -->",
+    --     },
+    --     event = "VeryLazy",
+    --     enabled = vim.fn.has("nvim-0.10.0") == 1,
+    -- },
+
     {
         "nvimdev/indentmini.nvim",
         event = { "BufReadPost", "BufNewFile" },
@@ -48,9 +57,18 @@ return {
         config = function()
             local refactoring = require("refactoring")
             refactoring.setup({})
-            vim.keymap.set({ "n", "x" }, "<leader>rr", function()
+            vim.keymap.set({ "n", "x" }, "<leader>cm", function()
                 refactoring.select_refactor({})
-            end)
+            end, { desc = "Refactoring Menu" })
+            vim.keymap.set("n", "<leader>cd", function()
+                require("refactoring").debug.printf({ below = false })
+            end, { desc = "Refactoring debug print statement" })
+            vim.keymap.set("n", "<leader>cv", function()
+                require("refactoring").debug.print_var({})
+            end, { desc = "Refactoring print var" })
+            vim.keymap.set("n", "<leader>cc", function()
+                require("refactoring").debug.cleanup({})
+            end, { desc = "Refactoring print cleanup" })
         end,
         keys = {},
     },
@@ -109,5 +127,10 @@ return {
             vim.keymap.set("n", "<leader>tu", vim.cmd.UndotreeToggle, { desc = "Toggle undotree" })
         end,
         keys = { "<leader>tu" },
+    },
+    {
+        "mrcjkb/rustaceanvim",
+        version = "^4", -- Recommended
+        lazy = false, -- This plugin is already lazy
     },
 }

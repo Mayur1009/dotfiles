@@ -56,7 +56,10 @@ return {
             require("mini.splitjoin").setup()
             require("mini.misc").setup()
             require("mini.comment").setup()
-
+            require("mini.diff").setup()
+            require("mini.git").setup()
+            require("mini.fuzzy").setup()
+            require('mini.jump').setup()
             require("mini.pairs").setup({})
             vim.keymap.set("n", "<leader>tp", function()
                 vim.g.minipairs_disable = not vim.g.minipairs_disable

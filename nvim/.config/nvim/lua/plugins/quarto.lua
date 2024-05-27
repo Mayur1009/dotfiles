@@ -90,7 +90,7 @@ return {
                 },
                 opts = {
                     lsp = {
-                            diagnostic_update_events = { "BufWritePost", "CompleteDone"},
+                            diagnostic_update_events = { "BufWritePost", "CompleteDone", "TextChangedI"},
                     },
                     buffers = {
                         set_filetype = true,
