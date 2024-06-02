@@ -11,12 +11,11 @@ return {
 
             -- Useful status updates for LSP.
             -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-            { "j-hui/fidget.nvim",       opts = {} },
-            { "folke/neodev.nvim",       opts = {} },
+            { "j-hui/fidget.nvim", opts = {} },
 
             "p00f/clangd_extensions.nvim",
             { "microsoft/python-type-stubs", cond = false },
-            -- { "barreiroleo/ltex-extra.nvim" },
+            { "barreiroleo/ltex-extra.nvim" },
         },
         config = function()
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -184,6 +183,20 @@ return {
                         { "<Leader>K", "<plug>(vimtex-doc-package)", desc = "Vimtex Docs", silent = true },
                     },
                     on_attach = function(client, buffer)
+                        on_attach(client, buffer)
+                    end,
+                },
+                ltex = {
+                    settings = {
+                        ltex = {
+                            language = "en-US",
+                            additionalRules = {
+                                languageModel = "~/ngrams/",
+                            },
+                        },
+                    },
+                    on_attach = function(client, buffer)
+                        require("ltex_extra").setup({})
                         on_attach(client, buffer)
                     end,
                 },
