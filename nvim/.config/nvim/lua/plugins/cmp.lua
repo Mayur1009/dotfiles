@@ -56,9 +56,9 @@ return {
                     end,
                 },
                 completion = { completeopt = "menu,menuone,noinsert" },
-                experimental = {
-                    ghost_text = true
-                },
+                -- experimental = {
+                --     ghost_text = true
+                -- },
 
                 mapping = cmp.mapping.preset.insert({
                     ["<Down>"] = cmp.mapping(function(fallback)

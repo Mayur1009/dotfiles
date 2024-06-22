@@ -64,9 +64,9 @@ return {
                     -- lang_to_formatters = {},
                 },
             }
-            require("conform").formatters.latexindent = {
-                prepend_args = { "-m", "-l=" .. vim.fn.expand("$HOME/.latexindent.yaml") },
-            }
+            -- require("conform").formatters.latexindent = {
+            --     prepend_args = { "-m", "-l=" .. vim.fn.expand("$HOME/.latexindent.yaml") },
+            -- }
 
             vim.keymap.set("n", "<leader>ff", require("conform").format, { desc = "Format File" })
         end,
