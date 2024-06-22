@@ -23,7 +23,6 @@ local config = {
 	term = "wezterm",
 	default_prog = { is_macos() and "/opt/homebrew/bin/fish" or "fish", "--interactive", "--login" },
 	enable_kitty_keyboard = true,
-	front_end = "WebGpu",
 	window_padding = {
 		left = 0,
 		right = 0,
