@@ -16,6 +16,7 @@ return {
             "p00f/clangd_extensions.nvim",
             { "microsoft/python-type-stubs", cond = false },
             { "barreiroleo/ltex-extra.nvim" },
+            { "ray-x/lsp_signature.nvim" },
         },
         config = function()
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -27,8 +28,9 @@ return {
                     --
                     -- In this case, we create a function that lets us more easily define mappings specific
                     -- for LSP related items. It sets the mode, buffer and description for us each time.
+                    local bufnr = event.buf
                     local map = function(keys, func, desc)
-                        vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+                        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
                     end
 
                     -- Jump to the definition of the word under your cursor.
@@ -73,8 +75,8 @@ return {
                     map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
                     map("gH", function()
-                        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-                        vim.notify("Inlay hints " .. (vim.lsp.inlay_hint.is_enabled() and "enabled" or "disabled"))
+                        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+                        vim.notify("Inlay hints " .. (vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled"))
                     end, "Toggle Inlay [H]ints")
 
                     -- The following two autocommands are used to highlight references of the
@@ -94,6 +96,15 @@ return {
                     --         callback = vim.lsp.buf.clear_references,
                     --     })
                     -- end
+
+                    require("lsp_signature").on_attach({
+                        doc_lines = 0,
+                        toggle_key = "<C-k>",
+                    }, bufnr)
+
+                    vim.keymap.set({ "n" }, "<C-k>", function()
+                        require("lsp_signature").toggle_float_win()
+                    end, { silent = true, noremap = true, desc = "toggle signature" })
                 end,
             })
 
@@ -185,6 +196,21 @@ return {
                         on_attach(client, buffer)
                     end,
                 },
+                taplo = {
+                    keys = {
+                        {
+                            "K",
+                            function()
+                                if vim.fn.expand("%:t") == "Cargo.toml" and require("crates").popup_available() then
+                                    require("crates").show_popup()
+                                else
+                                    vim.lsp.buf.hover()
+                                end
+                            end,
+                            desc = "Show Crate Documentation",
+                        },
+                    },
+                },
                 ltex = {
                     settings = {
                         ltex = {
@@ -271,6 +297,10 @@ return {
                 vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
             end
             vim.diagnostic.config(vim.deepcopy(diagnostics))
+
+            vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+                border = "rounded",
+            })
         end,
     },
 }

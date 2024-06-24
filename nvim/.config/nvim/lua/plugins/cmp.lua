@@ -37,6 +37,15 @@ return {
             { "micangl/cmp-vimtex" },
             { "hrsh7th/cmp-buffer" },
             { "onsails/lspkind.nvim" },
+            {
+                "Saecki/crates.nvim",
+                event = { "BufRead Cargo.toml" },
+                opts = {
+                    completion = {
+                        cmp = { enabled = true },
+                    },
+                },
+            },
         },
         config = function()
             -- See `:help cmp`
@@ -142,6 +151,7 @@ return {
                     { name = "otter" },
                     { name = "nvim_lsp" },
                     { name = "vimtex" },
+                    { name = "crates" },
                     { name = "luasnip" },
                     { name = "path" },
                     { name = "nvim_lsp_signature_help" },

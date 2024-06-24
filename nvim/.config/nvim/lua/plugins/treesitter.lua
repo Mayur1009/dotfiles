@@ -19,6 +19,7 @@ return {
                 "vimdoc",
                 "r",
                 "rust",
+                "ron",
                 "python",
                 "json",
                 "latex",

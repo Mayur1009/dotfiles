@@ -116,4 +116,12 @@ return {
             -- vim.cmd([[colorscheme oldworld]])
         end,
     },
+    {
+        "ellisonleao/gruvbox.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {
+            dim_inactive = true,
+        },
+    },
 }
