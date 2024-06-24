@@ -52,7 +52,29 @@ return {
             local cmp = require("cmp")
             local luasnip = require("luasnip")
             local lspkind = require("lspkind")
-            luasnip.config.setup({})
+            local types = require("luasnip.util.types")
+            luasnip.config.setup({
+                history = true,
+                delete_check_events = "TextChanged",
+                ext_opts = {
+                    [types.choiceNode] = {
+                        active = {
+                            hl_group = "@comment.note",
+                        },
+                        passive = {
+                            hl_group = "@comment.hint",
+                        },
+                    },
+                    [types.insertNode] = {
+                        active = {
+                            hl_group = "@comment.note",
+                        },
+                        passive = {
+                            hl_group = "@comment.hint",
+                        },
+                    },
+                },
+            })
 
             require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snips" } })
             luasnip.filetype_extend("quarto", { "markdown" })
