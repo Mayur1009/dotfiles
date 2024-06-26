@@ -10,6 +10,9 @@ vim.g.python_host_prog = vim.fn.expand("$HOME/.nvim_venv/bin/python")
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = true
 
+-- Work or personal latptop??
+vim.g.is_work_laptop = vim.uv.os_uname().sysname == "Darwin"
+
 -- Fix markdown indentation settings
 -- vim.g.markdown_recommended_style = 0
 vim.g.markdown_folding = 1

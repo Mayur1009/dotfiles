@@ -10,6 +10,44 @@ return {
             --  - yinq - [Y]ank [I]nside [N]ext [']quote
             --  - ci'  - [C]hange [I]nside [']quote
             local ai = require("mini.ai")
+
+            -- Taken from LazyVim
+            -- Mini.ai indent text object
+            -- For "a", it will include the non-whitespace line surrounding the indent block.
+            -- "a" is line-wise, "i" is character-wise.
+            local function ai_indent(ai_type)
+                local spaces = (" "):rep(vim.o.tabstop)
+                local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+                local indents = {} ---@type {line: number, indent: number, text: string}[]
+
+                for l, line in ipairs(lines) do
+                    if not line:find("^%s*$") then
+                        indents[#indents + 1] = { line = l, indent = #line:gsub("\t", spaces):match("^%s*"), text = line }
+                    end
+                end
+
+                local ret = {}
+                for i = 1, #indents do
+                    if i == 1 or indents[i - 1].indent < indents[i].indent then
+                        local from, to = i, i
+                        for j = i + 1, #indents do
+                            if indents[j].indent < indents[i].indent then
+                                break
+                            end
+                            to = j
+                        end
+                        from = ai_type == "a" and from > 1 and from - 1 or from
+                        to = ai_type == "a" and to < #indents and to + 1 or to
+                        ret[#ret + 1] = {
+                            indent = indents[i].indent,
+                            from = { line = indents[from].line, col = ai_type == "a" and 1 or indents[from].indent + 1 },
+                            to = { line = indents[to].line, col = #indents[to].text },
+                        }
+                    end
+                end
+                return ret
+            end
+
             require("mini.ai").setup({
                 n_lines = 500,
                 custom_textobjects = {
@@ -19,7 +57,8 @@ return {
                     }, {}),
                     f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
                     c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
-                    t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
+                    d = { "%f[%d]%d+" }, -- digits
+                    i = ai_indent,
                 },
             })
 
@@ -43,12 +82,12 @@ return {
             -- - gsr)'  - [S]urround [R]eplace [)] [']
             require("mini.surround").setup({
                 mappings = {
-                    add = "gsa", -- Add surrounding in Normal and Visual modes
-                    delete = "gsd", -- Delete surrounding
-                    find = "gsf", -- Find surrounding (to the right)
-                    find_left = "gsF", -- Find surrounding (to the left)
-                    highlight = "gsh", -- Highlight surrounding
-                    replace = "gsr", -- Replace surrounding
+                    add = "gsa",            -- Add surrounding in Normal and Visual modes
+                    delete = "gsd",         -- Delete surrounding
+                    find = "gsf",           -- Find surrounding (to the right)
+                    find_left = "gsF",      -- Find surrounding (to the left)
+                    highlight = "gsh",      -- Highlight surrounding
+                    replace = "gsr",        -- Replace surrounding
                     update_n_lines = "gsn", -- Update `n_lines`
                 },
             })
@@ -59,7 +98,7 @@ return {
             require("mini.diff").setup()
             require("mini.git").setup()
             require("mini.fuzzy").setup()
-            require('mini.jump').setup()
+            require("mini.jump").setup()
             require("mini.pairs").setup({})
             vim.keymap.set("n", "<leader>tp", function()
                 vim.g.minipairs_disable = not vim.g.minipairs_disable
