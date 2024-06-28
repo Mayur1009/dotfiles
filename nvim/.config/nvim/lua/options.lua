@@ -36,44 +36,48 @@ opt.expandtab = true
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepprg = "rg --vimgrep"
 opt.hlsearch = true
-opt.ignorecase = true -- Ignore case
+opt.ignorecase = true    -- Ignore case
 opt.inccommand = "split" -- preview incremental substitute
 opt.linebreak = true
-opt.list = true -- Show some invisible characters (tabs...
+opt.list = true          -- Show some invisible characters (tabs...
 opt.listchars = {
     tab = "» ",
     trail = "·",
     nbsp = "␣", --[[eol = ""]]
 }
-opt.mouse = "a" -- Enable mouse mode
-opt.number = true -- Print line number
-opt.pumheight = 15 -- Maximum number of entries in a popup
+opt.mouse = "a"           -- Enable mouse mode
+opt.number = true         -- Print line number
+opt.pumheight = 15        -- Maximum number of entries in a popup
 opt.relativenumber = true -- Relative line numbers
-opt.scrolloff = 6 -- Lines of context
-opt.shiftround = true -- Round indent
-opt.shiftwidth = 4 -- Size of an indent
+opt.scrolloff = 6         -- Lines of context
+opt.shiftround = true     -- Round indent
+opt.shiftwidth = 4        -- Size of an indent
 opt.shortmess:append({ c = true, C = true })
 opt.showbreak = "↪"
-opt.showmode = false -- Dont show mode since we have a statusline
+opt.showmode = false   -- Dont show mode since we have a statusline
 opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
-opt.smartcase = true -- Don't ignore case with capitals
+opt.smartcase = true   -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
 opt.smoothscroll = true
 opt.spell = true
 opt.spelllang = { "en" }
-opt.splitbelow = true -- Put new windows below current
-opt.splitright = true -- Put new windows right of current
-opt.tabstop = 4 -- Number of spaces tabs count for
+opt.splitbelow = true    -- Put new windows below current
+opt.splitright = true    -- Put new windows right of current
+opt.tabstop = 4          -- Number of spaces tabs count for
 opt.termguicolors = true -- True color support
-opt.timeoutlen = 300 -- Lower than default (1000) to quickly trigger which-key
+opt.timeoutlen = 300     -- Lower than default (1000) to quickly trigger which-key
 opt.undofile = true
-opt.updatetime = 200 -- Save swap file and trigger CursorHold
-opt.wrap = true -- Disable line wrap
+opt.updatetime = 200     -- Save swap file and trigger CursorHold
+opt.wrap = true          -- Disable line wrap
 
-vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevel = 99     -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 opt.fillchars = {
     foldopen = "",
     foldclose = "",
 }
+
+vim.filetype.add({
+    pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
+})

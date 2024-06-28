@@ -179,13 +179,24 @@ return {
                 lua_ls = {
                     settings = {
                         Lua = {
+                            diagnostics = {
+                                globals = {
+                                    "awesome",
+                                    "awful",
+                                    "client",
+                                    "screen",
+                                    "tag",
+                                    "root",
+                                },
+                            },
+                            runtime = { version = "LuaJIT" },
                             completion = {
                                 callSnippet = "Replace",
                             },
                             -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-                            diagnostics = {
-                                disable = { "missing-fields" },
-                            },
+                            -- diagnostics = {
+                            --     disable = { "missing-fields" },
+                            -- },
                         },
                     },
                     on_attach = function(client, buffer)
@@ -263,6 +274,7 @@ return {
                 "latexindent",
                 "codelldb",
                 "debugpy",
+                "hyprls",
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -279,6 +291,7 @@ return {
                     end,
                 },
             })
+            require("lspconfig").hyprls.setup({})
 
             local icons = {
                 Error = " ",

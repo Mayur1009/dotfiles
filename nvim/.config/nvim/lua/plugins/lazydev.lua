@@ -4,16 +4,15 @@ return {
         ft = "lua", -- only load on lua files
         opts = {
             library = {
-                -- Library items can be absolute paths
-                -- "~/projects/my-awesome-lib",
-                -- Or relative, which means they will be resolved as a plugin
-                -- "LazyVim",
-                -- When relative, you can also provide a path to the library in the plugin dir
-                "luvit-meta/library", -- see below
+                { path = "luvit-meta/library", words = { "vim%.uv" } },
+                { path = "wezterm-types", mods = { "wezterm" } },
+                "/usr/share/awesome/lib",
+                "/usr/share/lua",
             },
         },
     },
     { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+    { "justinsgithub/wezterm-types", lazy = true }, -- optional `vim.uv` typings
     { -- optional completion source for require statements and module annotations
         "hrsh7th/nvim-cmp",
         opts = function(_, opts)

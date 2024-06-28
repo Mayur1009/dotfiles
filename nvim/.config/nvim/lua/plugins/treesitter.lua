@@ -29,6 +29,7 @@ return {
                 "ninja",
                 "rst",
                 "toml",
+                "hyprlang"
             },
             -- Autoinstall languages that are not installed
             auto_install = true,
