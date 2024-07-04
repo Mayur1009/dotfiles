@@ -11,10 +11,9 @@ return {
 
             -- Useful status updates for LSP.
             -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-            { "j-hui/fidget.nvim", opts = {} },
+            { "j-hui/fidget.nvim",       opts = {} },
 
-            "p00f/clangd_extensions.nvim",
-            { "microsoft/python-type-stubs", cond = false },
+            -- "p00f/clangd_extensions.nvim",
             { "barreiroleo/ltex-extra.nvim" },
             { "ray-x/lsp_signature.nvim" },
         },
@@ -56,7 +55,8 @@ return {
 
                     -- Fuzzy find all the symbols in your current workspace
                     --  Similar to document symbols, except searches over your whole project.
-                    map("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch Workspace [S]ymbols")
+                    map("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols,
+                        "[S]earch Workspace [S]ymbols")
 
                     -- Rename the variable under your cursor
                     --  Most Language Servers support renaming across files, etc.
@@ -76,7 +76,8 @@ return {
 
                     map("gH", function()
                         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
-                        vim.notify("Inlay hints " .. (vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled"))
+                        vim.notify("Inlay hints " ..
+                            (vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled"))
                     end, "Toggle Inlay [H]ints")
 
                     -- The following two autocommands are used to highlight references of the
@@ -108,7 +109,6 @@ return {
                 end,
             })
 
-            local utils = require("lspconfig").util
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities.textDocument.foldingRange = {
                 dynamicRegistration = false,
@@ -116,66 +116,15 @@ return {
             }
             capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-            local on_attach = function(client, buffer)
-                if client.supports_method("textDocument/inlayHint") then
-                    vim.lsp.inlay_hint.enable()
-                end
-                if client.supports_method("textDocument/codeLens") then
-                    vim.lsp.codelens.refresh()
-                    --- autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
-                    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-                        buffer = buffer,
-                        callback = vim.lsp.codelens.refresh,
-                    })
-                end
-            end
-
             local servers = {
                 basedpyright = {
                     settings = {
                         basedpyright = {
-                            stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs/stubs",
                             typeCheckingMode = "standard",
                         },
                     },
-                    on_attach = function(client, buffer)
-                        on_attach(client, buffer)
-                    end,
-                    root_dir = utils.root_pattern({ ".git", ".venv" }),
                 },
-                clangd = {
-                    keys = {
-                        { "<leader>ch", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
-                    },
-                    root_dir = function(fname)
-                        return require("lspconfig.util").root_pattern(
-                            "Makefile",
-                            "configure.ac",
-                            "configure.in",
-                            "config.h.in",
-                            "meson.build",
-                            "meson_options.txt",
-                            "build.ninja"
-                        )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(fname) or require(
-                            "lspconfig.util"
-                        ).find_git_ancestor(fname)
-                    end,
-                    cmd = {
-                        "clangd",
-                        "--background-index",
-                        "--clang-tidy",
-                        "--header-insertion=iwyu",
-                        "--completion-style=detailed",
-                        "--function-arg-placeholders",
-                        "--fallback-style=llvm",
-                    },
-                    capabilities = {
-                        offsetEncoding = { "utf-16" },
-                    },
-                    on_attach = function(client, buffer)
-                        on_attach(client, buffer)
-                    end,
-                },
+                clangd = {},
                 lua_ls = {
                     settings = {
                         Lua = {
@@ -199,9 +148,6 @@ return {
                             -- },
                         },
                     },
-                    on_attach = function(client, buffer)
-                        on_attach(client, buffer)
-                    end,
                 },
                 marksman = {
                     -- also needs:
@@ -211,24 +157,17 @@ return {
                     filetypes = { "markdown", "quarto" },
                     root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
                 },
-                r_language_server = {
-                    on_attach = function(client, buffer)
-                        on_attach(client, buffer)
-                    end,
-                },
+                neocmake = {},
+                r_language_server = {},
                 ruff = {
                     on_attach = function(client, _)
                         client.server_capabilities.hoverProvider = false
                     end,
-                    root_dir = utils.root_pattern({ ".git", ".venv" }),
                 },
                 texlab = {
                     keys = {
                         { "<Leader>K", "<plug>(vimtex-doc-package)", desc = "Vimtex Docs", silent = true },
                     },
-                    on_attach = function(client, buffer)
-                        on_attach(client, buffer)
-                    end,
                 },
                 taplo = {
                     keys = {
@@ -256,7 +195,6 @@ return {
                     },
                     on_attach = function(client, buffer)
                         require("ltex_extra").setup({})
-                        on_attach(client, buffer)
                     end,
                 },
             }
@@ -275,6 +213,7 @@ return {
                 "codelldb",
                 "debugpy",
                 "hyprls",
+                "cmakelang",
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -303,7 +242,7 @@ return {
                 underline = true,
                 update_in_insert = false,
                 virtual_text = {
-                    spacing = 4,
+                    spacing = 2,
                     source = "if_many",
                     -- prefix = "●",
                     -- this will set set the prefix to a function that returns the diagnostics icon based on the severity

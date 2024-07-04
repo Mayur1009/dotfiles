@@ -11,6 +11,7 @@ return {
                 "bash",
                 "c",
                 "cpp",
+                "cmake",
                 "html",
                 "lua",
                 "markdown",

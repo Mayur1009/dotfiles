@@ -17,7 +17,7 @@ local config = {
 	},
 	color_scheme = "myrosepine",
 	font = wezterm.font("Maple Mono NF", { weight = "Medium" }),
-    font_size = 14,
+    font_size = 12,
 	line_height = 1.15,
 	enable_tab_bar = false,
 	term = "wezterm",

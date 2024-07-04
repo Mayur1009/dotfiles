@@ -47,7 +47,7 @@ opt.listchars = {
 }
 opt.mouse = "a"           -- Enable mouse mode
 opt.number = true         -- Print line number
-opt.pumheight = 15        -- Maximum number of entries in a popup
+opt.pumheight = 10        -- Maximum number of entries in a popup
 opt.relativenumber = true -- Relative line numbers
 opt.scrolloff = 6         -- Lines of context
 opt.shiftround = true     -- Round indent
