@@ -6,74 +6,27 @@ return {
             -- Snippet Engine & its associated nvim-cmp source
             {
                 "L3MON4D3/LuaSnip",
-                build = (function()
-                    -- Build Step is needed for regex support in snippets
-                    -- This step is not supported in many windows environments
-                    -- Remove the below condition to re-enable on windows
-                    if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
-                        return
-                    end
-                    return "make install_jsregexp"
-                end)(),
+                version = "v2.*",
+                build = "make install_jsregexp"
             },
             "saadparwaiz1/cmp_luasnip",
-
-            -- Adds other completion capabilities.
-            --  nvim-cmp does not ship with all sources by default. They are split
-            --  into multiple repos for maintenance purposes.
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-path",
-
-            -- If you want to add a bunch of pre-configured snippets,
-            --    you can use this plugin to help you. It even has snippets
-            --    for various frameworks/libraries/etc. but you will have to
-            --    set up the ones that are useful for you.
-            "rafamadriz/friendly-snippets",
-            -- { "hrsh7th/cmp-nvim-lsp-signature-help" },
             { "hrsh7th/cmp-emoji" },
             { "kdheepak/cmp-latex-symbols" },
             { "jmbuhr/cmp-pandoc-references" },
-            { "jmbuhr/otter.nvim" },
             { "micangl/cmp-vimtex" },
             { "hrsh7th/cmp-buffer" },
             { "onsails/lspkind.nvim" },
-            {
-                "Saecki/crates.nvim",
-                event = { "BufRead Cargo.toml" },
-                opts = {
-                    completion = {
-                        cmp = { enabled = true },
-                    },
-                },
-            },
+            "rafamadriz/friendly-snippets",
         },
         config = function()
-            -- See `:help cmp`
             local cmp = require("cmp")
             local luasnip = require("luasnip")
             local lspkind = require("lspkind")
-            local types = require("luasnip.util.types")
             luasnip.config.setup({
                 history = true,
                 delete_check_events = "TextChanged",
-                ext_opts = {
-                    [types.choiceNode] = {
-                        active = {
-                            hl_group = "@comment.note",
-                        },
-                        passive = {
-                            hl_group = "@comment.hint",
-                        },
-                    },
-                    [types.insertNode] = {
-                        active = {
-                            hl_group = "@comment.note",
-                        },
-                        passive = {
-                            hl_group = "@comment.hint",
-                        },
-                    },
-                },
             })
 
             require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snips" } })
@@ -107,7 +60,7 @@ return {
 
                     ["<Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
-                            cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
+                            cmp.confirm({ select = true })
                         else
                             fallback()
                         end
@@ -154,9 +107,9 @@ return {
                 formatting = {
                     format = lspkind.cmp_format({
                         mode = "symbol_text",
+                        show_labelDetails = true,
                         menu = {
                             nvim_lsp = " ",
-                            otter = "🦦",
                             vimtex = "",
                             dap = " ",
                             luasnip = " ",
@@ -170,13 +123,10 @@ return {
                 },
 
                 sources = cmp.config.sources({
-                    { name = "otter" },
                     { name = "nvim_lsp" },
                     { name = "vimtex" },
-                    { name = "crates" },
                     { name = "luasnip" },
                     { name = "path" },
-                    -- { name = "nvim_lsp_signature_help" },
                     { name = "latex_symbols" },
                     { name = "pandoc_references" },
                     { name = "emoji" },

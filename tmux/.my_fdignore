@@ -3,9 +3,11 @@
 !**/.local
 !**/Documents
 !**/work
+!**/dotfiles
 
 !**/.config/**
 !**/.local/**
 !**/Documents/**
 !**/work/**
+!**/dotfiles/**
 

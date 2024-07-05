@@ -5,13 +5,13 @@ return {
         cmd = { "LspInfo", "LspInstall", "LspUninstall" },
         dependencies = {
             -- Automatically install LSPs and related tools to stdpath for neovim
-            { "williamboman/mason.nvim", cmd = { "Mason" }, opts = {} },
+            { "williamboman/mason.nvim",    cmd = { "Mason" }, opts = {} },
             "williamboman/mason-lspconfig.nvim",
             "WhoIsSethDaniel/mason-tool-installer.nvim",
 
             -- Useful status updates for LSP.
             -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-            { "j-hui/fidget.nvim",       opts = {} },
+            { "j-hui/fidget.nvim",          opts = {} },
 
             -- "p00f/clangd_extensions.nvim",
             { "barreiroleo/ltex-extra.nvim" },
@@ -80,6 +80,7 @@ return {
                             (vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled"))
                     end, "Toggle Inlay [H]ints")
 
+                    map("gF", vim.lsp.buf.format, "[F]ormat")
                     -- The following two autocommands are used to highlight references of the
                     -- word under your cursor when your cursor rests there for a little while.
                     --    See `:help CursorHold` for information about when this is executed
@@ -205,7 +206,6 @@ return {
             -- for you, so that they are available from within Neovim.
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, {
-                "stylua", -- Used to format lua code
                 "bibtex-tidy",
                 "clang-format",
                 "shfmt",

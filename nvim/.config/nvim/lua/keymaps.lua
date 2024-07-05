@@ -61,33 +61,21 @@ vim.keymap.set("i", ";", ";<c-g>u")
 vim.keymap.set("n", "<leader>bd", ":bd<cr>", { desc = "Buffer Delete" })
 
 -- Toggle Diagnostics
-vim.keymap.set("n", "<leader>td", function()
-    vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-end, { desc = "[T]oggle [D]iagnostics" })
+vim.keymap.set("n", "<leader>td", function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end,
+    { desc = "[T]oggle [D]iagnostics" })
+
 
 vim.keymap.set("n", "<leader>Tt", "<cmd>vsplit term://fish<cr>", { desc = "Terminal: Shell(fish)" })
 
 local split_term = function(prog)
-    local command = vim.fn.exists("$TMUX") and ":!tmux splitw -h -d \\; send-keys -t.{next} " .. prog .. " C-m;" or ":vsplit term://" .. prog
+    local command = vim.fn.exists("$TMUX") and ":!tmux splitw -h -d \\; send-keys -t.{next} " .. prog .. " C-m;" or
+        ":vsplit term://" .. prog
     vim.cmd(command)
 end
 
-vim.b["quarto_is_r_mode"] = true
-vim.keymap.set("n", "<leader>Tp", function()
-    split_term("python")
-end, { desc = "Terminal: python" })
-vim.keymap.set("n", "<leader>Tr", function()
-    split_term("R")
-end, { desc = "Terminal: R" })
-vim.keymap.set("n", "<leader>Ti", function()
-    split_term("ipython")
-end, { desc = "Terminal: ipython" })
--- vim.keymap.set("n", "<leader>Tp", "<cmd>vsplit term://python<cr>", { desc = "Terminal: python" })
--- vim.keymap.set("n", "<leader>Tr", function()
---     vim.b["quarto_is_r_mode"] = true
---     vim.cmd("vsplit term://R")
--- end, { desc = "Terminal: R" })
--- vim.keymap.set("n", "<leader>Ti", "<cmd>vsplit term://ipython<cr>", { desc = "Terminal: ipython" })
+vim.keymap.set("n", "<leader>Tp", function() split_term("python") end, { desc = "Terminal: python" })
+vim.keymap.set("n", "<leader>Tr", function() split_term("R") end, { desc = "Terminal: R" })
+vim.keymap.set("n", "<leader>Ti", function() split_term("ipython") end, { desc = "Terminal: ipython" })
 
 vim.keymap.set("n", "[q", ":cprev<cr>", { desc = "Quickfix previous" })
 vim.keymap.set("n", "]q", ":cnext<cr>", { desc = "Quickfix next" })
@@ -101,7 +89,8 @@ end, { desc = "Toggle file [l]ock" })
 
 -- Run python file in new tmux window named `file_name`. Assume always inside TMUX
 vim.keymap.set("n", "<leader>wp", function()
-    vim.cmd(":!tmux neww -S -n " .. vim.fn.expand("%:t"):gsub("%p", "_") .. "\\; send-keys 'python " .. vim.fn.expand("%:p") .. "' C-m;")
+    vim.cmd(":!tmux neww -S -n " ..
+        vim.fn.expand("%:t"):gsub("%p", "_") .. "\\; send-keys 'python " .. vim.fn.expand("%:p") .. "' C-m;")
 end, { desc = "Run Current python file in new TMUX window" })
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -109,8 +98,9 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("n", "gF", vim.lsp.buf.format, {desc = "Lsp format"})
 vim.keymap.set("n", "<leader>S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("v", "<leader>d", '"_d', { desc = "Delete to void" })
+vim.keymap.set("v", "<leader>p", '"_dP', { desc = "Replace without changing register" })
 
 -- Norwegian keybord layout
 vim.keymap.set("n", "ø", "[", { remap = true })
