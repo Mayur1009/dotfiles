@@ -2,7 +2,10 @@
 !**/.config
 !**/.local
 !**/Documents
+!**/work
+
 !**/.config/**
 !**/.local/**
 !**/Documents/**
+!**/work/**
 
