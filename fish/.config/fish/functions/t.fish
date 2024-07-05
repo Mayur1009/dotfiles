@@ -8,7 +8,7 @@ function t -d "Create or connect to session using fzf"
 
     set -l selected (begin 
         tmux list-sessions 2>/dev/null | awk -F: '{print $1}'
-        fd -H -t d -L -i . ~ 
+        fd -H -t d -L -i --ignore-file ~/.my_fdignore . ~ 
     end | fzf)
 
     if test -z "$selected"

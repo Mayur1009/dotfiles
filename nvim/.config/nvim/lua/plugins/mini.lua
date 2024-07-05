@@ -119,8 +119,8 @@ return {
             require("mini.tabline").setup({
                 tabpage_section = "right",
             })
-            vim.api.nvim_set_hl(0, "MiniTablineCurrent", { link = "MiniStatuslineModeNormal" })
-            vim.api.nvim_set_hl(0, "MiniTablineModifiedCurrent", { link = "MiniStatuslineModeInsert" })
+            -- vim.api.nvim_set_hl(0, "MiniTablineCurrent", { link = "MiniStatuslineModeNormal" })
+            -- vim.api.nvim_set_hl(0, "MiniTablineModifiedCurrent", { link = "MiniStatuslineModeInsert" })
 
             -- You can configure sections in the statusline by overriding their
             -- default behavior. For example, here we set the section for

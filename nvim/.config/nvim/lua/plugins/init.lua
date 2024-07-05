@@ -42,8 +42,8 @@ return {
         event = { "BufReadPost", "BufNewFile" },
         config = function()
             require("indentmini").setup({})
-            vim.api.nvim_set_hl(0, "IndentLine", { link = "IblIndent" })
-            vim.api.nvim_set_hl(0, "IndentLineCurrent", { link = "IblScope" })
+            -- vim.api.nvim_set_hl(0, "IndentLine", { link = "IblIndent" })
+            -- vim.api.nvim_set_hl(0, "IndentLineCurrent", { link = "IblScope" })
         end,
     },
     {

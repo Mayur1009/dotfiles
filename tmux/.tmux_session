@@ -2,7 +2,7 @@
 
 selected=$({
 	tmux list-sessions 2>/dev/null | awk -F: '{print $1}'
-    fd -H -t d -L -i . ~ 
+    fd -H -t d -L -i --ignore-file ~/.my_fdignore . ~ 
 } | fzf)
 
 if [[ -z $selected ]]; then

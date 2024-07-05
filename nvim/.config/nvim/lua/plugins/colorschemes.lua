@@ -7,7 +7,7 @@ return {
             require("tokyonight").setup({
                 style = "night",
             })
-            -- vim.cmd([[colorscheme tokyonight]])
+            vim.cmd([[colorscheme tokyonight]])
         end,
     },
 
@@ -105,7 +105,7 @@ return {
                     Pmenu = { bg = "highlight_low" },
                 },
             })
-            vim.cmd([[colorscheme rose-pine]])
+            -- vim.cmd([[colorscheme rose-pine]])
         end,
     },
 
