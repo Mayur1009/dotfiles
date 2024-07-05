@@ -6,6 +6,10 @@ return {
         config = function()
             require("tokyonight").setup({
                 style = "night",
+                dim_inactive = true,
+                on_highlights = function(hl, c)
+                    hl.TreesitterContext = { bg = c.bg_statusline, }
+                end
             })
             vim.cmd([[colorscheme tokyonight]])
         end,
