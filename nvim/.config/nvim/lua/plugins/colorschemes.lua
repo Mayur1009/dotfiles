@@ -9,9 +9,10 @@ return {
                 dim_inactive = true,
                 on_highlights = function(hl, c)
                     hl.TreesitterContext = { bg = c.bg_dark}
-                    -- hl.SlimeCellBoundaryTop = { fg = c.diff.text, bg = c.yellow, bold=true, italic=true, standout = true }
                     hl.SlimeCellBoundaryTop = { underdotted = true, fg = c.border_highlight }
                     hl.SlimeCellBoundaryBottom = { underdouble = true, fg = c.border_highlight }
+                    hl.rCursor = { fg = c.black, bg = c.red, bold = true }
+                    hl.vCursor = { fg = c.black, bg = c.yellow, bold = true }
                 end
             })
             vim.cmd([[colorscheme tokyonight]])

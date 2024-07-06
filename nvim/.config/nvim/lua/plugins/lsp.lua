@@ -159,7 +159,13 @@ return {
                     root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
                 },
                 neocmake = {},
-                r_language_server = {},
+                r_language_server = {
+                    root_dir = function(fname)
+                        return require("lspconfig.util").root_pattern("DESCRIPTION", "NAMESPACE", ".Rbuildignore")(fname)
+                            or require("lspconfig.util").find_git_ancestor(fname)
+                            or vim.loop.os_homedir()
+                    end
+                },
                 ruff = {
                     on_attach = function(client, _)
                         client.server_capabilities.hoverProvider = false

@@ -1,4 +1,12 @@
 return {
+    -- {
+    --     "OXY2DEV/markview.nvim",
+    --     ft = {"markdown", "quarto"},
+    --     dependencies = {
+    --         "nvim-treesitter/nvim-treesitter",
+    --         "nvim-tree/nvim-web-devicons"
+    --     },
+    -- },
     {
         "MeanderingProgrammer/markdown.nvim",
         lazy = true,
@@ -17,9 +25,6 @@ return {
                         rendered = ""
                     }
                 },
-                -- highlights = {
-                -- code = "CodeBlock",
-                -- }
             })
         end,
     },

@@ -94,43 +94,20 @@ return {
             require("mini.move").setup()
             require("mini.splitjoin").setup()   -- gS
             require("mini.misc").setup() -- printing table and stuff
-            require("mini.diff").setup()
-            require("mini.git").setup()
-            require("mini.fuzzy").setup()
-            require("mini.jump").setup()
-            require("mini.pairs").setup({})
+            require("mini.pairs").setup()
+            require("mini.icons").setup()
+            require("mini.icons").mock_nvim_web_devicons()
             vim.keymap.set("n", "<leader>tp", function()
                 vim.g.minipairs_disable = not vim.g.minipairs_disable
             end, { desc = "[T]oggle auto [p]airs" })
 
-            -- Simple and easy statusline.
-            --  You could remove this setup call if you don't like it,
-            --  and try some other statusline plugin
             local statusline = require("mini.statusline")
-            -- set use_icons to true if you have a Nerd Font
             statusline.setup({ use_icons = vim.g.have_nerd_font })
 
-            -- vim.api.nvim_set_hl(0, "nCursor", { link = "MiniStatuslineModeNormal" })
-            vim.api.nvim_set_hl(0, "vCursor", { link = "MiniStatuslineModeVisual" })
-            vim.api.nvim_set_hl(0, "rCursor", { link = "MiniStatuslineModeReplace" })
-            vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20-rCursor,v:vCursor"
-
-            require("mini.tabline").setup({
-                tabpage_section = "right",
-            })
-            -- vim.api.nvim_set_hl(0, "MiniTablineCurrent", { link = "MiniStatuslineModeNormal" })
-            -- vim.api.nvim_set_hl(0, "MiniTablineModifiedCurrent", { link = "MiniStatuslineModeInsert" })
-
-            -- You can configure sections in the statusline by overriding their
-            -- default behavior. For example, here we set the section for
-            -- cursor location to LINE:COLUMN
             ---@diagnostic disable-next-line: duplicate-set-field
             statusline.section_location = function()
                 return "%2l:%-2v"
             end
-
-            -- ... and there is more!
-            --  Check out: https://github.com/echasnovski/mini.nvim
         end,
     },
 }

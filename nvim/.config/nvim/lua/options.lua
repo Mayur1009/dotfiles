@@ -2,7 +2,7 @@
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = ","
 
 vim.g.python3_host_prog = vim.fn.expand("$HOME/.nvim_venv/bin/python3")
 vim.g.python_host_prog = vim.fn.expand("$HOME/.nvim_venv/bin/python")
@@ -75,6 +75,8 @@ opt.fillchars = {
     foldopen = "",
     foldclose = "",
 }
+
+opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20-rCursor,v:vCursor"
 
 vim.filetype.add({
     pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },

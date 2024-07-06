@@ -13,7 +13,6 @@ return {
             require("which-key").register({
                 ["<leader>f"] = { name = "+[f]iles", _ = "which_key_ignore" },
                 ["<leader>s"] = { name = "+[s]earch", _ = "which_key_ignore" },
-                ["<leader>b"] = { name = "+[b]uffer", _ = "which_key_ignore" },
                 ["<leader>t"] = { name = "+[t]oggle", _ = "which_key_ignore" },
                 ["<leader>T"] = { name = "+[T]erminal", _ = "which_key_ignore" },
                 ["<leader>x"] = { name = "+Trouble", _ = "which_key_ignore" },
@@ -23,14 +22,12 @@ return {
             })
         end,
     },
-
     {
         "folke/todo-comments.nvim",
         event = { "BufReadPost", "BufNewFile" },
         dependencies = { "nvim-lua/plenary.nvim" },
         opts = {},
     },
-
     {
         "nvimdev/indentmini.nvim",
         event = { "BufReadPost", "BufNewFile" },
@@ -38,8 +35,6 @@ return {
             require("indentmini").setup({})
         end,
     },
-
-
     {
         "nvim-treesitter/nvim-treesitter-context",
         event = { "BufReadPost", "BufNewFile" },
@@ -52,8 +47,6 @@ return {
             vim.keymap.set("n", "<leader>tt", tsc.toggle, { desc = "[T]oggle [T]reesitter Context" })
         end,
     },
-
-
     {
         "mbbill/undotree",
         event = "VeryLazy",

@@ -3,14 +3,23 @@ return {
         "NeogitOrg/neogit",
         -- branch = "nightly",
         dependencies = {
-            "nvim-lua/plenary.nvim", -- required
+            "nvim-lua/plenary.nvim",         -- required
             "sindrets/diffview.nvim",
             "nvim-telescope/telescope.nvim", -- optional
         },
         config = function()
-            require("neogit").setup({ integrations = {
-                diffview = true,
-            } })
+            require("neogit").setup({
+                integrations = {
+                    diffview = true,
+                    telescope = true,
+                },
+                telescope_sorter = function()
+                    return require("telescope").extensions.fzf.native_fzf_sorter()
+                end,
+                commit_editor = {
+                    staged_diff_split_kind = "auto",
+                },
+            })
 
             local diffview_open = false
             vim.keymap.set("n", "<leader>gd", function()
@@ -22,23 +31,6 @@ return {
         keys = {
             { "<leader>gg", ":Neogit<CR>", desc = "Neogit" },
             { "<leader>gd" },
-        },
-    },
-
-    {
-        "akinsho/git-conflict.nvim",
-        config = function()
-            require("git-conflict").setup({
-                default_mappings = false,
-            })
-        end,
-        keys = {
-            { "<leader>gco", ":GitConflictChooseOurs<cr>" },
-            { "<leader>gct", ":GitConflictChooseTheirs<cr>" },
-            { "<leader>gcb", ":GitConflictChooseBoth<cr>" },
-            { "<leader>gc0", ":GitConflictChooseNone<cr>" },
-            { "]x", ":GitConflictNextConflict<cr>" },
-            { "[x", ":GitConflictPrevConflict<cr>" },
         },
     },
 }

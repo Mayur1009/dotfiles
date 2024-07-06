@@ -11,7 +11,7 @@ return {
             vim.g.vimtex_view_method = vim.g.is_work_laptop and "skim" or "zathura"
 
             require("which-key").register({
-                ["<leader>l"] = { name = "+latex(vimtex)", _ = "which_key_ignore" },
+                ["<localleader>l"] = { name = "+latex(vimtex)", _ = "which_key_ignore" },
             })
         end,
     },

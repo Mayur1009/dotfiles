@@ -2,7 +2,7 @@ return {
     {
         "stevearc/oil.nvim",
         event = "VeryLazy",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
+        -- dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
             local oil = require("oil")
             oil.setup({
@@ -39,7 +39,7 @@ return {
                 { desc = "Toggle Harpoon  Menu" })
             for i = 1, 8 do
                 vim.keymap.set("n", "<leader>" .. i, function() harpoon:list():select(i) end,
-                    { desc = "Harpoon File " .. "i" })
+                    { desc = "Harpoon File " .. i })
             end
         end,
         keys = {

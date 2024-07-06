@@ -38,8 +38,8 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
-vim.keymap.set("n", "H", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-vim.keymap.set("n", "L", "<cmd>bnext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "[<space>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+vim.keymap.set("n", "]<space>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 
 -- better up/down
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -57,8 +57,6 @@ vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increa
 vim.keymap.set("i", ",", ",<c-g>u")
 vim.keymap.set("i", ".", ".<c-g>u")
 vim.keymap.set("i", ";", ";<c-g>u")
-
-vim.keymap.set("n", "<leader>bd", ":bd<cr>", { desc = "Buffer Delete" })
 
 -- Toggle Diagnostics
 vim.keymap.set("n", "<leader>td", function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end,
@@ -83,12 +81,11 @@ vim.keymap.set("n", "]q", ":cnext<cr>", { desc = "Quickfix next" })
 vim.keymap.set("i", "jk", "<Esc>")
 
 -- Toggle buffer lock
-vim.keymap.set("n", "<leader>tl", function()
-    vim.bo.modifiable = not vim.bo.modifiable
-end, { desc = "Toggle file [l]ock" })
+vim.keymap.set("n", "<leader>tl", function() vim.bo.modifiable = not vim.bo.modifiable end,
+    { desc = "Toggle file [l]ock" })
 
 -- Run python file in new tmux window named `file_name`. Assume always inside TMUX
-vim.keymap.set("n", "<leader>wp", function()
+vim.keymap.set("n", "<localleader>pw", function()
     vim.cmd(":!tmux neww -S -n " ..
         vim.fn.expand("%:t"):gsub("%p", "_") .. "\\; send-keys 'python " .. vim.fn.expand("%:p") .. "' C-m;")
 end, { desc = "Run Current python file in new TMUX window" })
