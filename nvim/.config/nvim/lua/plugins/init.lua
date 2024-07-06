@@ -1,8 +1,12 @@
 return {
-    {                       -- Useful plugin to show you pending keybinds.
+    {
+        'numToStr/Comment.nvim',
+        event = { "BufReadPost", "BufNewFile" },
+    },
+    {
         "folke/which-key.nvim",
-        event = "VimEnter", -- Sets the loading event to 'VimEnter'
-        config = function() -- This is the function that runs, AFTER loading
+        event = "VimEnter",
+        config = function()
             require("which-key").setup()
 
             -- Document existing key chains
@@ -20,7 +24,6 @@ return {
         end,
     },
 
-    -- Highlight todo, notes, etc in comments
     {
         "folke/todo-comments.nvim",
         event = { "BufReadPost", "BufNewFile" },
@@ -28,50 +31,14 @@ return {
         opts = {},
     },
 
-    -- {
-    --     "folke/ts-comments.nvim",
-    --     opts = {
-    --         quarto = "<!-- %s -->",
-    --     },
-    --     event = "VeryLazy",
-    --     enabled = vim.fn.has("nvim-0.10.0") == 1,
-    -- },
-
     {
         "nvimdev/indentmini.nvim",
         event = { "BufReadPost", "BufNewFile" },
         config = function()
             require("indentmini").setup({})
-            -- vim.api.nvim_set_hl(0, "IndentLine", { link = "IblIndent" })
-            -- vim.api.nvim_set_hl(0, "IndentLineCurrent", { link = "IblScope" })
         end,
     },
-    {
-        "ThePrimeagen/refactoring.nvim",
-        event = { "BufReadPost", "BufNewFile" },
-        cmd = { "Refactor" },
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
-        },
-        config = function()
-            local refactoring = require("refactoring")
-            refactoring.setup({})
-            vim.keymap.set({ "n", "x" }, "<leader>cm", function()
-                refactoring.select_refactor({})
-            end, { desc = "Refactoring Menu" })
-            vim.keymap.set("n", "<leader>cd", function()
-                require("refactoring").debug.printf({ below = false })
-            end, { desc = "Refactoring debug print statement" })
-            vim.keymap.set("n", "<leader>cv", function()
-                require("refactoring").debug.print_var({})
-            end, { desc = "Refactoring print var" })
-            vim.keymap.set("n", "<leader>cc", function()
-                require("refactoring").debug.cleanup({})
-            end, { desc = "Refactoring print cleanup" })
-        end,
-        keys = {},
-    },
+
 
     {
         "nvim-treesitter/nvim-treesitter-context",
@@ -86,38 +53,6 @@ return {
         end,
     },
 
-    {
-        "ThePrimeagen/harpoon",
-        event = { "BufReadPost", "BufNewFile" },
-        branch = "harpoon2",
-        config = function()
-            local harpoon = require("harpoon")
-            harpoon:setup({
-                settings = {
-                    save_on_toggle = true,
-                    sync_on_ui_close = true,
-                },
-            })
-            vim.keymap.set("n", "<leader>a", function()
-                harpoon:list():add()
-            end, { desc = "Harpoon add" })
-            vim.keymap.set("n", "<leader>th", function()
-                harpoon.ui:toggle_quick_menu(harpoon:list())
-            end, { desc = "Toggle Harpoon  Menu" })
-            vim.keymap.set("n", "<leader>1", function()
-                harpoon:list():select(1)
-            end, { desc = "Harpoon File 1" })
-            vim.keymap.set("n", "<leader>2", function()
-                harpoon:list():select(2)
-            end, { desc = "Harpoon File 2" })
-            vim.keymap.set("n", "<leader>3", function()
-                harpoon:list():select(3)
-            end, { desc = "Harpoon File 3" })
-            vim.keymap.set("n", "<leader>4", function()
-                harpoon:list():select(4)
-            end, { desc = "Harpoon File 4" })
-        end,
-    },
 
     {
         "mbbill/undotree",
@@ -127,10 +62,5 @@ return {
             vim.keymap.set("n", "<leader>tu", vim.cmd.UndotreeToggle, { desc = "Toggle undotree" })
         end,
         keys = { "<leader>tu" },
-    },
-    {
-        "mrcjkb/rustaceanvim",
-        version = "^4", -- Recommended
-        ft = { "rust" },
     },
 }

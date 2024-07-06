@@ -1,5 +1,4 @@
 vim.b.slime_cell_delimiter = "```"
-vim.b["quarto_is_r_mode"] = nil
 
 -- wrap text, but by word no character
 -- indent the wrappped line

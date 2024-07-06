@@ -2,13 +2,16 @@ return {
     {
         "folke/tokyonight.nvim",
         -- lazy = false, -- make sure we load this during startup if it is your main colorscheme
-        -- priority = 1000, -- make sure to load this before all the other start plugins
+        priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
             require("tokyonight").setup({
                 style = "night",
                 dim_inactive = true,
                 on_highlights = function(hl, c)
-                    hl.TreesitterContext = { bg = c.bg_statusline, }
+                    hl.TreesitterContext = { bg = c.bg_dark}
+                    -- hl.SlimeCellBoundaryTop = { fg = c.diff.text, bg = c.yellow, bold=true, italic=true, standout = true }
+                    hl.SlimeCellBoundaryTop = { underdotted = true, fg = c.border_highlight }
+                    hl.SlimeCellBoundaryBottom = { underdouble = true, fg = c.border_highlight }
                 end
             })
             vim.cmd([[colorscheme tokyonight]])
@@ -17,6 +20,7 @@ return {
 
     {
         "catppuccin/nvim",
+        lazy = true,
         name = "catppuccin",
         config = function()
             require("catppuccin").setup({
@@ -68,6 +72,7 @@ return {
 
     {
         "EdenEast/nightfox.nvim",
+        lazy = true,
         config = function()
             require("nightfox").setup({
                 options = {
@@ -91,7 +96,7 @@ return {
 
     {
         "rose-pine/neovim",
-        lazy = false,
+        lazy = true,
         priority = 1000,
         config = function()
             require("rose-pine").setup({
@@ -115,6 +120,7 @@ return {
 
     {
         "dgox16/oldworld.nvim",
+        lazy = true,
         config = function()
             require("oldworld").setup({})
             -- vim.cmd([[colorscheme oldworld]])
@@ -122,7 +128,7 @@ return {
     },
     {
         "ellisonleao/gruvbox.nvim",
-        lazy = false,
+        lazy = true,
         priority = 1000,
         opts = {
             dim_inactive = true,

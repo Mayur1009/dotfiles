@@ -92,9 +92,8 @@ return {
                 },
             })
             require("mini.move").setup()
-            require("mini.splitjoin").setup()
-            require("mini.misc").setup()
-            require("mini.comment").setup()
+            require("mini.splitjoin").setup()   -- gS
+            require("mini.misc").setup() -- printing table and stuff
             require("mini.diff").setup()
             require("mini.git").setup()
             require("mini.fuzzy").setup()
