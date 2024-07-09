@@ -119,11 +119,15 @@ return {
 
             local sign = vim.fn.sign_define
 
-            sign("DapBreakpoint", { text = "●", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
-            sign("DapBreakpointCondition", { text = "●", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
+            sign("DapBreakpoint",
+                { text = "●", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
+            sign("DapBreakpointCondition",
+                { text = "●", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
             sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "DapLogPoint", numhl = "DapLogPoint" })
-            sign("DapStopped", { text = "󰁕 ", texthl = "DiagnosticWarn", linehl = "DapStoppedLine", numhl = "DiagnosticWarn" })
-            sign("DapBreakpointRejected", { text = " ", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
+            sign("DapStopped",
+                { text = "󰁕 ", texthl = "DiagnosticWarn", linehl = "DapStoppedLine", numhl = "DiagnosticWarn" })
+            sign("DapBreakpointRejected",
+                { text = " ", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
 
             vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "DAP: UI Toggle" })
             vim.keymap.set({ "n", "v" }, "<leader>de", dapui.eval, { desc = "DAP: UI Eval" })
@@ -137,7 +141,7 @@ return {
         dependencies = {
             "rcarriga/nvim-dap-ui",
             "williamboman/mason.nvim",
-            { "mfussenegger/nvim-dap-python", lazy=true},
+            { "mfussenegger/nvim-dap-python", lazy = true },
             "rcarriga/cmp-dap",
             "hrsh7th/nvim-cmp",
         },
@@ -163,6 +167,18 @@ return {
                 console = "integratedTerminal",
                 name = "Launch file -nojustMyCode",
                 program = "${file}",
+                request = "launch",
+                type = "python",
+                justMyCode = "false",
+            })
+            table.insert(dap.configurations.python, {
+                console = "integratedTerminal",
+                name = "Launch file with arguments -nojustMyCode",
+                program = "${file}",
+                args = function()
+                    local args_string = vim.fn.input('Arguments: ')
+                    return vim.split(args_string, " +")
+                end,
                 request = "launch",
                 type = "python",
                 justMyCode = "false",

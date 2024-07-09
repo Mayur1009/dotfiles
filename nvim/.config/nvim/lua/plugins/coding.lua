@@ -66,9 +66,9 @@ return {
                         vim.fn.sign_unplace("slime_cells_bottom")
                         local l = vim.fn.getline(1, "$")
                         vim.fn.map(l, function(key, value)
-                            if value:match(cell_delimiter .. ".+") then
+                            if vim.fn.match(value, cell_delimiter .. "{.*}$") == 0 then
                                 vim.fn.sign_place(0, "slime_cells_top", "SlimeCellTop", buf, { lnum = key + 1 })
-                            elseif value:match(cell_delimiter) then
+                            elseif vim.fn.match(value, cell_delimiter .. "$") == 0 then
                                 vim.fn.sign_place(0, "slime_cells_bottom", "SlimeCellBottom", buf, { lnum = key + 1 })
                             end
                         end)

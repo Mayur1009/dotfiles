@@ -7,7 +7,10 @@ return {
             {
                 "L3MON4D3/LuaSnip",
                 version = "v2.*",
-                build = "make install_jsregexp"
+                build = "make install_jsregexp",
+                dependencies = {
+                    { "rafamadriz/friendly-snippets" }
+                },
             },
             "saadparwaiz1/cmp_luasnip",
             "hrsh7th/cmp-nvim-lsp",
@@ -29,7 +32,9 @@ return {
                 delete_check_events = "TextChanged",
             })
 
+            require("luasnip.loaders.from_lua").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snips" } })
             require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snips" } })
+            require("luasnip.loaders.from_vscode").lazy_load()
             luasnip.filetype_extend("quarto", { "markdown" })
             luasnip.filetype_extend("rmarkdown", { "markdown" })
 
@@ -103,6 +108,14 @@ return {
                             luasnip.jump(-1)
                         end
                     end, { "i", "s" }),
+                    ["<C-u>"] = cmp.mapping(function()
+                        luasnip.expand()
+                    end),
+                    ["<C-e>"] = cmp.mapping(function()
+                        if luasnip.choice_active() then
+                            luasnip.change_choice()
+                        end
+                    end)
                 }),
                 formatting = {
                     format = lspkind.cmp_format({
