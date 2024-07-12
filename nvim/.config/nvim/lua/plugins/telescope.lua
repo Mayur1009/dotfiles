@@ -98,7 +98,6 @@ return {
             vim.keymap.set("n", "<leader>sH", "<cmd>Telescope helpgrep<cr>", { desc = "[S]earch [H]elpgrep" })
             vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
             vim.keymap.set("n", "<leader>sb", builtin.builtin, { desc = "[S]earch Telescope [B]uiltins" })
-            vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
             vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
             vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "Telescope [r]esume" })
             vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]iles live [G]rep" })
@@ -122,7 +121,6 @@ return {
             "<leader>sH",
             "<leader>sk",
             "<leader>sb",
-            "<leader>sw",
             "<leader>sd",
             "<leader>sr",
             "<leader>fg",

@@ -4,8 +4,12 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
-vim.keymap.set("n", "<leader>se", vim.diagnostic.open_float, { desc = "[S]how diagnostic [E]rror messages" })
-vim.keymap.set("n", "<leader>sq", vim.diagnostic.setloclist, { desc = "[S]how diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>te", vim.diagnostic.open_float, { desc = "[S]how diagnostic [E]rror messages" })
+
+-- Quickfix
+vim.keymap.set("n", "<leader>tq", vim.diagnostic.setloclist, { desc = "[S]how diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "[q", ":cprev<cr>", { desc = "Quickfix previous" })
+vim.keymap.set("n", "]q", ":cnext<cr>", { desc = "Quickfix next" })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -38,8 +42,9 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
-vim.keymap.set("n", "[<space>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-vim.keymap.set("n", "]<space>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+-- Buffer nav
+vim.keymap.set("n", "[<tab>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+vim.keymap.set("n", "]<tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 
 -- better up/down
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -62,39 +67,51 @@ vim.keymap.set("i", ";", ";<c-g>u")
 vim.keymap.set("n", "<leader>td", function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end,
     { desc = "[T]oggle [D]iagnostics" })
 
-
-vim.keymap.set("n", "<leader>Tt", "<cmd>vsplit term://fish<cr>", { desc = "Terminal: Shell(fish)" })
-
-local split_term = function(prog)
-    local command = vim.fn.exists("$TMUX") and ":!tmux splitw -h -d \\; send-keys -t.{next} " .. prog .. " C-m;" or
-        ":vsplit term://" .. prog
-    vim.cmd(command)
-end
-
-vim.keymap.set("n", "<leader>Tp", function() split_term("python") end, { desc = "Terminal: python" })
-vim.keymap.set("n", "<leader>Tr", function() split_term("R") end, { desc = "Terminal: R" })
-vim.keymap.set("n", "<leader>Ti", function() split_term("ipython") end, { desc = "Terminal: ipython" })
-
-vim.keymap.set("n", "[q", ":cprev<cr>", { desc = "Quickfix previous" })
-vim.keymap.set("n", "]q", ":cnext<cr>", { desc = "Quickfix next" })
-
-vim.keymap.set("i", "jk", "<Esc>")
-
 -- Toggle buffer lock
 vim.keymap.set("n", "<leader>tl", function() vim.bo.modifiable = not vim.bo.modifiable end,
     { desc = "Toggle file [l]ock" })
 
--- Run python file in new tmux window named `file_name`. Assume always inside TMUX
-vim.keymap.set("n", "<localleader>pw", function()
-    vim.cmd(":!tmux neww -S -n " ..
-        vim.fn.expand("%:t"):gsub("%p", "_") .. "\\; send-keys 'python " .. vim.fn.expand("%:p") .. "' C-m;")
-end, { desc = "Run Current python file in new TMUX window" })
+-- Open Terminals in split
+local split_term = function(prog)
+    if vim.fn.exists("$TMUX") then
+        vim.fn.system("tmux splitw -h -d \\; send-keys -t.{next} " .. prog .. " C-m;")
+    else
+        vim.cmd(":vsplit term://" .. prog)
+    end
+end
 
+vim.keymap.set("n", "<leader>vt", "<cmd>vsplit term://fish<cr>", { desc = "Terminal: Shell(fish)" })
+vim.keymap.set("n", "<leader>vp", function() split_term("python") end, { desc = "Terminal: python" })
+vim.keymap.set("n", "<leader>vr", function() split_term("R") end, { desc = "Terminal: R" })
+vim.keymap.set("n", "<leader>vi", function() split_term("ipython") end, { desc = "Terminal: ipython" })
+
+-- Run cmd on file in new tmux window named `file_name`. Assume always inside TMUX
+local cmd_in_tmux_window = function(cmd)
+    if vim.fn.exists("$TMUX") then
+        vim.fn.system("tmux neww -S -n " ..
+            vim.fn.expand("%:t"):gsub("%p", "_") .. "\\; send-keys '" .. cmd .. "' C-m;")
+    else
+        vim.notify("Outside TMUX")
+    end
+end
+
+vim.keymap.set("n", "<localleader>rp", function()
+    local cmd = "python " .. vim.fn.expand("%")
+    cmd_in_tmux_window(cmd)
+end, { desc = "Run python file in new TMUX window" })
+
+vim.keymap.set("n", "<localleader>rc", function()
+    local ext = vim.fn.expand("%:e")
+    local cmd = ext == "c" and "gcc " or "g++ " .. vim.fn.expand("%") .. " -o " .. vim.fn.expand("%:t:r")
+    cmd_in_tmux_window(cmd)
+end, { desc = "Run gcc/g++ file in new TMUX window" })
+
+-- Others
+vim.keymap.set("i", "jk", "<Esc>")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
-
 vim.keymap.set("n", "<leader>S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("v", "<leader>d", '"_d', { desc = "Delete to void" })
 vim.keymap.set("v", "<leader>p", '"_dP', { desc = "Replace without changing register" })
