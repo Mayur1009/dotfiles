@@ -1,7 +1,7 @@
 return {
     {
         "lervag/vimtex",
-        lazy = false, -- lazy-loading will disable inverse search
+        lazy = false,                                           -- lazy-loading will disable inverse search
         config = function()
             vim.g.vimtex_mappings_disable = { ["n"] = { "K" } } -- disable `K` as it conflicts with LSP hover
             vim.g.vimtex_quickfix_method = vim.fn.executable("pplatex") == 1 and "pplatex" or "latexlog"
@@ -10,8 +10,8 @@ return {
             -- vim.g.vimtex_view_method = "sioyek"
             vim.g.vimtex_view_method = vim.g.is_work_laptop and "skim" or "zathura"
 
-            require("which-key").register({
-                ["<localleader>l"] = { name = "+latex(vimtex)", _ = "which_key_ignore" },
+            require("which-key").add({
+                { "<localleader>l", group = "+latex(vimtex)" },
             })
         end,
     },

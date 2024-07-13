@@ -10,18 +10,21 @@ return {
         config = function()
             local refactoring = require("refactoring")
             refactoring.setup({})
-            vim.keymap.set({ "n", "x" }, "<leader>cm", function()
+            vim.keymap.set({ "n", "x" }, "<leader>rm", function()
                 refactoring.select_refactor({})
             end, { desc = "Refactoring Menu" })
-            vim.keymap.set("n", "<leader>cd", function()
+            vim.keymap.set("n", "<leader>rd", function()
                 require("refactoring").debug.printf({ below = false })
             end, { desc = "Refactoring debug print statement" })
-            vim.keymap.set("n", "<leader>cv", function()
+            vim.keymap.set("n", "<leader>rv", function()
                 require("refactoring").debug.print_var({})
             end, { desc = "Refactoring print var" })
-            vim.keymap.set("n", "<leader>cc", function()
+            vim.keymap.set("n", "<leader>rc", function()
                 require("refactoring").debug.cleanup({})
             end, { desc = "Refactoring print cleanup" })
+            require("which-key").add({
+                "<leader>r", group = "+[r]efactoring",
+            })
         end,
         keys = {},
     },
@@ -80,6 +83,7 @@ return {
     {
         "folke/trouble.nvim",
         keys = {
+            {"<leader>x", desc = "+Trouble"},
             {
                 "<leader>xx",
                 "<cmd>Trouble diagnostics toggle<cr>",

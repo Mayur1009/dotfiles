@@ -3,6 +3,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         event = { "BufReadPost", "BufNewFile", "VeryLazy" },
         build = ":TSUpdate",
+        cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
         dependencies = {
             { "nvim-treesitter/nvim-treesitter-textobjects" },
         },
@@ -31,7 +32,8 @@ return {
                 "ninja",
                 "rst",
                 "toml",
-                "hyprlang"
+                "hyprlang",
+                "git_config",
             },
             -- Autoinstall languages that are not installed
             auto_install = true,
@@ -59,8 +61,8 @@ return {
                         ["if"] = { query = "@function.inner", desc = "in function" },
                         ["ac"] = { query = "@class.outer", desc = "around class" },
                         ["ic"] = { query = "@class.inner", desc = "in class" },
-                        ["ib"] = { query = "@code_cell.inner", desc = "in code block" },
                         ["ab"] = { query = "@code_cell.outer", desc = "around code block" },
+                        ["ib"] = { query = "@code_cell.inner", desc = "in code block" },
                     },
                 },
                 move = {
@@ -69,30 +71,39 @@ return {
                     goto_next_start = {
                         ["]f"] = "@function.outer",
                         ["]c"] = "@class.outer",
-                        ["]o"] = "@block.inner",
-                        ["]b"] = { query = "@code_cell.inner", desc = "next code block" },
+                        ["]a"] = "@parameter.inner",
+                        ["]b"] = "@code_cell.inner",
                     },
                     goto_next_end = {
                         ["]F"] = "@function.outer",
                         ["]C"] = "@class.outer",
-                        ["]O"] = "@block.outer",
+                        ["]A"] = "@parameter.inner",
+                        ["]B"] = "@code_cell.inner",
                     },
                     goto_previous_start = {
                         ["[f"] = "@function.outer",
                         ["[c"] = "@class.outer",
-                        ["[o"] = "@block.inner",
-                        ["[b"] = { query = "@code_cell.inner", desc = "previous code block" },
+                        ["[a"] = "@parameter.inner",
+                        ["[b"] = "@code_cell.inner",
                     },
                     goto_previous_end = {
                         ["[F"] = "@function.outer",
                         ["[C"] = "@class.outer",
-                        ["[O"] = "@block.outer",
+                        ["[A"] = "@parameter.inner",
+                        ["[B"] = "@code_cell.inner",
                     },
                 },
             },
         },
         config = function(_, opts)
             require("nvim-treesitter.configs").setup(opts)
+            vim.filetype.add({
+                pattern = {
+                    [".*/kitty/.+%.conf"] = "bash",
+                    [".*/hypr/.+%.conf"] = "hyprlang",
+                    ["%.env%.[%w_.-]+"] = "sh",
+                }
+            })
         end,
     },
 }

@@ -99,11 +99,11 @@ return {
             vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
             vim.keymap.set("n", "<leader>sb", builtin.builtin, { desc = "[S]earch Telescope [B]uiltins" })
             vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
-            vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "Telescope [r]esume" })
-            vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]iles live [G]rep" })
-            vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Search [R]ecent [F]iles" })
-            vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "Find files" })
-            vim.keymap.set("n", "<leader>.", builtin.buffers, { desc = "Find existing buffers" })
+            vim.keymap.set("n", "<leader>sR", builtin.resume, { desc = "Telescope [R]esume" })
+            vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch live [G]rep" })
+            vim.keymap.set("n", "<leader>sr", builtin.oldfiles, { desc = "Search [R]ecent [F]iles" })
+            vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "Search files" })
+            vim.keymap.set("n", "<leader><tab>", builtin.buffers, { desc = "List existing buffers" })
             vim.keymap.set("n", "<leader>/", function()
                 builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
                     winblend = 5,
@@ -115,6 +115,10 @@ return {
             vim.keymap.set("n", "<leader>sc", function()
                 builtin.find_files({ cwd = vim.fn.stdpath("config") })
             end, { desc = "[S]earch Neovim [c]onfig files" })
+
+            require("which-key").add({
+                "<leader>s", group = "+[s]earch",
+            })
         end,
         keys = {
             "<leader>sh",
@@ -123,10 +127,10 @@ return {
             "<leader>sb",
             "<leader>sd",
             "<leader>sr",
-            "<leader>fg",
-            "<leader>fr",
+            "<leader>sg",
+            "<leader>sR",
             "<leader><leader>",
-            "<leader>.",
+            "<leader><tab>",
             "<leader>/",
             "<leader>sc",
         },

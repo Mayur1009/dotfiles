@@ -6,7 +6,6 @@ return {
     },
     {
         "NeogitOrg/neogit",
-        -- branch = "nightly",
         dependencies = {
             "nvim-lua/plenary.nvim",         -- required
             "sindrets/diffview.nvim",
@@ -32,10 +31,11 @@ return {
                 diffview_open = not diffview_open
                 vim.cmd(cmd)
             end, { desc = "Git Diffview Toggle" })
+            vim.keymap.set("n", "<leader>gg", ":Neogit<CR>", { desc = "Neogit" })
+            require("which-key").add({
+                "<leader>g",
+                group = "+[g]it",
+            })
         end,
-        keys = {
-            { "<leader>gg", ":Neogit<CR>", desc = "Neogit" },
-            { "<leader>gd" },
-        },
     },
 }

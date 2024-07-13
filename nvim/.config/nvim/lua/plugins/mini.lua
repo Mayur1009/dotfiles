@@ -11,44 +11,9 @@ return {
             --  - ci'  - [C]hange [I]nside [']quote
             local ai = require("mini.ai")
 
-            -- Taken from LazyVim
-            -- Mini.ai indent text object
-            -- For "a", it will include the non-whitespace line surrounding the indent block.
-            -- "a" is line-wise, "i" is character-wise.
-            local function ai_indent(ai_type)
-                local spaces = (" "):rep(vim.o.tabstop)
-                local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-                local indents = {} ---@type {line: number, indent: number, text: string}[]
 
-                for l, line in ipairs(lines) do
-                    if not line:find("^%s*$") then
-                        indents[#indents + 1] = { line = l, indent = #line:gsub("\t", spaces):match("^%s*"), text = line }
-                    end
-                end
-
-                local ret = {}
-                for i = 1, #indents do
-                    if i == 1 or indents[i - 1].indent < indents[i].indent then
-                        local from, to = i, i
-                        for j = i + 1, #indents do
-                            if indents[j].indent < indents[i].indent then
-                                break
-                            end
-                            to = j
-                        end
-                        from = ai_type == "a" and from > 1 and from - 1 or from
-                        to = ai_type == "a" and to < #indents and to + 1 or to
-                        ret[#ret + 1] = {
-                            indent = indents[i].indent,
-                            from = { line = indents[from].line, col = ai_type == "a" and 1 or indents[from].indent + 1 },
-                            to = { line = indents[to].line, col = #indents[to].text },
-                        }
-                    end
-                end
-                return ret
-            end
-
-            require("mini.ai").setup({
+            local extra = require("mini.extra")
+            ai.setup({
                 n_lines = 500,
                 custom_textobjects = {
                     o = ai.gen_spec.treesitter({
@@ -57,18 +22,21 @@ return {
                     }, {}),
                     f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
                     c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
-                    d = { "%f[%d]%d+" }, -- digits
-                    i = ai_indent,
+                    i = extra.gen_ai_spec.indent(),
+                    g = extra.gen_ai_spec.buffer(),
+                    d = extra.gen_ai_spec.number(),
+                    u = ai.gen_spec.function_call(),
+                    U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }),
                 },
             })
 
             require("mini.hipatterns").setup({
                 highlighters = {
+                    fixme = extra.gen_highlighter.words({ "FIXME", "fixme", "Fixme" }, "MiniHipatternsFixme"),
+                    hack = extra.gen_highlighter.words({ "HACK", "hack", "Hack" }, "MiniHipatternsHack"),
+                    todo = extra.gen_highlighter.words({ "TODO", "todo", "Todo" }, "MiniHipatternsTodo"),
+                    note = extra.gen_highlighter.words({ "NOTE", "note", "Note" }, "MiniHipatternsNote"),
                     -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
-                    fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
-                    hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
-                    todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
-                    note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
 
                     -- Highlight hex color strings (`#rrggbb`) using that color
                     hex_color = require("mini.hipatterns").gen_highlighter.hex_color(),
@@ -82,18 +50,18 @@ return {
             -- - gsr)'  - [S]urround [R]eplace [)] [']
             require("mini.surround").setup({
                 mappings = {
-                    add = "gsa",            -- Add surrounding in Normal and Visual modes
-                    delete = "gsd",         -- Delete surrounding
-                    find = "gsf",           -- Find surrounding (to the right)
-                    find_left = "gsF",      -- Find surrounding (to the left)
-                    highlight = "gsh",      -- Highlight surrounding
-                    replace = "gsr",        -- Replace surrounding
+                    add = "gsa", -- Add surrounding in Normal and Visual modes
+                    delete = "gsd", -- Delete surrounding
+                    find = "gsf", -- Find surrounding (to the right)
+                    find_left = "gsF", -- Find surrounding (to the left)
+                    highlight = "gsh", -- Highlight surrounding
+                    replace = "gsr", -- Replace surrounding
                     update_n_lines = "gsn", -- Update `n_lines`
                 },
             })
             require("mini.tabline").setup()
             require("mini.move").setup()
-            require("mini.splitjoin").setup()   -- gS
+            require("mini.splitjoin").setup() -- gS
             require("mini.misc").setup() -- printing table and stuff
             require("mini.pairs").setup()
             require("mini.icons").setup()

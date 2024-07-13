@@ -13,7 +13,6 @@ end
 return {
     {
         "quarto-dev/quarto-nvim",
-        dev = false,
         ft = { "quarto", "markdown" },
         dependencies = {
             "jpalardy/vim-slime",
@@ -48,21 +47,21 @@ return {
             local quarto = require("quarto")
             local runner = require("quarto.runner")
 
-            nmap("<leader>qa", ":QuartoActivate<CR>", "Activate")
-            nmap("<leader>qp", quarto.quartoPreview, "Preview")
-            nmap("<leader>qq", quarto.quartoClosePreview, "Close Preview")
-            nmap("<leader>qh", ":QuartoHelp ", "Help")
-            nmap("<leader>qe", ":lua require'otter'.export()<cr>", "Export")
-            nmap("<leader>qE", ":lua require'otter'.export(true)<cr>", "Export Overwrite")
+            nmap("<localleader>qa", ":QuartoActivate<CR>", "Activate")
+            nmap("<localleader>qp", quarto.quartoPreview, "Preview")
+            nmap("<localleader>qq", quarto.quartoClosePreview, "Close Preview")
+            nmap("<localleader>qh", ":QuartoHelp ", "Help")
+            nmap("<localleader>qe", ":lua require'otter'.export()<cr>", "Export")
+            nmap("<localleader>qE", ":lua require'otter'.export(true)<cr>", "Export Overwrite")
 
-            nmap("<leader>rr", runner.run_cell, "Run Cell")
-            nmap("<leader>ra", runner.run_above, "Run Cell and Above")
-            nmap("<leader>rR", runner.run_all, "Run All Cells")
-            nmap("<leader>rl", runner.run_line, "Run Line")
-            nmap("<leader>rA", function()
+            nmap("<localleader>qrr", runner.run_cell, "Run Cell")
+            nmap("<localleader>qra", runner.run_above, "Run Cell and Above")
+            nmap("<localleader>qrR", runner.run_all, "Run All Cells")
+            nmap("<localleader>qrl", runner.run_line, "Run Line")
+            nmap("<localleader>qrA", function()
                 runner.run_all(true)
             end, "All Cells of All Languages")
-            vmap("<leader>rr", runner.run_range, "Run Visual range")
+            vmap("<localleader>qrr", runner.run_range, "Run Visual range")
 
             nmap("<leader>cr", "<esc>o```{r}<cr>```<esc>O", "Code cell [R]")
             nmap("<leader>cp", "<esc>o```{python}<cr>```<esc>O", "Code cell [P]ython")
@@ -75,10 +74,10 @@ return {
                 vim.cmd("normal ]bzz")
             end, "Quarto Run Cell and move to next cell")
 
-            require("which-key").register({
-                ["<leader>q"] = { name = "+Quarto", _ = "which_key_ignore" },
-                ["<leader>r"] = { name = "+Run", _ = "which_key_ignore" },
-                ["<leader>c"] = { name = "+Code/Cell", _ = "which_key_ignore" },
+            require("which-key").add({
+                { "<leader>c", group = "+Cell" },
+                { "<localleader>q", group = "+Quarto" },
+                { "<localleader>qr", group = "+Run" },
             })
         end,
     },

@@ -119,21 +119,35 @@ return {
 
             local sign = vim.fn.sign_define
 
-            sign("DapBreakpoint",
-                { text = "●", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
-            sign("DapBreakpointCondition",
-                { text = "●", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
+            sign("DapBreakpoint", {
+                text = "●",
+                texthl = "DiagnosticError",
+                linehl = "DapBreakpointCursorline",
+                numhl = "DiagnosticError",
+            })
+            sign("DapBreakpointCondition", {
+                text = "●",
+                texthl = "DiagnosticError",
+                linehl = "DapBreakpointCursorline",
+                numhl = "DiagnosticError",
+            })
             sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "DapLogPoint", numhl = "DapLogPoint" })
-            sign("DapStopped",
-                { text = "󰁕 ", texthl = "DiagnosticWarn", linehl = "DapStoppedLine", numhl = "DiagnosticWarn" })
-            sign("DapBreakpointRejected",
-                { text = " ", texthl = "DiagnosticError", linehl = "DapBreakpointCursorline", numhl = "DiagnosticError" })
+            sign(
+                "DapStopped",
+                { text = "󰁕 ", texthl = "DiagnosticWarn", linehl = "DapStoppedLine", numhl = "DiagnosticWarn" }
+            )
+            sign("DapBreakpointRejected", {
+                text = " ",
+                texthl = "DiagnosticError",
+                linehl = "DapBreakpointCursorline",
+                numhl = "DiagnosticError",
+            })
 
-            vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "DAP: UI Toggle" })
-            vim.keymap.set({ "n", "v" }, "<leader>de", dapui.eval, { desc = "DAP: UI Eval" })
+            vim.keymap.set("n", "<localleader>du", dapui.toggle, { desc = "DAP: UI Toggle" })
+            vim.keymap.set({ "n", "v" }, "<localleader>de", dapui.eval, { desc = "DAP: UI Eval" })
         end,
         keys = {
-            "<leader>du",
+            "<localleader>du",
         },
     },
     {
@@ -151,7 +165,8 @@ return {
 
             require("cmp").setup({
                 enabled = function()
-                    return vim.api.nvim_get_option_value("buftype", {}) ~= "prompt" or require("cmp_dap").is_dap_buffer()
+                    return vim.api.nvim_get_option_value("buftype", {}) ~= "prompt"
+                        or require("cmp_dap").is_dap_buffer()
                 end,
             })
 
@@ -176,7 +191,7 @@ return {
                 name = "Launch file with arguments -nojustMyCode",
                 program = "${file}",
                 args = function()
-                    local args_string = vim.fn.input('Arguments: ')
+                    local args_string = vim.fn.input("Arguments: ")
                     return vim.split(args_string, " +")
                 end,
                 request = "launch",
@@ -219,18 +234,18 @@ return {
                 }
             end
 
-            vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "DAP: Toggle Breakpoint" })
-            vim.keymap.set("n", "<leader>dB", function()
+            vim.keymap.set("n", "<localleader>db", dap.toggle_breakpoint, { desc = "DAP: Toggle Breakpoint" })
+            vim.keymap.set("n", "<localleader>dB", function()
                 dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
             end, { desc = "DAP: Set Breakpoint" })
-            vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "DAP: Continue/Start" })
-            vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "DAP: Step into" })
-            vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "DAP: Step over" })
-            vim.keymap.set("n", "<leader>dO", dap.step_out, { desc = "DAP: Step out" })
-            vim.keymap.set("n", "<leader>dp", dap.pause, { desc = "DAP: Pause" })
-            vim.keymap.set("n", "<leader>dt", dap.terminate, { desc = "DAP: Terminate" })
-            vim.keymap.set("n", "<leader>dC", dap.run_to_cursor, { desc = "DAP: Run to Cursor" })
-            vim.keymap.set("n", "<leader>ds", dap.session, { desc = "DAP: Session" })
+            vim.keymap.set("n", "<localleader>dc", dap.continue, { desc = "DAP: Continue/Start" })
+            vim.keymap.set("n", "<localleader>di", dap.step_into, { desc = "DAP: Step into" })
+            vim.keymap.set("n", "<localleader>do", dap.step_over, { desc = "DAP: Step over" })
+            vim.keymap.set("n", "<localleader>dO", dap.step_out, { desc = "DAP: Step out" })
+            vim.keymap.set("n", "<localleader>dp", dap.pause, { desc = "DAP: Pause" })
+            vim.keymap.set("n", "<localleader>dt", dap.terminate, { desc = "DAP: Terminate" })
+            vim.keymap.set("n", "<localleader>dC", dap.run_to_cursor, { desc = "DAP: Run to Cursor" })
+            vim.keymap.set("n", "<localleader>ds", dap.session, { desc = "DAP: Session" })
 
             vim.keymap.set("n", "<F6>", dap.toggle_breakpoint, { desc = "DAP: Toggle Breakpoint" })
             vim.keymap.set("n", "<F7>", dap.step_out, { desc = "DAP: Step out" })
@@ -238,18 +253,23 @@ return {
             vim.keymap.set("n", "<F9>", dap.step_over, { desc = "DAP: Step over" })
             vim.keymap.set("n", "<F10>", dap.step_into, { desc = "DAP: Step into" })
             vim.keymap.set("n", "<F12>", dap.terminate, { desc = "DAP: Terminate" })
+
+            require("which-key").add({
+                "<localleader>d",
+                group = "+[d]ebug",
+            })
         end,
         keys = {
-            "<leader>db",
-            "<leader>dB",
-            "<leader>dc",
-            "<leader>di",
-            "<leader>do",
-            "<leader>dO",
-            "<leader>dp",
-            "<leader>dt",
-            "<leader>dC",
-            "<leader>ds",
+            "<localleader>db",
+            "<localleader>dB",
+            "<localleader>dc",
+            "<localleader>di",
+            "<localleader>do",
+            "<localleader>dO",
+            "<localleader>dp",
+            "<localleader>dt",
+            "<localleader>dC",
+            "<localleader>ds",
             "<F6>",
             "<F7>",
             "<F8>",

@@ -14,7 +14,7 @@ vim.g.have_nerd_font = true
 vim.g.is_work_laptop = vim.uv.os_uname().sysname == "Darwin"
 
 -- Fix markdown indentation settings
--- vim.g.markdown_recommended_style = 0
+vim.g.markdown_recommended_style = 0
 vim.g.markdown_folding = 1
 
 -- [[ Setting options ]]

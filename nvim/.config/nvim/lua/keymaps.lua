@@ -45,6 +45,7 @@ vim.keymap.set("v", ">", ">gv")
 -- Buffer nav
 vim.keymap.set("n", "[<tab>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 vim.keymap.set("n", "]<tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "d<tab>", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
 
 -- better up/down
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -95,12 +96,12 @@ local cmd_in_tmux_window = function(cmd)
     end
 end
 
-vim.keymap.set("n", "<localleader>rp", function()
+vim.keymap.set("n", "<localleader>fp", function()
     local cmd = "python " .. vim.fn.expand("%")
     cmd_in_tmux_window(cmd)
 end, { desc = "Run python file in new TMUX window" })
 
-vim.keymap.set("n", "<localleader>rc", function()
+vim.keymap.set("n", "<localleader>fc", function()
     local ext = vim.fn.expand("%:e")
     local cmd = ext == "c" and "gcc " or "g++ " .. vim.fn.expand("%") .. " -o " .. vim.fn.expand("%:t:r")
     cmd_in_tmux_window(cmd)
@@ -117,8 +118,9 @@ vim.keymap.set("v", "<leader>d", '"_d', { desc = "Delete to void" })
 vim.keymap.set("v", "<leader>p", '"_dP', { desc = "Replace without changing register" })
 
 -- Norwegian keybord layout
-vim.keymap.set("n", "ø", "[", { remap = true })
-vim.keymap.set("n", "æ", "]", { remap = true })
-vim.keymap.set("n", "Ø", "{", { remap = true })
-vim.keymap.set("n", "Æ", "}", { remap = true })
-vim.keymap.set("n", "-", "/", { remap = true })
+vim.keymap.set({"n", "o", "v"}, "ø", "[", { remap = true })
+vim.keymap.set({"n", "o", "v"}, "æ", "]", { remap = true })
+vim.keymap.set({"n", "o", "v"}, "Ø", "{", { remap = true })
+vim.keymap.set({"n", "o", "v"}, "Æ", "}", { remap = true })
+vim.keymap.set({"n", "o", "v"}, "-", "/", { remap = true })
+
