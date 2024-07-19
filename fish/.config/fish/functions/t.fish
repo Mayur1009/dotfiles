@@ -5,14 +5,7 @@ function t -d "Create or connect to session using fzf"
         return
     end
 
-    set -l selected $argv[1]
-
-    if test -z "$selected"
-        set selected (begin 
-            tmux list-sessions 2>/dev/null | awk -F: '{print $1}'
-            fd -H -t d -L -i --ignore-file ~/.my_fdignore . ~ 
-        end | fzf)
-    end
+    set selected (fzf --tmux --height=50% --walker=dir,follow,hidden --walker-root="$HOME" --walker-skip=Library,.Trash,miniforge3,.cache,.git,node_modules,.venv)
 
     if test -z "$selected"
         echo "Nothing selected"
@@ -22,8 +15,7 @@ function t -d "Create or connect to session using fzf"
     set -l sname (basename $selected | tr . _)
 
     if not tmux has -t=$sname 2>/dev/null
-        tmux new -s "$sname" -n "nvim" -c $selected -d \; send-keys -t "$sname:nvim.1" nvim C-m
-        # tmux send-keys -t $sname nvim Enter
+        tmux new -s "$sname" -n nvim -c "$selected" -d \; send-keys -t "$sname:nvim.1" nvim C-m
     end
 
     tmux attach -t $sname

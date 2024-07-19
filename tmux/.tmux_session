@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-selected=$({
-	tmux list-sessions 2>/dev/null | awk -F: '{print $1}'
-    fd -H -t d -L -i --ignore-file ~/.my_fdignore . ~ 
-} | fzf)
+selected=$(fzf --tmux 50% --walker=dir,follow,hidden --walker-root="$HOME" --walker-skip=Library,.Trash,miniforge4,.cache,.git,node_modules,.venv)
 
 if [[ -z $selected ]]; then
 	exit 0
@@ -11,8 +8,8 @@ fi
 
 sname=$(basename "$selected" | tr . _)
 
-if ! tmux has -t=$sname 2>/dev/null; then
-    tmux new -s "$sname" -n "nvim" -c $selected -d \; send-keys -t "$sname:nvim.1" nvim C-m
+if ! tmux has -t="$sname" 2>/dev/null; then
+    tmux new -s "$sname" -n "nvim" -c "$selected" -d \; send-keys -t "$sname:nvim.1" nvim C-m
 fi
 
-tmux switch -t $sname
+tmux switch -t "$sname"

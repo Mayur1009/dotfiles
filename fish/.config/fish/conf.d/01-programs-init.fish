@@ -18,3 +18,7 @@ end
 
 # Starship
 starship init fish | source
+
+# FZF
+fzf --fish | source
+bind \cf "t"
