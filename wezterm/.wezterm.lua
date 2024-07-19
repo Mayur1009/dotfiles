@@ -6,7 +6,7 @@ end
 
 local config = {
     color_scheme = "tokyonight_night",
-    font = wezterm.font("JetBrainsMono Nerd Font Mono"),
+    font = wezterm.font("JetBrainsMono Nerd Font"),
     font_size = 16,
     line_height = 1.10,
     enable_tab_bar = false,
