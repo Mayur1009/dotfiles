@@ -59,6 +59,11 @@ return {
                     update_n_lines = "gsn", -- Update `n_lines`
                 },
             })
+            require("mini.jump").setup({
+                delay = {
+                    idle_stop = 10000,
+                }
+            })
             require("mini.tabline").setup()
             require("mini.move").setup()
             require("mini.splitjoin").setup() -- gS
