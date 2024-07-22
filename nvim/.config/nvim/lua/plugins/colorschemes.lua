@@ -8,8 +8,13 @@ return {
                 style = "night",
                 dim_inactive = true,
                 on_highlights = function(hl, c)
+                    hl.DiagnosticUnderlineError = { underline = true, sp = c.error }
+                    hl.DiagnosticUnderlineWarn = { underline = true, sp = c.warning }
+                    hl.DiagnosticUnderlineInfo = { underline = true, sp = c.info }
+                    hl.DiagnosticUnderlineHint = { underline = true, sp = c.hint }
+                    hl.SpellBad = { undercurl = true, sp = c.comment }
                     hl.TreesitterContext = { bg = c.bg_highlight }
-                    hl.MiniJump = { fg = "#ffffff", underline = true }
+                    hl.MiniJump = { sp = "#ffffff", underline = true }
                     hl.SlimeCellBoundaryTop = { underdotted = true, fg = c.border_highlight }
                     hl.SlimeCellBoundaryBottom = { underdouble = true, fg = c.border_highlight }
                     hl.rCursor = { fg = c.black, bg = c.red, bold = true }
