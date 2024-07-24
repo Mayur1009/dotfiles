@@ -9,12 +9,16 @@ return {
                 version = "v2.*",
                 build = "make install_jsregexp",
                 dependencies = {
-                    { "rafamadriz/friendly-snippets" }
+                    { "rafamadriz/friendly-snippets" },
                 },
             },
             "saadparwaiz1/cmp_luasnip",
             "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-nvim-lsp-document-symbol",
+            "hrsh7th/cmp-nvim-lsp-signature-help",
             "hrsh7th/cmp-path",
+            "ray-x/cmp-treesitter",
+            "lukas-reineke/cmp-rg",
             { "kdheepak/cmp-latex-symbols" },
             { "jmbuhr/cmp-pandoc-references" },
             { "micangl/cmp-vimtex" },
@@ -37,6 +41,13 @@ return {
             require("luasnip.loaders.from_vscode").lazy_load()
             luasnip.filetype_extend("quarto", { "markdown" })
             luasnip.filetype_extend("rmarkdown", { "markdown" })
+
+            vim.keymap.set(
+                "n",
+                "<leader>rl",
+                require("luasnip.loaders").edit_snippet_files,
+                { desc = "Luasnip edit snippet" }
+            )
 
             cmp.setup({
                 snippet = {
@@ -98,24 +109,27 @@ return {
                     --
                     -- <c-l> will move you to the right of each of the expansion locations.
                     -- <c-h> is similar, except moving you backwards.
-                    ["<C-l>"] = cmp.mapping(function()
+                    ["<C-l>"] = cmp.mapping(function(fallback)
                         if luasnip.expand_or_locally_jumpable() then
                             luasnip.expand_or_jump()
+                        else
+                            fallback()
                         end
                     end, { "i", "s" }),
-                    ["<C-h>"] = cmp.mapping(function()
+                    ["<C-h>"] = cmp.mapping(function(fallback)
                         if luasnip.locally_jumpable(-1) then
                             luasnip.jump(-1)
+                        else
+                            fallback()
                         end
                     end, { "i", "s" }),
-                    ["<C-u>"] = cmp.mapping(function()
-                        luasnip.expand()
-                    end),
-                    ["<C-e>"] = cmp.mapping(function()
-                        if luasnip.choice_active() then
-                            luasnip.change_choice()
+                    ["<C-k>"] = cmp.mapping(function(fallback)
+                        if luasnip.expandable() then
+                            luasnip.expand()
+                        else
+                            fallback()
                         end
-                    end)
+                    end),
                 }),
                 formatting = {
                     format = lspkind.cmp_format({
@@ -123,26 +137,35 @@ return {
                         show_labelDetails = true,
                         menu = {
                             nvim_lsp = " ",
-                            vimtex = "",
-                            dap = " ",
-                            luasnip = " ",
+                            vimtex = " ",
+                            cmp_r = "󰟔 ",
+                            luasnip = " ",
+                            nvim_lsp_signature_help = "[sig]",
                             path = " ",
-                            latex_symbols = " ",
+                            nvim_lsp_document_symbols = "[ds]",
+                            latex_symbols = " ",
                             pandoc_references = " ",
+                            treesitter = " ",
+                            rg = "[rg]",
                             emoji = "😇",
                             buffer = "󰈔",
+                            dap = " ",
                         },
                     }),
                 },
 
                 sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                    { name = "vimtex" },
-                    { name = "cmp_r" },
-                    { name = "luasnip" },
+                    { name = "nvim_lsp", priority = 100 },
+                    { name = "vimtex", priority = 100 },
+                    { name = "cmp_r", priority = 100 },
+                    { name = "nvim_lsp_signature_help", priority = 100 },
+                    { name = "luasnip", priority = 95 },
+                    { name = "nvim_lsp_document_symbols" },
                     { name = "path" },
                     { name = "latex_symbols" },
                     { name = "pandoc_references" },
+                    { name = "treesitter", priority = 10 },
+                    { name = "rg", keyword_length = 3, priority = 10 },
                 }, {
                     { name = "buffer" },
                 }),

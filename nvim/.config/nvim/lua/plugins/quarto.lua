@@ -36,7 +36,18 @@ return {
         config = function()
             require("quarto").setup({
                 lspFeatures = {
-                    languages = { "r", "python", "julia", "bash", "lua", "html", "dot", "javascript", "typescript", "ojs" },
+                    languages = {
+                        "r",
+                        "python",
+                        "julia",
+                        "bash",
+                        "lua",
+                        "html",
+                        "dot",
+                        "javascript",
+                        "typescript",
+                        "ojs",
+                    },
                 },
                 codeRunner = {
                     enabled = true,
@@ -84,7 +95,7 @@ return {
 
     {
         "HakonHarnes/img-clip.nvim",
-        event = "BufEnter",
+        ft = { "markdown", "quarto" },
         opts = {
             filetypes = {
                 markdown = {

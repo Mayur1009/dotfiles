@@ -13,8 +13,8 @@ return {
                     hl.DiagnosticUnderlineInfo = { underline = true, sp = c.info }
                     hl.DiagnosticUnderlineHint = { underline = true, sp = c.hint }
                     hl.SpellBad = { undercurl = true, sp = c.comment }
-                    hl.TreesitterContext = { bg = c.bg_highlight }
-                    hl.MiniJump = { sp = "#ffffff", underline = true }
+                    -- hl.TreesitterContext = { bg = c.bg_dark }
+                    hl.MiniJump = { bg = "#777777" }
                     hl.SlimeCellBoundaryTop = { underdotted = true, fg = c.border_highlight }
                     hl.SlimeCellBoundaryBottom = { underdouble = true, fg = c.border_highlight }
                     hl.rCursor = { fg = c.black, bg = c.red, bold = true }

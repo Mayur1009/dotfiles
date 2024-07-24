@@ -4,18 +4,11 @@ return {
         event = { "BufReadPost", "BufNewFile" },
         cmd = { "LspInfo", "LspInstall", "LspUninstall" },
         dependencies = {
-            -- Automatically install LSPs and related tools to stdpath for neovim
-            { "williamboman/mason.nvim",    cmd = { "Mason" }, opts = {} },
+            { "williamboman/mason.nvim", cmd = { "Mason" }, opts = {} },
             "williamboman/mason-lspconfig.nvim",
             "WhoIsSethDaniel/mason-tool-installer.nvim",
-
-            -- Useful status updates for LSP.
-            -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-            { "j-hui/fidget.nvim",          opts = {} },
-
-            -- "p00f/clangd_extensions.nvim",
+            { "j-hui/fidget.nvim", opts = {} },
             { "barreiroleo/ltex-extra.nvim" },
-            { "ray-x/lsp_signature.nvim" },
         },
         config = function()
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -55,8 +48,11 @@ return {
 
                     -- Fuzzy find all the symbols in your current workspace
                     --  Similar to document symbols, except searches over your whole project.
-                    map("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols,
-                        "[S]earch Workspace [S]ymbols")
+                    map(
+                        "<leader>sS",
+                        require("telescope.builtin").lsp_dynamic_workspace_symbols,
+                        "[S]earch Workspace [S]ymbols"
+                    )
 
                     -- Rename the variable under your cursor
                     --  Most Language Servers support renaming across files, etc.
@@ -75,9 +71,14 @@ return {
                     map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
                     map("gH", function()
-                        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
-                        vim.notify("Inlay hints " ..
-                            (vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled"))
+                        vim.lsp.inlay_hint.enable(
+                            not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
+                            { bufnr = bufnr }
+                        )
+                        vim.notify(
+                            "Inlay hints "
+                                .. (vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled")
+                        )
                     end, "Toggle Inlay [H]ints")
 
                     map("gF", vim.lsp.buf.format, "[F]ormat")
@@ -98,15 +99,6 @@ return {
                     --         callback = vim.lsp.buf.clear_references,
                     --     })
                     -- end
-
-                    require("lsp_signature").on_attach({
-                        doc_lines = 0,
-                        toggle_key = "<C-k>",
-                    }, bufnr)
-
-                    vim.keymap.set({ "n" }, "<C-k>", function()
-                        require("lsp_signature").toggle_float_win()
-                    end, { silent = true, noremap = true, desc = "toggle signature" })
                 end,
             })
 
@@ -136,13 +128,20 @@ return {
                                 DeducedTypes = true,
                             },
                             fallbackFlags = { "-std=c++20" },
-                        }
-                    }
+                        },
+                    },
                 },
                 lua_ls = {
                     settings = {
                         Lua = {
-                            hint = { enabled = true, },
+                            hint = {
+                                enabled = true,
+                                setType = false,
+                                paramType = true,
+                                paramName = "Disable",
+                                semicolon = "Disable",
+                                arrayIndex = "Disable",
+                            },
                             diagnostics = {
                                 globals = {
                                     "awesome",
@@ -175,10 +174,10 @@ return {
                 neocmake = {},
                 r_language_server = {
                     root_dir = function(fname)
-                        return require("lspconfig.util").root_pattern("DESCRIPTION", "NAMESPACE", ".Rbuildignore")(fname)
-                            or require("lspconfig.util").find_git_ancestor(fname)
-                            or vim.loop.os_homedir()
-                    end
+                        return require("lspconfig.util").root_pattern("DESCRIPTION", "NAMESPACE", ".Rbuildignore")(
+                            fname
+                        ) or require("lspconfig.util").find_git_ancestor(fname) or vim.loop.os_homedir()
+                    end,
                 },
                 ruff = {
                     on_attach = function(client, _)

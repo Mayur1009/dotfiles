@@ -11,6 +11,10 @@ return {
             "sindrets/diffview.nvim",
             "nvim-telescope/telescope.nvim", -- optional
         },
+        keys = {
+            "<leader>gg",
+            "<leader>gd",
+        },
         config = function()
             require("neogit").setup({
                 integrations = {
