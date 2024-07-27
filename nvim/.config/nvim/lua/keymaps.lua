@@ -123,8 +123,10 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "<leader>S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-vim.keymap.set("v", "<leader>d", '"_d', { desc = "Delete to void" })
-vim.keymap.set("v", "<leader>p", '"_dP', { desc = "Replace without changing register" })
+
+vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete to void" })
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to system" })
+vim.keymap.set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system" })
 
 -- Norwegian keybord layout
 vim.keymap.set({ "n", "o", "v" }, "ø", "[", { remap = true })

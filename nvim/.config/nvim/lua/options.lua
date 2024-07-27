@@ -17,16 +17,12 @@ vim.g.is_work_laptop = vim.uv.os_uname().sysname == "Darwin"
 vim.g.markdown_recommended_style = 0
 vim.g.markdown_folding = 1
 
--- [[ Setting options ]]
--- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
 local opt = vim.opt
 
 opt.autowrite = true
 opt.breakindent = true
 opt.breakindentopt = "shift:2,sbr"
-opt.clipboard = "unnamedplus"
+-- opt.clipboard = "unnamedplus"
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 0
 opt.confirm = true
