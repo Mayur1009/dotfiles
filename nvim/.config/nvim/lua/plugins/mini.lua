@@ -3,15 +3,7 @@ return {
         "echasnovski/mini.nvim",
         event = "VeryLazy",
         config = function()
-            -- Better Around/Inside textobjects
-            --
-            -- Examples:
-            --  - va)  - [V]isually select [A]round [)]paren
-            --  - yinq - [Y]ank [I]nside [N]ext [']quote
-            --  - ci'  - [C]hange [I]nside [']quote
             local ai = require("mini.ai")
-
-
             local extra = require("mini.extra")
             ai.setup({
                 n_lines = 500,
@@ -43,11 +35,6 @@ return {
                 },
             })
 
-            -- Add/delete/replace surroundings (brackets, quotes, etc.)
-            --
-            -- - gsaiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-            -- - gsd'   - [S]urround [D]elete [']quotes
-            -- - gsr)'  - [S]urround [R]eplace [)] [']
             require("mini.surround").setup({
                 mappings = {
                     add = "gsa", -- Add surrounding in Normal and Visual modes
@@ -59,18 +46,20 @@ return {
                     update_n_lines = "gsn", -- Update `n_lines`
                 },
             })
+
             require("mini.jump").setup({
                 delay = {
                     idle_stop = 10000,
-                }
+                },
             })
-            require("mini.tabline").setup()
+
             require("mini.move").setup()
             require("mini.splitjoin").setup() -- gS
             require("mini.misc").setup() -- printing table and stuff
             require("mini.pairs").setup()
             require("mini.icons").setup()
             require("mini.icons").mock_nvim_web_devicons()
+
             vim.keymap.set("n", "<leader>tp", function()
                 vim.g.minipairs_disable = not vim.g.minipairs_disable
             end, { desc = "[T]oggle auto [p]airs" })
