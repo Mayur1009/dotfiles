@@ -57,12 +57,7 @@ return {
     {
         "nvim-lualine/lualine.nvim",
         dependencies = {
-            {
-                "letieu/harpoon-lualine",
-                dependencies = {
-                    "ThePrimeagen/harpoon",
-                },
-            },
+            "letieu/harpoon-lualine",
         },
         event = "VeryLazy",
         config = function()
@@ -70,7 +65,7 @@ return {
                 options = {
                     icons_enabled = true,
                     theme = "auto",
-                    component_separators = { left = "|", right = "|" },
+                    component_separators = { left = "┃", right = "┃" },
                     section_separators = { left = "", right = "" },
                     always_divide_middle = false,
                 },
@@ -81,15 +76,14 @@ return {
                             fmt = function(str)
                                 local cur_width = vim.o.laststatus == 3 and vim.o.columns
                                     or vim.api.nvim_win_get_width(0)
-                                return cur_width < 120 and str:sub(1, 1) or str
+                                return cur_width < 100 and str:sub(1, 1) or str
                             end,
                             color = { gui = "bold" },
                         },
                     },
-                    lualine_b = {
-                        { "filename", path = 1 },
-                    },
+                    lualine_b = {},
                     lualine_c = {
+                        { "filename", path = 1, shorting_target = 100 },
                         {
                             "buffers",
                             symbols = {
@@ -97,9 +91,21 @@ return {
                             },
                         },
                     },
-                    lualine_x = { "harpoon2", "searchcount", "selectioncount" },
-                    lualine_y = { "diagnostics", "branch", "diff", "filetype" },
-                    lualine_z = { "%2l:%-2v" },
+                    lualine_x = {
+                        {
+                            "harpoon2",
+                            _separator = "",
+                            no_harpoon = "",
+                        },
+                        "diagnostics",
+                        "diff",
+                        "branch",
+                        "filetype",
+                    },
+                    lualine_y = {},
+                    lualine_z = {
+                        "%2l:%-2v",
+                    },
                 },
                 extensions = { "lazy", "man", "mason", "oil", "quickfix", "trouble" },
             })

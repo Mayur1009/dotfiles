@@ -34,12 +34,16 @@ return {
                     sync_on_ui_close = true,
                 },
             })
-            vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, { desc = "Harpoon add" })
-            vim.keymap.set("n", "<leader>h", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
-                { desc = "Toggle Harpoon  Menu" })
+            vim.keymap.set("n", "<leader>a", function()
+                harpoon:list():add()
+            end, { desc = "Harpoon add" })
+            vim.keymap.set("n", "<leader>h", function()
+                harpoon.ui:toggle_quick_menu(harpoon:list())
+            end, { desc = "Toggle Harpoon  Menu" })
             for i = 1, 8 do
-                vim.keymap.set("n", "<leader>" .. i, function() harpoon:list():select(i) end,
-                    { desc = "Harpoon File " .. i })
+                vim.keymap.set("n", "<leader>" .. i, function()
+                    harpoon:list():select(i)
+                end, { desc = "Harpoon File " .. i })
             end
         end,
         keys = {
@@ -51,5 +55,4 @@ return {
             "<leader>4",
         },
     },
-
 }
