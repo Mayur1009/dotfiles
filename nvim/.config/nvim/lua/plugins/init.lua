@@ -86,7 +86,9 @@ return {
                             color = { gui = "bold" },
                         },
                     },
-                    lualine_b = { "harpoon2" },
+                    lualine_b = {
+                        { "filename", path = 1 },
+                    },
                     lualine_c = {
                         {
                             "buffers",
@@ -95,7 +97,7 @@ return {
                             },
                         },
                     },
-                    lualine_x = { "searchcount", "selectioncount" },
+                    lualine_x = { "harpoon2", "searchcount", "selectioncount" },
                     lualine_y = { "diagnostics", "branch", "diff", "filetype" },
                     lualine_z = { "%2l:%-2v" },
                 },
