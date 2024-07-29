@@ -34,25 +34,27 @@ return {
                     sync_on_ui_close = true,
                 },
             })
-            vim.keymap.set("n", "<leader>a", function()
+            vim.keymap.set("n", "<tab>i", function()
                 harpoon:list():add()
             end, { desc = "Harpoon add" })
-            vim.keymap.set("n", "<leader>h", function()
+            vim.keymap.set("n", "<tab>h", function()
                 harpoon.ui:toggle_quick_menu(harpoon:list())
             end, { desc = "Toggle Harpoon  Menu" })
             for i = 1, 8 do
-                vim.keymap.set("n", "<leader>" .. i, function()
+                vim.keymap.set("n", "<tab>" .. i, function()
                     harpoon:list():select(i)
                 end, { desc = "Harpoon File " .. i })
             end
         end,
-        keys = {
-            "<leader>h",
-            "<leader>a",
-            "<leader>1",
-            "<leader>2",
-            "<leader>3",
-            "<leader>4",
-        },
+        keys = function()
+            local t = {
+                "<tab>h",
+                "<tab>i",
+            }
+            for i = 1, 8 do
+                table.insert(t, "<tab>" .. i)
+            end
+            return t
+        end,
     },
 }

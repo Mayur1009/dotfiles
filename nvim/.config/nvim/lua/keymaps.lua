@@ -43,9 +43,11 @@ vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
 -- Buffer nav
-vim.keymap.set("n", "[<tab>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-vim.keymap.set("n", "]<tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
-vim.keymap.set("n", "d<tab>", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
+vim.keymap.set("n", "<tab>[", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+vim.keymap.set("n", "<tab>]", "<cmd>bnext<cr>", { desc = "Next buffer" })
+-- vim.keymap.set("n", "<tab>ø", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+-- vim.keymap.set("n", "<tab>æ", "<cmd>bnext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "<tab>d", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
 
 -- better up/down
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -117,7 +119,7 @@ vim.keymap.set("n", "<localleader>fc", function()
 end, { desc = "Run gcc/g++ file in new TMUX window" })
 
 -- Others
-vim.keymap.set("n", "<tab><tab>", "<C-6>")
+vim.keymap.set("n", "<tab><tab>", "<C-6>", { desc = "Alternate file <C-6>" })
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
@@ -129,8 +131,20 @@ vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to system" })
 vim.keymap.set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system" })
 
 -- Norwegian keybord layout
-vim.keymap.set({ "n", "o", "v" }, "ø", "[", { remap = true })
-vim.keymap.set({ "n", "o", "v" }, "æ", "]", { remap = true })
-vim.keymap.set({ "n", "o", "v" }, "Ø", "{", { remap = true })
-vim.keymap.set({ "n", "o", "v" }, "Æ", "}", { remap = true })
-vim.keymap.set({ "n", "o", "v" }, "-", "/", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "ø", "[", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "æ", "]", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "Ø", "{", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "Æ", "}", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "-", "/", { remap = true })
+
+vim.keymap.set({ "n", "o", "v", "x" }, "[ø", "[[", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "]æ", "]]", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "gø", "g[", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "gæ", "g]", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "<tab>ø", "<tab>[", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "<tab>æ", "<tab>]", { remap = true })
+
+vim.keymap.set({ "n", "o", "v", "x" }, "gØ", "g{", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "gÆ", "g}", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "<tab>Ø", "<tab>{", { remap = true })
+vim.keymap.set({ "n", "o", "v", "x" }, "<tab>Æ", "<tab>}", { remap = true })

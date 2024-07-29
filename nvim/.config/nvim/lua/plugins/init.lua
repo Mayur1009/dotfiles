@@ -6,14 +6,10 @@ return {
     },
     {
         "folke/which-key.nvim",
-        event = "VimEnter",
+        event = "VeryLazy",
         config = function()
             require("which-key").setup({
-                win = {
-                    wo = {
-                        winblend = 10,
-                    },
-                },
+                preset = "helix",
                 delay = 300,
                 filter = function(mapping)
                     return mapping.desc and mapping.desc ~= ""
@@ -22,9 +18,19 @@ return {
                     { "<leader>t", group = "+[t]oggle" },
                     { "<leader>v", group = "+terminals" },
                     { "<localleader>f", group = "+run file" },
+                    { "<tab>", group = "+buffers" },
                 },
             })
         end,
+        keys = {
+            {
+                "<leader>?",
+                function()
+                    require("which-key").show({ global = false })
+                end,
+                desc = "Buffer Local Keymaps (which-key)",
+            },
+        },
     },
     {
         "nvimdev/indentmini.nvim",
