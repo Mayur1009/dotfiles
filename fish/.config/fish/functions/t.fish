@@ -1,10 +1,5 @@
 # t
 function t -d "Create or connect to session using fzf"
-    # if set -q TMUX
-    #     echo "Use tmux keybind...(C-a f)"
-    #     return
-    # end
-
     set selected (fzf --tmux --height=50% --walker=dir,follow,hidden --walker-root="$HOME" --walker-skip=Library,.Trash,miniforge3,.cache,.git,node_modules,.venv,.nvim_venv,Pictures,Music,Applications,Movies,Public,.vscode,.ssh,.npm,go,.cargo)
 
     if test -z "$selected"
