@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
-selected=$(fzf --tmux 50% --walker=dir,follow,hidden --walker-root="$HOME" --walker-skip=Library,.Trash,miniforge4,.cache,.git,node_modules,.venv)
+selected=$1
+
+# fd -H -t d -i . ~ | fzf
+# fd -H -t d -L -a --base-directory ~ --ignore-file ~/dotfiles/tmux/ignore | fzf
+if [[ -z $selected ]]; then
+    # selected=$(fzf --tmux 50% --walker=dir,follow,hidden --walker-root="$HOME" --walker-skip=Library,.Trash,miniforge4,.cache,.git,node_modules,.venv)
+    selected=$(fd -H -t d -L -a --base-directory ~ --ignore-file ~/dotfiles/tmux/ignore | fzf --tmux 75%) 
+fi
 
 if [[ -z $selected ]]; then
 	exit 0
@@ -9,7 +16,11 @@ fi
 sname=$(basename "$selected" | tr . _)
 
 if ! tmux has -t="$sname" 2>/dev/null; then
-    tmux new -s "$sname" -n "nvim" -c "$selected" -d \; send-keys -t "$sname:nvim.1" nvim C-m
+    tmux new -s "$sname" -n "nvim" -c "$selected" -d \; send-keys -t "$sname:nvim.1" auto_activate_mamba C-m nvim C-m
 fi
 
-tmux switch -t "$sname"
+if [[ -n $TMUX ]]; then
+    tmux switch -t "$sname"
+else
+    tmux attach -t "$sname"
+fi
