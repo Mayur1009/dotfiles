@@ -11,7 +11,7 @@ save_to_clipboard = true
 
 [cursor]
 style = { shape = "Block", blinking = "On" }
-vi_mode_style = { shape = "Underline", blinking = "Off" }
+vi_mode_style = { shape = "Block", blinking = "Off" }
 
 [mouse]
 hide_when_typing = true

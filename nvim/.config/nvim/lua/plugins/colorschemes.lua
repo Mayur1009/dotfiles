@@ -1,19 +1,16 @@
 return {
     {
         "folke/tokyonight.nvim",
-        -- lazy = false, -- make sure we load this during startup if it is your main colorscheme
+        lazy = false, -- make sure we load this during startup if it is your main colorscheme
         priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
             require("tokyonight").setup({
                 style = "night",
                 dim_inactive = true,
+                lualine_bold = true,
+                transparent = false,
                 on_highlights = function(hl, c)
-                    hl.DiagnosticUnderlineError = { underline = true, sp = c.error }
-                    hl.DiagnosticUnderlineWarn = { underline = true, sp = c.warning }
-                    hl.DiagnosticUnderlineInfo = { underline = true, sp = c.info }
-                    hl.DiagnosticUnderlineHint = { underline = true, sp = c.hint }
                     hl.SpellBad = { undercurl = true, sp = c.comment }
-                    -- hl.TreesitterContext = { bg = c.bg_dark }
                     hl.MiniJump = { bg = "#777777" }
                     hl.SlimeCellBoundaryTop = { underdotted = true, fg = c.border_highlight }
                     hl.SlimeCellBoundaryBottom = { underdouble = true, fg = c.border_highlight }

@@ -84,7 +84,6 @@ return {
                                     or vim.api.nvim_win_get_width(0)
                                 return cur_width < 100 and str:sub(1, 1) or str
                             end,
-                            color = { gui = "bold" },
                         },
                     },
                     lualine_b = {},
