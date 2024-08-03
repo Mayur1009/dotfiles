@@ -38,26 +38,22 @@ if [ -f "$HOME/miniforge3/etc/profile.d/mamba.sh" ]; then
 fi
 
 # Alias
+alias diff='diff --color=auto'
+alias grep='grep --color=auto'
+alias ip='ip -color=auto'
+alias ls='ls --color=auto'
 alias n="nvim"
 alias el="eza -al"
 alias elt="eza -alT"
 alias lg="lazygit"
 alias gl="git log --oneline --graph"
 alias gs="git status"
-alias tn="tmux new -s (pwd | sed 's/.*\///g')"
+alias tn="tmux new -s \$(pwd | sed \"s/.*\\///g\")"
 alias ta="tmux attach"
 alias td="tmux detach"
 alias qq="tmux detach"
 alias ma="mamba activate"
 alias md="mamba deactivate"
-
-# Expand alias
-function expand-alias() {
-	zle _expand_alias
-	zle self-insert
-}
-zle -N expand-alias
-bindkey -M main ' ' expand-alias
 
 # Auto activate Mamba environment if .mamba found
 function auto_activate_mamba() {
