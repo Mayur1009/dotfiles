@@ -2,11 +2,8 @@
 
 selected=$1
 
-# fd -H -t d -i . ~ | fzf
-# fd -H -t d -L -a --base-directory ~ --ignore-file ~/dotfiles/tmux/ignore | fzf
 if [[ -z $selected ]]; then
-    # selected=$(fzf --tmux 50% --walker=dir,follow,hidden --walker-root="$HOME" --walker-skip=Library,.Trash,miniforge4,.cache,.git,node_modules,.venv)
-    selected=$(fd -H -t d -L -a --base-directory ~ --ignore-file ~/.tmux_session_ignore | fzf --tmux 75%)
+    selected=$(FZF_DEFAULT_COMMAND="fd -H -t d -L -a --base-directory ~ --ignore-file ~/.tmux_session_ignore" fzf --tmux 75%) 
 fi
 
 if [[ -z $selected ]]; then

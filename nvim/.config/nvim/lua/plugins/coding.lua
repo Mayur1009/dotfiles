@@ -120,6 +120,7 @@ return {
             "<leader>xl",
             "<leader>xL",
             "<leader>xQ",
+            "<leader>xf",
         },
     },
 }
