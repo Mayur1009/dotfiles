@@ -18,7 +18,6 @@ return {
                     { "<leader>t", group = "+[t]oggle" },
                     { "<leader>v", group = "+terminals" },
                     { "<localleader>f", group = "+run file" },
-                    { "<tab>", group = "+buffers" },
                 },
             })
         end,
