@@ -61,6 +61,7 @@ alias md="mamba deactivate"
 # Auto activate Mamba environment if .mamba found
 function auto_activate_mamba() {
     if [[ -f $PWD/.mamba ]]; then
+        echo "auto_activate_mamba: .mamba found."
         if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
             echo "auto_activate_mamba: Some Environment was already set."
         fi
@@ -73,6 +74,7 @@ function auto_activate_mamba() {
     fi
 }
 chpwd_functions+=("auto_activate_mamba")
+auto_activate_mamba
 
 function t() {
     $HOME/.tmux_session

@@ -5,7 +5,7 @@ option_as_alt = "OnlyLeft"
 [font]
 normal = { family = "JetbrainsMono Nerd Font", style = "Regular" }
 size = 16.0
-offset = { y = 4 }
+offset = { y = 2 }
 
 [selection]
 save_to_clipboard = true
