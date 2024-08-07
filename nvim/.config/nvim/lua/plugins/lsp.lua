@@ -133,7 +133,7 @@ return {
                     settings = {
                         ["harper-ls"] = {
                             diagnosticSeverity = "information",
-                            userDictPath = "~/dict.txt",
+                            userDictPath = vim.fn.stdpath("config") .. "/harper-dict.txt",
                         },
                     },
                 },
@@ -162,7 +162,7 @@ return {
                             completion = {
                                 callSnippet = "Replace",
                             },
-                            -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+                            -- You can toggle below to ignore lua_ls's noisy `missing-fields` warnings
                             -- diagnostics = {
                             --     disable = { "missing-fields" },
                             -- },
@@ -182,7 +182,7 @@ return {
                     root_dir = function(fname)
                         return require("lspconfig.util").root_pattern("DESCRIPTION", "NAMESPACE", ".Rbuildignore")(
                             fname
-                        ) or require("lspconfig.util").find_git_ancestor(fname) or vim.loop.os_homedir()
+                        ) or require("lspconfig.util").find_git_ancestor(fname) or vim.fn.expand("$HOME")
                     end,
                 },
                 ruff = {
@@ -204,7 +204,7 @@ return {
                             },
                         },
                     },
-                    on_attach = function(client, buffer)
+                    on_attach = function(_, _)
                         require("ltex_extra").setup({})
                     end,
                 },

@@ -17,6 +17,7 @@ return {
                 spec = {
                     { "<leader>t", group = "+[t]oggle" },
                     { "<leader>v", group = "+terminals" },
+                    { "<leader>f", group = "find and replace" },
                     { "<localleader>f", group = "+run file" },
                 },
             })
@@ -58,6 +59,39 @@ return {
             vim.keymap.set("n", "<leader>tu", vim.cmd.UndotreeToggle, { desc = "Toggle undotree" })
         end,
         keys = { "<leader>tu" },
+    },
+    {
+        "MagicDuck/grug-far.nvim",
+        event = { "BufReadPost", "BufNewFile" },
+        cmd = "GrugFar",
+        config = function()
+            local grug = require("grug-far")
+            grug.setup({
+                transient = true,
+                headerMaxWidth = 80,
+                keymaps = {
+                    close = { n = "q" },
+                    historyOpen = { n = "<localleader>h" },
+                    syncLine = { n = "<localleader>s"},
+                    syncLocations = { n = "<localleader>S"},
+                },
+                prefills = {
+                    flags = "--.",
+                },
+            })
+            vim.keymap.set({ "n", "v" }, "<leader>fa", grug.grug_far, { desc = "Find with grug-far in all files" })
+            vim.keymap.set({ "n" , "v"}, "<leader>ff", function ()
+                grug.grug_far({
+                    prefills = {
+                        filesFilter = vim.fn.expand("%")
+                    }
+                })
+            end, {desc = "Find with grug-far in current file"})
+        end,
+        keys = {
+            "<leader>ff",
+            "<leader>fa",
+        },
     },
     {
         "nvim-lualine/lualine.nvim",
