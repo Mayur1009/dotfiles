@@ -127,7 +127,7 @@ vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete to void" })
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to system" })
 vim.keymap.set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system" })
 
--- Norwegian keybord layout
+-- Norwegian keyboard layout
 vim.keymap.set({ "n", "o", "v", "x" }, "ø", "[", { remap = true })
 vim.keymap.set({ "n", "o", "v", "x" }, "æ", "]", { remap = true })
 vim.keymap.set({ "n", "o", "v", "x" }, "Ø", "{", { remap = true })

@@ -27,7 +27,7 @@ return {
 
                     -- Jump to the definition of the word under your cursor.
                     --  This is where a variable was first declared, or where a function is defined, etc.
-                    --  To jump back, press <C-t>.
+                    --  To jump back, press<C-t>.
                     map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
 
                     -- Find references for the word under your cursor.
@@ -66,8 +66,6 @@ return {
                     --  See `:help K` for why this keymap
                     map("K", vim.lsp.buf.hover, "Hover Documentation")
 
-                    -- WARN: This is not Goto Definition, this is Goto Declaration.
-                    --  For example, in C this would take you to the header
                     map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
                     map("gH", function()
@@ -128,6 +126,14 @@ return {
                                 DeducedTypes = true,
                             },
                             fallbackFlags = { "-std=c++20" },
+                        },
+                    },
+                },
+                harper_ls = {
+                    settings = {
+                        ["harper-ls"] = {
+                            diagnosticSeverity = "information",
+                            userDictPath = "~/dict.txt",
                         },
                     },
                 },
@@ -258,6 +264,11 @@ return {
                     spacing = 4,
                     source = "if_many",
                     prefix = prefix,
+                    severity = {
+                        vim.diagnostic.severity.ERROR,
+                        vim.diagnostic.severity.WARN,
+                        vim.diagnostic.severity.HINT,
+                    },
                 },
                 float = {
                     border = "rounded",
