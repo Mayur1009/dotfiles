@@ -6,14 +6,11 @@ end
 
 local config = {
     color_scheme = "tokyonight_night",
+    enable_tab_bar = false,
+    enable_wayland = false,
     font = wezterm.font("JetBrainsMono Nerd Font"),
     font_size = 16,
     line_height = 1.10,
-    enable_tab_bar = false,
-    default_prog = { is_macos() and "/opt/homebrew/bin/fish" or "fish", "--interactive", "--login" },
-    enable_csi_u_key_encoding = true,
-    enable_kitty_keyboard = true,
-    term = "wezterm",
     window_padding = {
         left = 2,
         right = 2,
