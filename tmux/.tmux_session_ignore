@@ -1,6 +1,6 @@
 **/.cache
 **/Library
-**/Games
+**/*Games
 **/go
 **/miniforge3
 **/R
@@ -8,6 +8,7 @@
 **/.ssh
 **/.gnupg
 **/.cargo
+**/.local
 **/.fonts
 **/.icons
 **/.mozilla
@@ -25,3 +26,5 @@
 **/*Trash*
 **/*trash*
 **/wandb
+**/heroic
+**/BraveSoftware
