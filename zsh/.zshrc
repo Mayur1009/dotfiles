@@ -62,9 +62,6 @@ alias md="mamba deactivate"
 function auto_activate_mamba() {
     if [[ -f $PWD/.mamba ]]; then
         echo "auto_activate_mamba: .mamba found."
-        if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
-            echo "auto_activate_mamba: Some Environment was already set."
-        fi
         venv=`cat $PWD/.mamba`
         if mamba env list | tail -n +3 | awk '{print $1}' | grep -q "$venv"; then
             mamba activate $venv

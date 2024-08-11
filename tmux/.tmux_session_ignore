@@ -18,6 +18,7 @@
 **/*Steam*
 **/*steam*
 **/.var
+**/.wine
 **/*OneDrive*
 **/.erg
 **/.luarocks
