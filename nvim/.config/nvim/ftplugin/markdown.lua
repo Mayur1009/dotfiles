@@ -9,3 +9,5 @@ vim.b.slime_cell_delimiter = "```"
 --
 -- vim.wo.foldmethod = "expr"
 -- vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+--
+require("quarto").activate()

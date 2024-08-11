@@ -8,7 +8,7 @@ return {
             "williamboman/mason-lspconfig.nvim",
             "WhoIsSethDaniel/mason-tool-installer.nvim",
             { "j-hui/fidget.nvim", opts = {} },
-            { "barreiroleo/ltex-extra.nvim" },
+            -- { "barreiroleo/ltex-extra.nvim" },
         },
         config = function()
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -195,19 +195,19 @@ return {
                         { "<Leader>K", "<plug>(vimtex-doc-package)", desc = "Vimtex Docs", silent = true },
                     },
                 },
-                ltex = {
-                    settings = {
-                        ltex = {
-                            language = "en-US",
-                            additionalRules = {
-                                languageModel = "~/ngrams/",
-                            },
-                        },
-                    },
-                    on_attach = function(_, _)
-                        require("ltex_extra").setup({})
-                    end,
-                },
+                -- ltex = {
+                --     settings = {
+                --         ltex = {
+                --             language = "en-US",
+                --             additionalRules = {
+                --                 languageModel = "~/ngrams/",
+                --             },
+                --         },
+                --     },
+                --     on_attach = function(_, _)
+                --         require("ltex_extra").setup({})
+                --     end,
+                -- },
             }
 
             require("mason").setup()

@@ -72,21 +72,21 @@ return {
                 keymaps = {
                     close = { n = "q" },
                     historyOpen = { n = "<localleader>h" },
-                    syncLine = { n = "<localleader>s"},
-                    syncLocations = { n = "<localleader>S"},
+                    syncLine = { n = "<localleader>s" },
+                    syncLocations = { n = "<localleader>S" },
                 },
                 prefills = {
                     flags = "--.",
                 },
             })
             vim.keymap.set({ "n", "v" }, "<leader>fa", grug.grug_far, { desc = "Find with grug-far in all files" })
-            vim.keymap.set({ "n" , "v"}, "<leader>ff", function ()
+            vim.keymap.set({ "n", "v" }, "<leader>ff", function()
                 grug.grug_far({
                     prefills = {
-                        filesFilter = vim.fn.expand("%")
-                    }
+                        filesFilter = vim.fn.expand("%"),
+                    },
                 })
-            end, {desc = "Find with grug-far in current file"})
+            end, { desc = "Find with grug-far in current file" })
         end,
         keys = {
             "<leader>ff",
@@ -135,6 +135,13 @@ return {
                             _separator = "",
                             no_harpoon = "",
                         },
+                        function()
+                            if require("molten.status").kernels():len() > 0 then
+                                return "󰰇 " .. require("molten.status").kernels()
+                            else
+                                return ""
+                            end
+                        end,
                         "diagnostics",
                         "diff",
                         "branch",
@@ -148,5 +155,35 @@ return {
                 extensions = { "lazy", "man", "mason", "oil", "quickfix", "trouble" },
             })
         end,
+    },
+    {
+        "3rd/image.nvim",
+        config = function()
+            require("image").setup({
+                backend = "kitty",
+                integrations = {
+                    markdown = {
+                        filetypes = { "markdown", "quarto" },
+                    },
+                },
+                max_width = 100,
+                max_height = 15,
+                max_width_window_percentage = math.huge,
+                max_height_window_percentage = math.huge,
+                window_overlap_clear_enabled = true,
+            })
+        end,
+    },
+    {
+        "GCBallesteros/jupytext.nvim",
+        config = function()
+            require("jupytext").setup({
+                style = "quarto",
+                output_extension = "qmd",
+                force_ft = "quarto",
+            })
+        end,
+        -- Depending on your nvim distro or config you may need to make the loading not lazy
+        lazy = false,
     },
 }
