@@ -1,3 +1,6 @@
+local function augroup(name)
+    return vim.api.nvim_create_augroup("kickstart_" .. name, { clear = true })
+end
 return {
     {
         "ThePrimeagen/refactoring.nvim",
@@ -44,38 +47,34 @@ return {
             vim.keymap.set("n", "<M-s>", "<Plug>SlimeMotionSend", { desc = "Slime Motion Send" })
             vim.keymap.set("n", "<M-s><CR>", "<Plug>SlimeSendCell", { desc = "Slime Motion Send" })
 
-            -- vim.fn.sign_define("SlimeCellTop", { linehl = "SlimeCellBoundaryTop" })
-            -- vim.fn.sign_define("SlimeCellBottom", { linehl = "SlimeCellBoundaryBottom" })
-            -- vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP", "BufEnter" }, {
-            --     group = vim.api.nvim_create_augroup("kickstart_slime_cell_block", { clear = true }),
-            --     pattern = {
-            --         "*.qmd",
-            --         "*.py",
-            --         "*.md",
-            --     },
-            --     callback = function(event)
-            --         -- Taken from https://github.com/Klafyvel/vim-slime-cells
-            --         local buf = event.buf
-            --         local cell_delimiter
-            --         if vim.b.slime_cell_delimiter then
-            --             cell_delimiter = vim.b.slime_cell_delimiter
-            --         elseif vim.g.slime_cell_delimiter then
-            --             cell_delimiter = vim.g.slime_cell_delimiter
-            --         else
-            --             return
-            --         end
-            --         vim.fn.sign_unplace("slime_cells_top")
-            --         vim.fn.sign_unplace("slime_cells_bottom")
-            --         local l = vim.fn.getline(1, "$")
-            --         vim.fn.map(l, function(key, value)
-            --             if vim.fn.match(value, cell_delimiter .. "{.*}$") == 0 then
-            --                 vim.fn.sign_place(0, "slime_cells_top", "SlimeCellTop", buf, { lnum = key + 1 })
-            --             elseif vim.fn.match(value, cell_delimiter .. "$") == 0 then
-            --                 vim.fn.sign_place(0, "slime_cells_bottom", "SlimeCellBottom", buf, { lnum = key + 1 })
-            --             end
-            --         end)
-            --     end,
-            -- })
+            vim.fn.sign_define("SlimeCellTop", { linehl = "SlimeCellBoundaryTop" })
+            vim.api.nvim_set_hl(0, "SlimeCellBoundaryTop", { underline = true, fg = "#6183bb" })
+
+            vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP", "BufEnter" }, {
+                group = augroup("slime_cell_py"),
+                pattern = {
+                    "*.py",
+                },
+                callback = function(event)
+                    -- Taken from https://github.com/Klafyvel/vim-slime-cells
+                    local buf = event.buf
+                    local cell_delimiter
+                    if vim.b.slime_cell_delimiter then
+                        cell_delimiter = vim.b.slime_cell_delimiter
+                    elseif vim.g.slime_cell_delimiter then
+                        cell_delimiter = vim.g.slime_cell_delimiter
+                    else
+                        return
+                    end
+                    vim.fn.sign_unplace("slime_cells_top")
+                    local l = vim.fn.getline(1, "$")
+                    vim.fn.map(l, function(key, value)
+                        if vim.fn.match(value, cell_delimiter) >= 0 then
+                            vim.fn.sign_place(0, "slime_cells_top", "SlimeCellTop", buf, { lnum = key + 1 })
+                        end
+                    end)
+                end,
+            })
         end,
     },
     {
@@ -189,12 +188,14 @@ return {
 
             -- automatically import output chunks from a jupyter notebook
             vim.api.nvim_create_autocmd("BufAdd", {
+                group = augroup("molten_import_output"),
                 pattern = { "*.ipynb" },
                 callback = imb,
             })
 
             -- we have to do this as well so that we catch files opened like nvim ./hi.ipynb
             vim.api.nvim_create_autocmd("BufEnter", {
+                group = augroup("molten_import_output2"),
                 pattern = { "*.ipynb" },
                 callback = function(e)
                     if vim.api.nvim_get_vvar("vim_did_enter") ~= 1 then
@@ -205,6 +206,7 @@ return {
 
             -- automatically export output chunks to a jupyter notebook on write
             vim.api.nvim_create_autocmd("BufWritePost", {
+                group = augroup("molten_export_output"),
                 pattern = { "*.ipynb" },
                 callback = function()
                     if require("molten.status").initialized() == "Molten" then
@@ -215,6 +217,7 @@ return {
 
             -- change the configuration when editing a python file
             vim.api.nvim_create_autocmd("BufEnter", {
+                group = augroup("molten_py_config"),
                 pattern = "*.py",
                 callback = function(e)
                     if string.match(e.file, ".otter.") then
@@ -232,6 +235,7 @@ return {
 
             -- Undo those config changes when we go back to a markdown or quarto file
             vim.api.nvim_create_autocmd("BufEnter", {
+                group = augroup("molten_nb_config"),
                 pattern = { "*.qmd", "*.md", "*.ipynb" },
                 callback = function(e)
                     if string.match(e.file, ".otter.") then
@@ -295,7 +299,7 @@ return {
                 end
             end
 
-            vim.api.nvim_create_user_command("NewNotebook", function(opts)
+            vim.api.nvim_create_user_command("Nb", function(opts)
                 new_notebook(opts.args)
             end, {
                 nargs = 1,

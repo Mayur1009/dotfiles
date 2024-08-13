@@ -8,7 +8,7 @@ return {
             oil.setup({
                 columns = { "icon", "size", "type", "permissions" },
                 delete_to_trash = true,
-                experimental_watch_for_changes = true,
+                watch_for_changes = true,
                 view_options = {
                     show_hidden = true,
                 },
@@ -19,7 +19,7 @@ return {
                     ["q"] = "actions.close",
                 },
             })
-            vim.keymap.set("n", "<leader>,", oil.open, { desc = "Oil [f]ile [e]xplorer" })
+            vim.keymap.set("n", "<leader>,", oil.open_float, { desc = "Oil [f]ile [e]xplorer" })
         end,
     },
     {
@@ -49,7 +49,7 @@ return {
         keys = function()
             local t = {
                 "<leader>h",
-                "<leader>i",
+                "<leader>a",
             }
             for i = 1, 8 do
                 table.insert(t, "<leader>" .. i)

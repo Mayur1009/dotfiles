@@ -12,8 +12,6 @@ return {
                 on_highlights = function(hl, c)
                     hl.SpellBad = { undercurl = true, sp = c.comment }
                     hl.MiniJump = { bg = "#777777" }
-                    hl.SlimeCellBoundaryTop = { underdotted = true, fg = c.border_highlight }
-                    hl.SlimeCellBoundaryBottom = { underdouble = true, fg = c.border_highlight }
                     hl.rCursor = { fg = c.black, bg = c.red, bold = true }
                     hl.vCursor = { fg = c.black, bg = c.yellow, bold = true }
                 end,
