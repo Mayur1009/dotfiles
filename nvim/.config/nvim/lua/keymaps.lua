@@ -43,8 +43,8 @@ vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
 -- Buffer nav
-vim.keymap.set("n", "[<tab>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-vim.keymap.set("n", "]<tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "H", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+vim.keymap.set("n", "L", "<cmd>bnext<cr>", { desc = "Next buffer" })
 vim.keymap.set("n", "d<tab>", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
 
 -- better up/down
@@ -124,8 +124,6 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "<leader>S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete to void" })
-vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to system" })
-vim.keymap.set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system" })
 
 -- Norwegian keyboard layout
 vim.keymap.set({ "n", "o", "v", "x" }, "ø", "[", { remap = true })
