@@ -107,11 +107,15 @@ return {
             }
             capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
+            local lsputil = require("lspconfig.util")
             local servers = {
                 basedpyright = {
                     settings = {
                         basedpyright = {
-                            typeCheckingMode = "standard",
+                            disableOrganizeImports = true,
+                            analysis = {
+                                typeCheckingMode = "standard",
+                            },
                         },
                     },
                 },
@@ -175,17 +179,20 @@ return {
                     -- [core]
                     -- markdown.file_extensions = ["md", "markdown", "qmd"]
                     filetypes = { "markdown", "quarto" },
-                    root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
+                    root_dir = lsputil.root_pattern(".git", ".marksman.toml", "_quarto.yml"),
                 },
                 neocmake = {},
                 r_language_server = {
                     root_dir = function(fname)
-                        return require("lspconfig.util").root_pattern("DESCRIPTION", "NAMESPACE", ".Rbuildignore")(
-                            fname
-                        ) or require("lspconfig.util").find_git_ancestor(fname) or vim.fn.expand("$HOME")
+                        return lsputil.root_pattern("DESCRIPTION", "NAMESPACE", ".Rbuildignore")(fname)
+                            or lsputil.find_git_ancestor(fname)
+                            or vim.fn.expand("$HOME")
                     end,
                 },
                 ruff = {
+                    root_dir = lsputil.root_pattern("pyproject.toml", "ruff.toml", ".ruff.toml")
+                        or lsputil.find_git_ancestor()
+                        or vim.fn.expand("$HOME"),
                     on_attach = function(client, _)
                         client.server_capabilities.hoverProvider = false
                     end,

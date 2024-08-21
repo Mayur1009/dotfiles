@@ -11,9 +11,9 @@ return {
             require("which-key").setup({
                 preset = "helix",
                 delay = 300,
-                filter = function(mapping)
-                    return mapping.desc and mapping.desc ~= ""
-                end,
+                -- filter = function(mapping)
+                --     return mapping.desc and mapping.desc ~= ""
+                -- end,
                 spec = {
                     { "<leader>t", group = "+[t]oggle" },
                     { "<leader>v", group = "+terminals" },

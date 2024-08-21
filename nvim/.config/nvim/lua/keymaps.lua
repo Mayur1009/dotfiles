@@ -83,7 +83,7 @@ local split_term = function(prog)
     end
 end
 
-vim.keymap.set("n", "<leader>vt", "<cmd>vsplit term://fish<cr>", { desc = "Terminal: Shell(fish)" })
+vim.keymap.set("n", "<leader>vt", "<cmd>vsplit term://$SHELL<cr>", { desc = "Terminal: Shell" })
 vim.keymap.set("n", "<leader>vp", function()
     split_term("python")
 end, { desc = "Terminal: python" })
