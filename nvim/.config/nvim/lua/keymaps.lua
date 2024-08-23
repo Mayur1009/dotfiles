@@ -77,7 +77,8 @@ end, { desc = "Toggle file [l]ock" })
 -- Open Terminals in split
 local split_term = function(prog)
     if vim.fn.exists("$TMUX") then
-        vim.fn.system("tmux splitw -h -d \\; send-keys -t.{next} " .. prog .. " C-m;")
+        -- vim.fn.system("tmux splitw -h -d \\; send-keys -t.{next} " .. prog .. " C-m;")
+        vim.fn.system("tmux splitw -h -d " .. prog)
     else
         vim.cmd(":vsplit term://" .. prog)
     end

@@ -9,6 +9,7 @@ return {
             "WhoIsSethDaniel/mason-tool-installer.nvim",
             { "j-hui/fidget.nvim", opts = {} },
             -- { "barreiroleo/ltex-extra.nvim" },
+            { "microsoft/python-type-stubs" },
         },
         config = function()
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -113,9 +114,8 @@ return {
                     settings = {
                         basedpyright = {
                             disableOrganizeImports = true,
-                            analysis = {
-                                typeCheckingMode = "standard",
-                            },
+                            stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs/stubs",
+                            typeCheckingMode = "standard",
                         },
                     },
                 },
