@@ -27,6 +27,7 @@ return {
                     },
                 },
                 defaults = {
+                    layout_strategy = "flex",
                     vimgrep_arguments = {
                         "rg",
                         "--color=never",
@@ -64,6 +65,9 @@ return {
                     oldfiles = {
                         only_cwd = true,
                     },
+                    grep_string = {
+                        layout_strategy = "vertical"
+                    }
                 },
             })
 
@@ -83,6 +87,7 @@ return {
             vim.keymap.set("n", "<leader>sr", builtin.oldfiles, { desc = "Search [R]ecent [F]iles" })
             vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "Search files" })
             vim.keymap.set("n", "<leader><tab>", builtin.buffers, { desc = "List existing buffers" })
+            vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "Search [W]ord Under cursor" })
             vim.keymap.set("n", "<leader>/", function()
                 builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
                     winblend = 5,
@@ -107,6 +112,7 @@ return {
             "<leader>sd",
             "<leader>sr",
             "<leader>sg",
+            "<leader>sw",
             "<leader>sR",
             "<leader><leader>",
             "<leader><tab>",

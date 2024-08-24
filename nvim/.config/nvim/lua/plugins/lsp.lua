@@ -8,7 +8,6 @@ return {
             "williamboman/mason-lspconfig.nvim",
             "WhoIsSethDaniel/mason-tool-installer.nvim",
             { "j-hui/fidget.nvim", opts = {} },
-            -- { "barreiroleo/ltex-extra.nvim" },
             { "microsoft/python-type-stubs" },
             { "ray-x/lsp_signature.nvim" },
         },
@@ -46,15 +45,11 @@ return {
 
                     -- Fuzzy find all the symbols in your current document.
                     --  Symbols are things like variables, functions, types, etc.
-                    map("<leader>ss", require("telescope.builtin").lsp_document_symbols, "[S]earch Document [s]ymbols")
+                    map("gy", require("telescope.builtin").lsp_document_symbols, "[S]earch Document [s]ymbols")
 
                     -- Fuzzy find all the symbols in your current workspace
                     --  Similar to document symbols, except searches over your whole project.
-                    map(
-                        "<leader>sS",
-                        require("telescope.builtin").lsp_dynamic_workspace_symbols,
-                        "[S]earch Workspace [S]ymbols"
-                    )
+                    map("gY", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch Workspace [S]ymbols")
 
                     -- Rename the variable under your cursor
                     --  Most Language Servers support renaming across files, etc.
