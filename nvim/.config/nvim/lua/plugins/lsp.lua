@@ -10,6 +10,7 @@ return {
             { "j-hui/fidget.nvim", opts = {} },
             -- { "barreiroleo/ltex-extra.nvim" },
             { "microsoft/python-type-stubs" },
+            { "ray-x/lsp_signature.nvim" },
         },
         config = function()
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -98,6 +99,24 @@ return {
                     --         callback = vim.lsp.buf.clear_references,
                     --     })
                     -- end
+                    vim.keymap.set(
+                        { "n", "i" },
+                        "<C-k>",
+                        vim.lsp.buf.signature_help,
+                        { buffer = bufnr, desc = "LSP: Signature Help" }
+                    )
+                    require("lsp_signature").on_attach({
+                        bind = true,
+                        floating_window_off_x = 10000,
+                        floating_window_off_y = -10000,
+                        fix_pos = true,
+                        hint_enable = false,
+                        handler_opts = {
+                            border = "rounded",
+                        },
+                        select_signature_key = "<M-n>",
+                        move_cursor_key = "<M-p>",
+                    }, bufnr)
                 end,
             })
 
