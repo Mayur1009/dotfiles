@@ -24,9 +24,11 @@ return {
 
             require("mini.hipatterns").setup({
                 highlighters = {
-                    fixme = extra.gen_highlighter.words({ "FIXME", "fixme", "Fixme" }, "MiniHipatternsFixme"),
+                    fixme = extra.gen_highlighter.words({ "FIX", "FIXME", "fixme", "Fixme" }, "MiniHipatternsFixme"),
+                    warn = extra.gen_highlighter.words({ "WARN", "warn", "Warn" }, "MiniHipatternsHack"),
                     hack = extra.gen_highlighter.words({ "HACK", "hack", "Hack" }, "MiniHipatternsHack"),
                     todo = extra.gen_highlighter.words({ "TODO", "todo", "Todo" }, "MiniHipatternsTodo"),
+                    wip = extra.gen_highlighter.words({ "WIP", "wip", "Wip" }, "MiniHipatternsTodo"),
                     note = extra.gen_highlighter.words({ "NOTE", "note", "Note" }, "MiniHipatternsNote"),
                     -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
 
@@ -63,7 +65,6 @@ return {
             vim.keymap.set("n", "<leader>tp", function()
                 vim.g.minipairs_disable = not vim.g.minipairs_disable
             end, { desc = "[T]oggle auto [p]airs" })
-
         end,
     },
 }
