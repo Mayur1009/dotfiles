@@ -11,6 +11,7 @@ return {
         config = function()
             local notes_path = vim.g.is_work_laptop and "~/Documents/Notes" or "~/work/Notes"
             require("obsidian").setup({
+                ui = { enable = false },
                 workspaces = {
                     {
                         name = "local",

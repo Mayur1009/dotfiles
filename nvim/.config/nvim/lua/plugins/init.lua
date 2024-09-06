@@ -15,9 +15,9 @@ return {
                 --     return mapping.desc and mapping.desc ~= ""
                 -- end,
                 spec = {
-                    { "<leader>t", group = "+[t]oggle" },
-                    { "<leader>v", group = "+terminals" },
-                    { "<leader>f", group = "find and replace" },
+                    { "<leader>t",      group = "+[t]oggle" },
+                    { "<leader>v",      group = "+terminals" },
+                    { "<leader>f",      group = "find and replace" },
                     { "<localleader>f", group = "+run file" },
                 },
             })
@@ -108,6 +108,8 @@ return {
                 max_width_window_percentage = math.huge,
                 max_height_window_percentage = math.huge,
                 window_overlap_clear_enabled = true,
+                editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
+                tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
             })
         end,
     },

@@ -117,6 +117,15 @@ vim.keymap.set("n", "<localleader>fc", function()
     cmd_in_tmux_window(cmd)
 end, { desc = "Run gcc/g++ file in new TMUX window" })
 
+vim.keymap.set("n", "<leader>ct", function ()
+    if vim.g.code_target == "kitty" then
+        vim.g.code_target = "tmux"
+    else
+        vim.g.code_target = "kitty"
+    end
+    vim.g.slime_target = vim.g.code_target
+end, {desc = "Switch g:code_target betwn kitty and tmux"})
+
 -- Others
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")

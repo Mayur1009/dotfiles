@@ -49,7 +49,11 @@ return {
 
                     -- Fuzzy find all the symbols in your current workspace
                     --  Similar to document symbols, except searches over your whole project.
-                    map("gY", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch Workspace [S]ymbols")
+                    map(
+                        "gY",
+                        require("telescope.builtin").lsp_dynamic_workspace_symbols,
+                        "[S]earch Workspace [S]ymbols"
+                    )
 
                     -- Rename the variable under your cursor
                     --  Most Language Servers support renaming across files, etc.
@@ -130,6 +134,12 @@ return {
                             disableOrganizeImports = true,
                             stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs/stubs",
                             typeCheckingMode = "standard",
+                            analysis = {
+                                stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs/stubs",
+                                typeCheckingMode = "standard",
+                                autoSearchPaths = true,
+                                useLibraryCodeForTypes = true,
+                            },
                         },
                     },
                 },

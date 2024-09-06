@@ -37,11 +37,11 @@ return {
         event = "VeryLazy",
         init = function()
             vim.g.slime_bracketed_paste = 1
-            vim.g.slime_target = "tmux"
-            vim.g.slime_default_config = {
-                socket_name = "default",
-                target_pane = "2",
-            }
+            vim.g.slime_target = vim.g.code_target
+            -- vim.g.slime_default_config = {
+            --     socket_name = "default",
+            --     target_pane = "2",
+            -- }
             vim.keymap.set("v", "<M-s>", "<Plug>SlimeRegionSend", { desc = "Slime Region Send" })
             vim.keymap.set({ "n", "i" }, "<M-s><M-s>", "<Plug>SlimeLineSend", { desc = "Slime Line Send" })
             vim.keymap.set("n", "<M-s>", "<Plug>SlimeMotionSend", { desc = "Slime Motion Send" })
@@ -130,10 +130,12 @@ return {
         build = ":UpdateRemotePlugins",
         init = function()
             vim.g.molten_auto_image_popup = true
-            vim.g.molten_auto_open_output = false
-            vim.g.molten_image_provider = "image.nvim"
+            vim.g.molten_auto_open_output = true
+            vim.g.molten_image_provider = "none"
             vim.g.molten_output_show_more = true
-            vim.g.molten_output_win_max_height = 20
+            vim.g.molten_output_win_border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│'}
+            vim.g.molten_output_win_max_height = 15
+            vim.g.molten_output_win_cover_gutter = false
             vim.g.molten_use_border_highlights = true
             vim.g.molten_wrap_output = true
             vim.g.molten_virt_text_output = true
@@ -149,9 +151,10 @@ return {
             vim.keymap.set("n", "<localleader>ms", ":MoltenShowOutput<CR>", { desc = "show output" })
             vim.keymap.set("n", "<localleader>mp", ":MoltenImagePopup<CR>", { desc = "Image popup" })
             vim.keymap.set("n", "<localleader>mb", ":MoltenOpenInBrowser<CR>", { desc = "open output in browser" })
-            vim.keymap.set("n", "<localleader>mb", ":MoltenExportOutput!<CR>", { desc = "Export output" })
-            vim.keymap.set("n", "<localleader>mI", ":MoltenImportOutput<CR>", { desc = "Import Output" })
+            vim.keymap.set("n", "<localleader>me", ":MoltenExportOutput!<CR>", { desc = "Export output" })
+            vim.keymap.set("n", "<localleader>mE", ":MoltenImportOutput<CR>", { desc = "Import Output" })
             vim.keymap.set("n", "<localleader>mi", ":MoltenInit<CR>", { desc = "Initialize the plugin" })
+            vim.keymap.set("n", "<localleader>mI", ":MoltenInfo<CR>", { desc = "Molten Info" })
 
             require("which-key").add({
                 { "<localleader>m", group = "+Molten" },
