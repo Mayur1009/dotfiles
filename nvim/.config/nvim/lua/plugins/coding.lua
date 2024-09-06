@@ -38,10 +38,10 @@ return {
         init = function()
             vim.g.slime_bracketed_paste = 1
             vim.g.slime_target = vim.g.code_target
-            -- vim.g.slime_default_config = {
-            --     socket_name = "default",
-            --     target_pane = "2",
-            -- }
+            vim.g.slime_default_config = {
+                socket_name = "default",
+                target_pane = "2",
+            }
             vim.keymap.set("v", "<M-s>", "<Plug>SlimeRegionSend", { desc = "Slime Region Send" })
             vim.keymap.set({ "n", "i" }, "<M-s><M-s>", "<Plug>SlimeLineSend", { desc = "Slime Line Send" })
             vim.keymap.set("n", "<M-s>", "<Plug>SlimeMotionSend", { desc = "Slime Motion Send" })

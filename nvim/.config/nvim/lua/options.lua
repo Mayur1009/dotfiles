@@ -14,7 +14,7 @@ vim.g.have_nerd_font = true
 vim.g.is_work_laptop = vim.uv.os_uname().sysname == "Darwin"
 
 -- Coding target
-vim.g.code_target = "kitty"
+vim.g.code_target = "tmux"
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
