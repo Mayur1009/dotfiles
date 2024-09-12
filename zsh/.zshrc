@@ -66,6 +66,7 @@ function auto_activate_mamba() {
         venv=`cat $PWD/.mamba`
         if mamba env list | tail -n +3 | awk '{print $1}' | grep -q "$venv"; then
             mamba activate $venv
+            export PYTHONPATH="$PWD:$PYTHONPATH"
         else
             echo "auto_activate_mamba: '$venv' environment does not exist. Aborting..."
         fi

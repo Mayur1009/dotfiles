@@ -8,6 +8,7 @@ return {
         config = function()
             require("lualine").setup({
                 options = {
+
                     icons_enabled = true,
                     theme = "auto",
                     component_separators = { left = "┃", right = "┃" },
@@ -25,15 +26,15 @@ return {
                             end,
                         },
                     },
-                    lualine_b = {},
+                    -- lualine_b = {},
                     lualine_c = {
                         { "filename", path = 1, shorting_target = 100 },
-                        {
-                            "buffers",
-                            symbols = {
-                                alternate_file = "# ",
-                            },
-                        },
+                        -- {
+                        --     "buffers",
+                        --     symbols = {
+                        --         alternate_file = "# ",
+                        --     },
+                        -- },
                     },
                     lualine_x = {
                         {
@@ -48,12 +49,11 @@ return {
                                 return ""
                             end
                         end,
-                        "diagnostics",
-                        "diff",
-                        "branch",
-                        "filetype",
                     },
-                    lualine_y = {},
+                    lualine_y = {
+                        "filetype",
+
+                    },
                     lualine_z = {
                         "%2l:%-2v",
                     },
