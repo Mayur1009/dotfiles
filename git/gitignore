@@ -22,6 +22,8 @@ ENV/
 env.bak/
 venv.bak/
 
+.direnv
+
 # mypy
 .mypy_cache/
 .dmypy.json

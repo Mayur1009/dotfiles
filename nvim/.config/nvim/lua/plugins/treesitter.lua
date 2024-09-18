@@ -99,9 +99,12 @@ return {
             require("nvim-treesitter.configs").setup(opts)
             vim.filetype.add({
                 pattern = {
+                    [".*/waybar/config"] = "jsonc",
+                    [".*/mako/config"] = "dosini",
                     [".*/kitty/.+%.conf"] = "bash",
                     [".*/hypr/.+%.conf"] = "hyprlang",
                     ["%.env%.[%w_.-]+"] = "sh",
+                    ["%.envrc"] = "sh",
                 }
             })
         end,

@@ -24,6 +24,9 @@ eval "$(starship init zsh)"
 # fzf
 source <(fzf --zsh)
 
+# Direnv
+eval "$(direnv hook zsh)"
+
 # Mamba
 __conda_setup="$('$HOME/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
@@ -58,22 +61,7 @@ alias td="tmux detach"
 alias qq="tmux detach"
 alias ma="mamba activate"
 alias md="mamba deactivate"
-
-# Auto activate Mamba environment if .mamba found
-function auto_activate_mamba() {
-    if [[ -f $PWD/.mamba ]]; then
-        echo "auto_activate_mamba: .mamba found."
-        venv=`cat $PWD/.mamba`
-        if mamba env list | tail -n +3 | awk '{print $1}' | grep -q "$venv"; then
-            mamba activate $venv
-            export PYTHONPATH="$PWD:$PYTHONPATH"
-        else
-            echo "auto_activate_mamba: '$venv' environment does not exist. Aborting..."
-        fi
-    fi
-}
-chpwd_functions+=("auto_activate_mamba")
-auto_activate_mamba
+alias tmux='direnv exec / tmux'
 
 function t() {
     $HOME/.tmux_session
