@@ -2,7 +2,17 @@ return {
     {
         "lewis6991/gitsigns.nvim",
         event = { "BufReadPost", "BufNewFile" },
-        opts = {},
+        opts = {
+            on_attach = function(bufnr)
+                local gitsigns = require("gitsigns")
+                vim.keymap.set("n", "[h", function ()
+                    gitsigns.nav_hunk("prev")
+                end, { desc = "Previous Githunk", buffer=bufnr })
+                vim.keymap.set("n", "]h", function ()
+                    gitsigns.nav_hunk("next")
+                end, { desc = "Next Githunk" , buffer=bufnr})
+            end
+        },
     },
     {
         "NeogitOrg/neogit",
