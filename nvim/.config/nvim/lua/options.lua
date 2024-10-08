@@ -17,8 +17,8 @@ vim.g.is_work_laptop = vim.uv.os_uname().sysname == "Darwin"
 vim.g.code_target = "tmux"
 
 -- Fix markdown indentation settings
-vim.g.markdown_recommended_style = 0
-vim.g.markdown_folding = 1
+-- vim.g.markdown_recommended_style = 0
+-- vim.g.markdown_folding = 1
 
 local opt = vim.opt
 

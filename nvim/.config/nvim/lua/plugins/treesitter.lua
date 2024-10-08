@@ -105,7 +105,7 @@ return {
                     [".*/hypr/.+%.conf"] = "hyprlang",
                     ["%.env%.[%w_.-]+"] = "sh",
                     ["%.envrc"] = "sh",
-                }
+                },
             })
         end,
     },

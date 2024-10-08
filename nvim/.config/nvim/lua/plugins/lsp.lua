@@ -132,13 +132,9 @@ return {
                     settings = {
                         basedpyright = {
                             disableOrganizeImports = true,
-                            stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs/stubs",
-                            typeCheckingMode = "standard",
                             analysis = {
-                                stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs/stubs",
-                                typeCheckingMode = "standard",
-                                autoSearchPaths = true,
-                                useLibraryCodeForTypes = true,
+                                -- stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs/stubs",
+                                diagnosticsMode = "workspace",
                             },
                         },
                     },
@@ -224,6 +220,16 @@ return {
                 texlab = {
                     keys = {
                         { "<Leader>K", "<plug>(vimtex-doc-package)", desc = "Vimtex Docs", silent = true },
+                    },
+                },
+                yamlls = {
+                    settings = {
+                        yaml = {
+                            schemaStore = {
+                                enable = true,
+                                url = "",
+                            },
+                        },
                     },
                 },
                 -- ltex = {
