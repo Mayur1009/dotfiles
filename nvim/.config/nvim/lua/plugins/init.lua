@@ -93,26 +93,26 @@ return {
             "<leader>fa",
         },
     },
-    {
-        "3rd/image.nvim",
-        config = function()
-            require("image").setup({
-                backend = "kitty",
-                integrations = {
-                    markdown = {
-                        filetypes = { "markdown", "quarto" },
-                    },
-                },
-                max_width = 100,
-                max_height = 15,
-                max_width_window_percentage = math.huge,
-                max_height_window_percentage = math.huge,
-                window_overlap_clear_enabled = true,
-                editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
-                tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
-            })
-        end,
-    },
+    -- {
+    --     "3rd/image.nvim",
+    --     config = function()
+    --         require("image").setup({
+    --             backend = "kitty",
+    --             integrations = {
+    --                 markdown = {
+    --                     filetypes = { "markdown", "quarto" },
+    --                 },
+    --             },
+    --             max_width = 100,
+    --             max_height = 15,
+    --             max_width_window_percentage = math.huge,
+    --             max_height_window_percentage = math.huge,
+    --             window_overlap_clear_enabled = true,
+    --             editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
+    --             tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
+    --         })
+    --     end,
+    -- },
     {
         "GCBallesteros/jupytext.nvim",
         config = function()

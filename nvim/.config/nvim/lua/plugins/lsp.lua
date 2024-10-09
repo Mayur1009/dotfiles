@@ -263,6 +263,7 @@ return {
                 "hyprls",
                 "cmakelang",
                 "shellcheck",
+                "ruff"
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

@@ -16,7 +16,8 @@ return {
                 --     lsp_fallback = true,
                 -- },
                 formatters_by_ft = {
-                    lua = { "stylua"},
+                    python = { "ruff" },
+                    lua = { "stylua" },
                     r = { "rprettify" },
                     bib = { "bibtex-tidy" },
                     tex = { "latexindent" },
@@ -57,9 +58,9 @@ return {
             --     prepend_args = { "-m", "-l=" .. vim.fn.expand("$HOME/.latexindent.yaml") },
             -- }
 
-            vim.keymap.set({ "n", "v" }, "<leader>rF",
-                function() require("conform").format({ formatters = { "injected" } }) end,
-                { desc = "Format Injected Langs" })
+            vim.keymap.set({ "n", "v" }, "<leader>rF", function()
+                require("conform").format({ formatters = { "injected" } })
+            end, { desc = "Format Injected Langs" })
             vim.keymap.set("n", "<leader>rf", require("conform").format, { desc = "Format File" })
         end,
     },
