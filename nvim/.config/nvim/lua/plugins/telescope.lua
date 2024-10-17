@@ -13,6 +13,7 @@ return {
             },
             { "nvim-telescope/telescope-ui-select.nvim" },
             { "catgoose/telescope-helpgrep.nvim" },
+            { "jsongerber/telescope-ssh-config" },
         },
         config = function()
             local actions = require("telescope.actions")
@@ -24,6 +25,10 @@ return {
                 extensions = {
                     ["ui-select"] = {
                         require("telescope.themes").get_dropdown(),
+                    },
+                    ['ssh-config'] = {
+                        client = 'oil', -- or 'netrw'
+                        ssh_config_path = '~/.ssh/config',
                     },
                 },
                 defaults = {
@@ -66,8 +71,8 @@ return {
                         only_cwd = true,
                     },
                     grep_string = {
-                        layout_strategy = "vertical"
-                    }
+                        layout_strategy = "vertical",
+                    },
                 },
             })
 
@@ -75,6 +80,7 @@ return {
             pcall(require("telescope").load_extension, "fzf")
             pcall(require("telescope").load_extension, "ui-select")
             pcall(require("telescope").load_extension, "helpgrep")
+            pcall(require("telescope").load_extension, "ssh-config")
 
             -- See `:help telescope.builtin`
             vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp_tags" })
