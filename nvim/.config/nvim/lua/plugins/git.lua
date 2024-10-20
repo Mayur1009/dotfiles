@@ -5,19 +5,34 @@ return {
         opts = {
             on_attach = function(bufnr)
                 local gitsigns = require("gitsigns")
-                vim.keymap.set("n", "[h", function ()
+                vim.keymap.set("n", "[h", function()
                     gitsigns.nav_hunk("prev")
-                end, { desc = "Previous Githunk", buffer=bufnr })
-                vim.keymap.set("n", "]h", function ()
+                end, { desc = "Previous Githunk", buffer = bufnr })
+                vim.keymap.set("n", "]h", function()
                     gitsigns.nav_hunk("next")
-                end, { desc = "Next Githunk" , buffer=bufnr})
-            end
+                end, { desc = "Next Githunk", buffer = bufnr })
+                vim.keymap.set(
+                    "n",
+                    "<leader>gp",
+                    "<cmd>Gitsigns preview_hunk<CR>",
+                    { desc = "Preview Hunk", buffer = bufnr }
+                )
+            end,
+            preview_config = {
+                -- Options passed to nvim_open_win
+                border = "rounded",
+                style = "minimal",
+                relative = "cursor",
+                row = 0,
+                col = 1,
+                title= "Preview Hunk"
+            },
         },
     },
     {
         "NeogitOrg/neogit",
         dependencies = {
-            "nvim-lua/plenary.nvim",         -- required
+            "nvim-lua/plenary.nvim", -- required
             "sindrets/diffview.nvim",
             "nvim-telescope/telescope.nvim", -- optional
         },

@@ -152,6 +152,9 @@ return {
                             fallbackFlags = { "-std=c++20" },
                         },
                     },
+                    capabilities = {
+                        offsetEncoding = { "utf-16" },
+                    },
                 },
                 harper_ls = {
                     settings = {
@@ -263,7 +266,7 @@ return {
                 "hyprls",
                 "cmakelang",
                 "shellcheck",
-                "ruff"
+                "ruff",
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

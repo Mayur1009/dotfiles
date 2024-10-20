@@ -26,13 +26,15 @@ return {
                     ["ui-select"] = {
                         require("telescope.themes").get_dropdown(),
                     },
-                    ['ssh-config'] = {
-                        client = 'oil', -- or 'netrw'
-                        ssh_config_path = '~/.ssh/config',
+                    ["ssh-config"] = {
+                        client = "oil", -- or 'netrw'
+                        ssh_config_path = "~/.ssh/config",
                     },
                 },
                 defaults = {
                     layout_strategy = "flex",
+
+                    -- Command used for live_grep and grep_string
                     vimgrep_arguments = {
                         "rg",
                         "--color=never",
@@ -100,6 +102,9 @@ return {
                     previewer = false,
                 }))
             end, { desc = "[/] Fuzzily search in current buffer" })
+            vim.keymap.set("n", "<leader>sA", function()
+                builtin.find_files({ no_ignore = true, no_ignore_parent = true })
+            end, { desc = "Search ALL in CWD" })
 
             vim.keymap.set("n", "<leader>sc", function()
                 builtin.find_files({ cwd = vim.fn.stdpath("config") })

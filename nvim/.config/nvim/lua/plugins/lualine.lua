@@ -26,15 +26,11 @@ return {
                             end,
                         },
                     },
-                    -- lualine_b = {},
+                    lualine_b = {
+                        { "buffers", symbols = { alternate_file = "# " } },
+                    },
                     lualine_c = {
                         { "filename", path = 1, shorting_target = 100 },
-                        -- {
-                        --     "buffers",
-                        --     symbols = {
-                        --         alternate_file = "# ",
-                        --     },
-                        -- },
                     },
                     lualine_x = {
                         {
@@ -51,11 +47,14 @@ return {
                         end,
                     },
                     lualine_y = {
+                        "diagnostics",
+                        "diff",
+                        "branch",
                         "filetype",
-
+                        "location",
                     },
                     lualine_z = {
-                        "%2l:%-2v",
+                        { "datetime", style = "%I:%M:%S %p %d/%m/%Y" },
                     },
                 },
                 extensions = { "lazy", "man", "mason", "oil", "quickfix", "trouble" },

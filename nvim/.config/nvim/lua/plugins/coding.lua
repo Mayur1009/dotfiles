@@ -33,6 +33,45 @@ return {
         keys = {},
     },
     {
+        "linux-cultist/venv-selector.nvim",
+        dependencies = {
+            "neovim/nvim-lspconfig",
+            "mfussenegger/nvim-dap",
+            "mfussenegger/nvim-dap-python", --optional
+            "nvim-telescope/telescope.nvim",
+        },
+        lazy = false,
+        branch = "regexp", -- This is the regexp branch, use this for the new version
+        config = function()
+            local function shorter_name(filename)
+                return filename:gsub(os.getenv("HOME"), "~"):gsub("/bin/python", "")
+            end
+            local vs = require("venv-selector")
+            vs.setup({
+                settings = {
+                    search = {
+                        miniforge3_base = {
+                            command = "fd /python$ ~/miniforge3/bin --full-path --color never -E /proc",
+                            type = "anaconda",
+                            on_telescope_result_callback = shorter_name,
+                        },
+                        miniforge3_envs = {
+                            command = "fd bin/python$ ~/miniforge3/envs --full-path --color never -E /proc",
+                            type = "anaconda",
+                            on_telescope_result_callback = shorter_name,
+                        },
+                    },
+                },
+            })
+            vim.keymap.set("n", "<localleader>va", "<cmd>VenvSelect<cr>", { desc = "Activate Venv" })
+            vim.keymap.set("n", "<localleader>vd", vs.deactivate, { desc = "Deactivate Venv" })
+            require("which-key").add({
+                "<localleader>v",
+                group = "+Venv",
+            })
+        end,
+    },
+    {
         "jpalardy/vim-slime",
         event = "VeryLazy",
         init = function()
@@ -133,7 +172,7 @@ return {
             vim.g.molten_auto_open_output = true
             vim.g.molten_image_provider = "none"
             vim.g.molten_output_show_more = true
-            vim.g.molten_output_win_border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│'}
+            vim.g.molten_output_win_border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
             vim.g.molten_output_win_max_height = 15
             vim.g.molten_output_win_cover_gutter = false
             vim.g.molten_use_border_highlights = true
