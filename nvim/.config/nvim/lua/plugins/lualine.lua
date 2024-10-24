@@ -8,7 +8,6 @@ return {
         config = function()
             require("lualine").setup({
                 options = {
-
                     icons_enabled = true,
                     theme = "auto",
                     component_separators = { left = "┃", right = "┃" },
@@ -27,7 +26,12 @@ return {
                         },
                     },
                     lualine_b = {
-                        { "buffers", symbols = { alternate_file = "# " } },
+                        {
+                            "buffers",
+                            symbols = { alternate_file = "# " },
+                            use_mode_colors = true,
+                            buffers_color = { inactive = "lualine_b_normal", active= "lualine_a_insert" },
+                        },
                     },
                     lualine_c = {
                         { "filename", path = 1, shorting_target = 100 },
