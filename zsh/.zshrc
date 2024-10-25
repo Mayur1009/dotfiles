@@ -6,7 +6,7 @@ zstyle ':completion:*:match:*' original only
 zstyle ':completion:*:approximate:*' max-errors 1 numeric
 zstyle ':completion:*:functions' ignored-patterns '_*'
 zstyle ':completion:*:*:kill:*' menu yes select
-zstyle ':completion:*:kill:*'   force-list always
+zstyle ':completion:*:kill:*' force-list always
 zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
@@ -28,7 +28,7 @@ source <(fzf --zsh)
 eval "$(direnv hook zsh)"
 
 # Mamba
-__conda_setup="$('$HOME/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('$HOME/miniforge3/bin/conda' 'shell.zsh' 'hook' 2>/dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
@@ -67,18 +67,31 @@ function t() {
     $HOME/.tmux_session
 }
 
+setopt EXTENDED_HISTORY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_VERIFY
+setopt HIST_BEEP
+
 case "$OSTYPE" in
-    linux*)
-        HISTSIZE=2000
-        SAVEHIST=1000
-        HISTFILE=~/.histfile
-        source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-        source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-        source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+linux*)
+    HISTSIZE=100000
+    SAVEHIST=100000
+    HISTFILE=~/.histfile
+    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
     ;;
-    darwin*)
-        source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-        source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-        source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+darwin*)
+    source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+    source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     ;;
 esac

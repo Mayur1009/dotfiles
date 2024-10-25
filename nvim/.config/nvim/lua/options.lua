@@ -79,5 +79,13 @@ opt.fillchars = {
 opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20-rCursor,v:vCursor"
 
 vim.filetype.add({
-    pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
+    pattern = { [".*/hypr/.*%.conf"] = "hyprlang", [".*/kitty/.+%.conf"] = "bash", ["%.env%.[%w_.-]+"] = "sh" },
+    extension = {
+        zsh = "sh",
+        sh = "sh",
+    },
+    filename = {
+        [".zshrc"] = "sh",
+        [".zshenv"] = "sh",
+    },
 })
