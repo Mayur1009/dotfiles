@@ -305,11 +305,6 @@ return {
                     spacing = 4,
                     source = "if_many",
                     prefix = prefix,
-                    severity = {
-                        vim.diagnostic.severity.ERROR,
-                        vim.diagnostic.severity.WARN,
-                        vim.diagnostic.severity.HINT,
-                    },
                 },
                 float = {
                     border = "rounded",
@@ -331,6 +326,22 @@ return {
                 vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
             end
             vim.diagnostic.config(vim.deepcopy(diagnostics))
+
+            vim.keymap.set("n", "<leader>tD", function()
+                local vt = vim.diagnostic.config().virtual_text
+                if vt == false then
+                    vim.diagnostic.config({
+                        virtual_text = {
+                            spacing = 4,
+                            source = "if_many",
+                            prefix = prefix,
+                        },
+                    })
+                else
+                    vim.diagnostic.config({ virtual_text = false })
+                end
+                vim.print(vim.diagnostic.config())
+            end, { desc = "Toggle diagnostic virtual text" })
 
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
                 border = "rounded",
