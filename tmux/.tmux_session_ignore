@@ -29,3 +29,8 @@
 **/wandb
 **/heroic
 **/BraveSoftware
+**/.java
+**/.ssh
+**/.sshfs
+**/.keras
+
