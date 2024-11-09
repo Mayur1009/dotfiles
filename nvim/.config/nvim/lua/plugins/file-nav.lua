@@ -1,5 +1,27 @@
 return {
     {
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+        },
+        config = function()
+            require("neo-tree").setup({
+                sources = {
+                    "filesystem",
+                    "buffers",
+                    "git_status",
+                    "document_symbols",
+                },
+                source_selector = {
+                    winbar = true,
+                },
+            })
+            vim.keymap.set("n", "<leader>.", "<cmd>Neotree toggle reveal position=right<cr>", {desc="Open neotree"})
+        end,
+    },
+    {
         "stevearc/oil.nvim",
         event = "VeryLazy",
         -- dependencies = { "nvim-tree/nvim-web-devicons" },
