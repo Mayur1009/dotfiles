@@ -8,7 +8,7 @@ return {
             "williamboman/mason-lspconfig.nvim",
             "WhoIsSethDaniel/mason-tool-installer.nvim",
             { "j-hui/fidget.nvim", opts = {} },
-            { "microsoft/python-type-stubs" },
+            -- { "microsoft/python-type-stubs" },
             { "ray-x/lsp_signature.nvim" },
         },
         config = function()
@@ -132,10 +132,10 @@ return {
                     settings = {
                         basedpyright = {
                             disableOrganizeImports = true,
-                            analysis = {
-                                -- stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs/stubs",
-                                diagnosticsMode = "workspace",
-                            },
+                            -- analysis = {
+                            --     -- stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs/stubs",
+                            --     diagnosticsMode = "workspace",
+                            -- },
                         },
                     },
                 },
@@ -156,14 +156,14 @@ return {
                         offsetEncoding = { "utf-16" },
                     },
                 },
-                harper_ls = {
-                    settings = {
-                        ["harper-ls"] = {
-                            diagnosticSeverity = "information",
-                            userDictPath = vim.fn.stdpath("config") .. "/harper-dict.txt",
-                        },
-                    },
-                },
+                -- harper_ls = {
+                --     settings = {
+                --         ["harper-ls"] = {
+                --             diagnosticSeverity = "information",
+                --             userDictPath = vim.fn.stdpath("config") .. "/harper-dict.txt",
+                --         },
+                --     },
+                -- },
                 lua_ls = {
                     settings = {
                         Lua = {
