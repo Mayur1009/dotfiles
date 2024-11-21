@@ -1,4 +1,5 @@
 return {
+    { "tpope/vim-sleuth" },
     {
         "folke/persistence.nvim",
         event = "BufReadPre",
