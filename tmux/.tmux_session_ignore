@@ -33,4 +33,5 @@
 **/.ssh
 **/.sshfs
 **/.keras
-
+**/.conda
+**/.fzf
