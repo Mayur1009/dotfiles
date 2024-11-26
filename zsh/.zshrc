@@ -63,6 +63,7 @@ alias ma="mamba activate"
 alias md="mamba deactivate"
 alias tmux='direnv exec / tmux'
 alias kernel_create="python -m ipykernel install --user --name"
+alias cair16="docker -H ssh://cair-gpu16"
 
 function t() {
     $HOME/.tmux_session

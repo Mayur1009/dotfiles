@@ -1,5 +1,5 @@
 typeset -U path PATH
-path=($path $HOME/.local/bin)
+path=($path $HOME/.local/bin $HOME/go/bin)
 export PATH
 
 export EDITOR="nvim"
