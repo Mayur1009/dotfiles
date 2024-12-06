@@ -8,7 +8,7 @@ return {
                 style = "night",
                 dim_inactive = true,
                 lualine_bold = true,
-                transparent = false,
+                transparent = true,
                 on_highlights = function(hl, c)
                     hl.SpellBad = { undercurl = true, sp = c.comment }
                     hl.MiniJump = { bg = "#777777" }
