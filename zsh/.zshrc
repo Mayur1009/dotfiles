@@ -1,3 +1,9 @@
+if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
+    autoload -Uz -- "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
+    ghostty-integration
+    unfunction ghostty-integration
+fi
+
 # INIT
 zstyle ':completion:*' menu select
 zstyle ':completion:*' use-cache on
@@ -61,7 +67,7 @@ alias td="tmux detach"
 alias qq="tmux detach"
 alias ma="mamba activate"
 alias md="mamba deactivate"
-alias tmux='direnv exec / tmux'
+# alias tmux='direnv exec / tmux'
 alias kernel_create="python -m ipykernel install --user --name"
 alias cair16="docker -H ssh://cair-gpu16"
 
