@@ -156,25 +156,10 @@ return {
             "rcarriga/nvim-dap-ui",
             "williamboman/mason.nvim",
             { "mfussenegger/nvim-dap-python", lazy = true },
-            "rcarriga/cmp-dap",
-            "hrsh7th/nvim-cmp",
         },
         config = function()
             local dap = require("dap")
             local dap_py = require("dap-python")
-
-            require("cmp").setup({
-                enabled = function()
-                    return vim.api.nvim_get_option_value("buftype", {}) ~= "prompt"
-                        or require("cmp_dap").is_dap_buffer()
-                end,
-            })
-
-            require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
-                sources = {
-                    { name = "dap" },
-                },
-            })
 
             local path = require("mason-registry").get_package("debugpy"):get_install_path()
             dap_py.setup(path .. "/venv/bin/python")

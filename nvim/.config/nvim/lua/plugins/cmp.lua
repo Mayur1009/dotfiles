@@ -1,9 +1,16 @@
 return {
-    { -- Autocompletion
-        "hrsh7th/nvim-cmp",
-        event = "InsertEnter",
+    {
+        "saghen/blink.compat",
+        version = "*",
+        lazy = true,
+        opts = {
+            impersonate_nvim_cmp = true,
+        },
+    },
+    {
+        "saghen/blink.cmp",
+        lazy = false, -- lazy loading handled internally
         dependencies = {
-            -- Snippet Engine & its associated nvim-cmp source
             {
                 "L3MON4D3/LuaSnip",
                 version = "v2.*",
@@ -12,153 +19,115 @@ return {
                     { "rafamadriz/friendly-snippets" },
                 },
             },
-            "saadparwaiz1/cmp_luasnip",
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-nvim-lsp-document-symbol",
-            "hrsh7th/cmp-nvim-lsp-signature-help",
-            "hrsh7th/cmp-path",
             { "kdheepak/cmp-latex-symbols" },
             { "jmbuhr/cmp-pandoc-references" },
             { "micangl/cmp-vimtex" },
-            { "hrsh7th/cmp-buffer" },
-            { "R-nvim/cmp-r" },
-            { "onsails/lspkind.nvim" },
+            { "rcarriga/cmp-dap" },
             "rafamadriz/friendly-snippets",
         },
-        config = function()
-            local cmp = require("cmp")
-            local luasnip = require("luasnip")
-            local lspkind = require("lspkind")
-            luasnip.config.setup({
-                history = true,
-                delete_check_events = "TextChanged",
-            })
 
-            require("luasnip.loaders.from_lua").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snips" } })
-            require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snips" } })
-            require("luasnip.loaders.from_vscode").lazy_load()
-            luasnip.filetype_extend("quarto", { "markdown" })
-            luasnip.filetype_extend("rmarkdown", { "markdown" })
+        version = "v0.*",
+        opts = {
+            keymap = {
+                preset = "default",
+                ["<C-l>"] = { "snippet_forward", "fallback" },
+                ["<C-h>"] = { "snippet_backward", "fallback" },
+                ["<Tab>"] = { "accept", "fallback" },
+                ["<S-Tab>"] = {},
+                ['<C-b>'] = {},
+                ['<C-f>'] = {},
+                ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+                ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
+            },
 
-            vim.keymap.set(
-                "n",
-                "<leader>sl",
-                require("luasnip.loaders").edit_snippet_files,
-                { desc = "Luasnip edit snippet" }
-            )
-
-            cmp.setup({
-                snippet = {
-                    expand = function(args)
-                        luasnip.lsp_expand(args.body)
-                    end,
+            appearance = {
+                use_nvim_cmp_as_default = true,
+                nerd_font_variant = "mono",
+            },
+            snippets = {
+                expand = function(snippet)
+                    require("luasnip").lsp_expand(snippet)
+                end,
+                active = function(filter)
+                    if filter and filter.direction then
+                        return require("luasnip").jumpable(filter.direction)
+                    end
+                    return require("luasnip").in_snippet()
+                end,
+                jump = function(direction)
+                    require("luasnip").jump(direction)
+                end,
+            },
+            sources = {
+                compat = {
+                    "vimtex",
+                    "latex_symbols",
+                    "pandoc_references",
+                    "dap"
                 },
-                completion = { completeopt = "menu,menuone,noinsert" },
-                -- experimental = {
-                --     ghost_text = true
-                -- },
-
-                mapping = cmp.mapping.preset.insert({
-                    ["<Down>"] = cmp.mapping(function(fallback)
-                        cmp.close()
-                        fallback()
-                    end, { "i" }),
-                    ["<Up>"] = cmp.mapping(function(fallback)
-                        cmp.close()
-                        fallback()
-                    end, { "i" }),
-
-                    ["<C-n>"] = cmp.mapping.select_next_item(),
-                    ["<C-p>"] = cmp.mapping.select_prev_item(),
-                    ["<C-y>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
-                    ["<Tab>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.confirm({ select = true })
-                        else
-                            fallback()
-                        end
-                    end, { "i" }),
-
-                    ["<C-g>"] = cmp.mapping(function()
-                        if cmp.visible_docs() then
-                            cmp.close_docs()
-                        else
-                            cmp.open_docs()
-                        end
-                    end, { "i" }),
-                    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
-
-                    ["<C-Space>"] = cmp.mapping.complete({}),
-
-                    ["<C-d>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.close()
-                        else
-                            fallback()
-                        end
-                    end, { "i" }),
-
-                    ["<C-l>"] = cmp.mapping(function(fallback)
-                        if luasnip.expand_or_locally_jumpable() then
-                            luasnip.expand_or_jump()
-                        else
-                            fallback()
-                        end
-                    end, { "i", "s" }),
-                    ["<C-h>"] = cmp.mapping(function(fallback)
-                        if luasnip.locally_jumpable(-1) then
-                            luasnip.jump(-1)
-                        else
-                            fallback()
-                        end
-                    end, { "i", "s" }),
-                }),
-                formatting = {
-                    format = lspkind.cmp_format({
-                        mode = "symbol_text",
-                        show_labelDetails = true,
-                        menu = {
-                            nvim_lsp = " ",
-                            vimtex = " ",
-                            cmp_r = "󰟔 ",
-                            luasnip = " ",
-                            nvim_lsp_signature_help = "[sig]",
-                            path = " ",
-                            nvim_lsp_document_symbols = "[ds]",
-                            latex_symbols = " ",
-                            pandoc_references = " ",
-                            emoji = "😇",
-                            buffer = "󰈔",
-                            dap = " ",
-                        },
-                    }),
+                default = {
+                    "lsp",
+                    "path",
+                    "luasnip",
+                    "buffer",
+                    "lazydev",
                 },
 
-                sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                    { name = "vimtex" },
-                    { name = "cmp_r" },
-                    { name = "nvim_lsp_signature_help" },
-                    { name = "luasnip" },
-                    { name = "nvim_lsp_document_symbols" },
-                    { name = "path" },
-                    { name = "latex_symbols" },
-                    { name = "pandoc_references" },
-                }, {
-                    { name = "buffer" },
-                }),
-
-                view = {
-                    docs = { auto_open = false },
-                    entries = {
-                        name = "custom",
-                        selection_order = "near_cursor",
+                providers = {
+                    lsp = { fallback_for = { "lazydev" } },
+                    lazydev = {
+                        name = "LazyDev",
+                        module = "lazydev.integrations.blink",
+                        score_offset = 100, -- show at a higher priority than lsp
+                    },
+                    vimtex = {
+                        name = "vimtex",
+                        module = "blink.compat.source",
+                    },
+                    latex_symbols = {
+                        name = "latex_symbols",
+                        module = "blink.compat.source",
+                    },
+                    pandoc_references = {
+                        name = "pandoc_references",
+                        module = "blink.compat.source",
+                    },
+                    dap = {
+                        name = "dap",
+                        module = "blink.compat.source",
                     },
                 },
-
-                window = { documentation = cmp.config.window.bordered() },
-            })
-        end,
+            },
+            signature = {
+                enabled = true,
+                window = {
+                    border = "rounded",
+                },
+            },
+            completion = {
+                accept = {
+                    auto_brackets = {
+                        enabled = true,
+                    },
+                },
+                menu = {
+                    draw = {
+                        treesitter = { "lsp" },
+                        columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
+                        align_to_component = "none",
+                    },
+                },
+                documentation = {
+                    auto_show = true,
+                    window = {
+                        border = "rounded",
+                    },
+                },
+                ghost_text = {
+                    enabled = true,
+                },
+            },
+        },
+        opts_extend = { "sources.completion.enabled_providers", "sources.compat", "sources.default" },
     },
 }
