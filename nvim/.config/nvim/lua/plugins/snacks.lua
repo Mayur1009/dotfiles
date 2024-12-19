@@ -3,6 +3,8 @@ return {
         "folke/snacks.nvim",
         priority = 1000,
         lazy = false,
+
+        ---@type snacks.Config
         opts = {
             bigfile = { enabled = true },
             dashboard = { enabled = true },
@@ -11,14 +13,22 @@ return {
             notifier = { enabled = true },
             quickfile = { enabled = true },
             scope = { enabled = true },
-            scroll = { enabled = true },
+            scroll = {
+                enabled = true,
+                animate = {
+                    duration = {
+                        step = 5,
+                        total = 200,
+                    },
+                },
+            },
             statuscolumn = {
                 enabled = true,
-                left = { "mark", "sign", "git" }, -- priority of signs on the left (high to low)
-                right = { "fold" }, -- priority of signs on the right (high to low)
+                left = { "mark", "git" }, -- priority of signs on the left (high to low)
+                right = { "sign", "fold" }, -- priority of signs on the right (high to low)
                 folds = {
                     open = true, -- show open fold icons
-                    git_hl = true, -- use Git Signs hl for fold icons
+                    git_hl = false, -- use Git Signs hl for fold icons
                 },
             },
             words = { enabled = true },
@@ -39,14 +49,14 @@ return {
                 desc = "Toggle Zoom",
             },
             {
-                "<leader>-",
+                "<leader>b",
                 function()
                     Snacks.scratch()
                 end,
                 desc = "Toggle Scratch Buffer",
             },
             {
-                "<leader>S",
+                "<leader>B",
                 function()
                     Snacks.scratch.select()
                 end,
@@ -75,21 +85,21 @@ return {
                 desc = "Git Blame Line",
             },
             {
-                "<leader>gf",
+                "<leader>gh",
                 function()
                     Snacks.lazygit.log_file()
                 end,
                 desc = "Lazygit Current File History",
             },
             {
-                "<leader>gG",
+                "<leader>gl",
                 function()
                     Snacks.lazygit()
                 end,
                 desc = "Lazygit",
             },
             {
-                "<leader>gl",
+                "<leader>gL",
                 function()
                     Snacks.lazygit.log()
                 end,
@@ -101,13 +111,6 @@ return {
                     Snacks.terminal()
                 end,
                 desc = "Toggle Terminal",
-            },
-            {
-                "<c-_>",
-                function()
-                    Snacks.terminal()
-                end,
-                desc = "which_key_ignore",
             },
             {
                 "]]",

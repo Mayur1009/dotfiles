@@ -9,12 +9,6 @@ return {
                 dim_inactive = true,
                 lualine_bold = true,
                 transparent = true,
-                on_highlights = function(hl, c)
-                    hl.SpellBad = { undercurl = true, sp = c.comment }
-                    hl.MiniJump = { bg = "#777777" }
-                    hl.rCursor = { fg = c.black, bg = c.red, bold = true }
-                    hl.vCursor = { fg = c.black, bg = c.yellow, bold = true }
-                end,
             })
             vim.cmd([[colorscheme tokyonight]])
         end,

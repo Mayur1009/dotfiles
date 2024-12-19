@@ -101,7 +101,7 @@ return {
             signature = {
                 enabled = true,
                 window = {
-                    border = "rounded",
+                    border = "single",
                 },
             },
             completion = {
@@ -111,23 +111,22 @@ return {
                     },
                 },
                 menu = {
+                    border = "rounded",
                     draw = {
                         treesitter = { "lsp" },
                         columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
-                        align_to_component = "none",
+                        align_to_component = "kind_icon",
                     },
                 },
                 documentation = {
-                    auto_show = true,
+                    auto_show = false,
                     window = {
-                        border = "rounded",
+                        border = "single",
                     },
-                },
-                ghost_text = {
-                    enabled = true,
                 },
             },
         },
         opts_extend = { "sources.completion.enabled_providers", "sources.compat", "sources.default" },
     },
 }
+

@@ -68,17 +68,6 @@ return {
 
                     map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
-                    -- map("gH", function()
-                    --     vim.lsp.inlay_hint.enable(
-                    --         not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
-                    --         { bufnr = bufnr }
-                    --     )
-                    --     vim.notify(
-                    --         "Inlay hints "
-                    --             .. (vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled")
-                    --     )
-                    -- end, "Toggle Inlay [H]ints")
-                    --
                     map("gF", vim.lsp.buf.format, "[F]ormat")
                     -- The following two autocommands are used to highlight references of the
                     -- word under your cursor when your cursor rests there for a little while.
