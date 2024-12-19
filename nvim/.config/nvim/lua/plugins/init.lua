@@ -58,13 +58,13 @@ return {
             },
         },
     },
-    {
-        "nvimdev/indentmini.nvim",
-        event = { "BufReadPost", "BufNewFile" },
-        config = function()
-            require("indentmini").setup({})
-        end,
-    },
+    -- {
+    --     "nvimdev/indentmini.nvim",
+    --     event = { "BufReadPost", "BufNewFile" },
+    --     config = function()
+    --         require("indentmini").setup({})
+    --     end,
+    -- },
     {
         "nvim-treesitter/nvim-treesitter-context",
         event = { "BufReadPost", "BufNewFile" },

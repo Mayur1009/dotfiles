@@ -68,17 +68,17 @@ return {
 
                     map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
-                    map("gH", function()
-                        vim.lsp.inlay_hint.enable(
-                            not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
-                            { bufnr = bufnr }
-                        )
-                        vim.notify(
-                            "Inlay hints "
-                                .. (vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled")
-                        )
-                    end, "Toggle Inlay [H]ints")
-
+                    -- map("gH", function()
+                    --     vim.lsp.inlay_hint.enable(
+                    --         not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
+                    --         { bufnr = bufnr }
+                    --     )
+                    --     vim.notify(
+                    --         "Inlay hints "
+                    --             .. (vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "enabled" or "disabled")
+                    --     )
+                    -- end, "Toggle Inlay [H]ints")
+                    --
                     map("gF", vim.lsp.buf.format, "[F]ormat")
                     -- The following two autocommands are used to highlight references of the
                     -- word under your cursor when your cursor rests there for a little while.
@@ -307,7 +307,7 @@ return {
             end
             vim.diagnostic.config(vim.deepcopy(diagnostics))
 
-            vim.keymap.set("n", "<leader>tD", function()
+            vim.keymap.set("n", "<leader>uv", function()
                 local vt = vim.diagnostic.config().virtual_text
                 if vt == false then
                     vim.diagnostic.config({

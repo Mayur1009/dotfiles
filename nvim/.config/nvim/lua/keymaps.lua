@@ -45,7 +45,7 @@ vim.keymap.set("v", ">", ">gv")
 -- Buffer nav
 vim.keymap.set("n", "H", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 vim.keymap.set("n", "L", "<cmd>bnext<cr>", { desc = "Next buffer" })
-vim.keymap.set("n", "d<tab>", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
+-- vim.keymap.set("n", "d<tab>", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
 
 -- better up/down
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -65,12 +65,12 @@ vim.keymap.set("i", ".", ".<c-g>u")
 vim.keymap.set("i", ";", ";<c-g>u")
 
 -- Toggle Diagnostics
-vim.keymap.set("n", "<leader>td", function()
-    vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-end, { desc = "[T]oggle [D]iagnostics" })
+-- vim.keymap.set("n", "<leader>td", function()
+--     vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+-- end, { desc = "[T]oggle [D]iagnostics" })
 
 -- Toggle buffer lock
-vim.keymap.set("n", "<leader>tl", function()
+vim.keymap.set("n", "<leader>ul", function()
     vim.bo.modifiable = not vim.bo.modifiable
 end, { desc = "Toggle file [l]ock" })
 
