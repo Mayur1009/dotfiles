@@ -18,11 +18,14 @@ return {
                 dependencies = {
                     { "rafamadriz/friendly-snippets" },
                 },
+                config = function()
+                    require("luasnip.loaders.from_vscode").lazy_load()
+                end,
             },
             { "kdheepak/cmp-latex-symbols" },
             { "jmbuhr/cmp-pandoc-references" },
             { "micangl/cmp-vimtex" },
-            { "rcarriga/cmp-dap" },
+            -- { "rcarriga/cmp-dap" },
             "rafamadriz/friendly-snippets",
         },
 
@@ -34,10 +37,10 @@ return {
                 ["<C-h>"] = { "snippet_backward", "fallback" },
                 ["<Tab>"] = { "accept", "fallback" },
                 ["<S-Tab>"] = {},
-                ['<C-b>'] = {},
-                ['<C-f>'] = {},
-                ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
-                ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
+                ["<C-b>"] = {},
+                ["<C-f>"] = {},
+                ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+                ["<C-d>"] = { "scroll_documentation_down", "fallback" },
             },
 
             appearance = {
@@ -59,22 +62,19 @@ return {
                 end,
             },
             sources = {
-                compat = {
-                    "vimtex",
-                    "latex_symbols",
-                    "pandoc_references",
-                    "dap"
-                },
                 default = {
                     "lsp",
                     "path",
                     "luasnip",
                     "buffer",
                     "lazydev",
+                    "vimtex",
+                    "latex_symbols",
+                    "pandoc_references",
+                    -- "dap",
                 },
 
                 providers = {
-                    lsp = { fallback_for = { "lazydev" } },
                     lazydev = {
                         name = "LazyDev",
                         module = "lazydev.integrations.blink",
@@ -92,10 +92,10 @@ return {
                         name = "pandoc_references",
                         module = "blink.compat.source",
                     },
-                    dap = {
-                        name = "dap",
-                        module = "blink.compat.source",
-                    },
+                    -- dap = {
+                    --     name = "dap",
+                    --     module = "blink.compat.source",
+                    -- },
                 },
             },
             signature = {
@@ -129,4 +129,3 @@ return {
         opts_extend = { "sources.completion.enabled_providers", "sources.compat", "sources.default" },
     },
 }
-
