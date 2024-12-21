@@ -19,7 +19,25 @@ return {
                     { "rafamadriz/friendly-snippets" },
                 },
                 config = function()
+                    local luasnip = require("luasnip")
+                    luasnip.config.setup({
+                        history = true,
+                        delete_check_events = "TextChanged",
+                    })
+
+                    require("luasnip.loaders.from_lua").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snips" } })
+                    require("luasnip.loaders.from_vscode").lazy_load({
+                        paths = { vim.fn.stdpath("config") .. "/snips" },
+                    })
                     require("luasnip.loaders.from_vscode").lazy_load()
+                    luasnip.filetype_extend("quarto", { "markdown" })
+                    luasnip.filetype_extend("rmarkdown", { "markdown" })
+                    vim.keymap.set(
+                        "n",
+                        "<leader>sl",
+                        require("luasnip.loaders").edit_snippet_files,
+                        { desc = "Luasnip edit snippet" }
+                    )
                 end,
             },
             { "kdheepak/cmp-latex-symbols" },
@@ -33,7 +51,13 @@ return {
         opts = {
             keymap = {
                 preset = "default",
-                ["<C-l>"] = { "snippet_forward", "fallback" },
+                ["<C-l>"] = {
+                    "snippet_forward",
+                    function(cmp)
+                        cmp.show({ providers = { "snippets" } })
+                    end,
+                    "fallback",
+                },
                 ["<C-h>"] = { "snippet_backward", "fallback" },
                 ["<Tab>"] = { "accept", "fallback" },
                 ["<S-Tab>"] = {},
