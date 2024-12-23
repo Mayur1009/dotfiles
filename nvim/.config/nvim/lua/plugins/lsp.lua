@@ -309,7 +309,6 @@ return {
                 else
                     vim.diagnostic.config({ virtual_text = false })
                 end
-                vim.print(vim.diagnostic.config())
             end, { desc = "Toggle diagnostic virtual text" })
 
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
@@ -319,7 +318,6 @@ return {
     },
     {
         "mrcjkb/rustaceanvim",
-        version = "^4", -- Recommended
         ft = { "rust" },
     },
 }
