@@ -204,6 +204,7 @@ return {
                         },
                     },
                 },
+                zls = {},
                 -- ltex = {
                 --     settings = {
                 --         ltex = {

@@ -34,6 +34,7 @@ return {
                 "toml",
                 "hyprlang",
                 "git_config",
+                "zig",
             },
             -- Autoinstall languages that are not installed
             auto_install = true,
