@@ -65,7 +65,7 @@ return {
             require("mini.icons").setup()
             require("mini.icons").mock_nvim_web_devicons()
 
-            vim.keymap.set("n", "<leader>tp", function()
+            vim.keymap.set("n", "<leader>up", function()
                 vim.g.minipairs_disable = not vim.g.minipairs_disable
             end, { desc = "[T]oggle auto [p]airs" })
         end,

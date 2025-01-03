@@ -139,7 +139,7 @@ return {
                     draw = {
                         treesitter = { "lsp" },
                         columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
-                        align_to_component = "kind_icon",
+                        align_to = "kind_icon",
                     },
                 },
                 documentation = {

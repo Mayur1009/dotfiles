@@ -4,10 +4,10 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
-vim.keymap.set("n", "<leader>te", vim.diagnostic.open_float, { desc = "[S]how diagnostic [E]rror messages" })
+vim.keymap.set("n", "<leader>ue", vim.diagnostic.open_float, { desc = "[S]how diagnostic [E]rror messages" })
 
 -- Quickfix
-vim.keymap.set("n", "<leader>tq", vim.diagnostic.setloclist, { desc = "[S]how diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>uq", vim.diagnostic.setloclist, { desc = "[S]how diagnostic [Q]uickfix list" })
 vim.keymap.set("n", "[q", ":cprev<cr>", { desc = "Quickfix previous" })
 vim.keymap.set("n", "]q", ":cnext<cr>", { desc = "Quickfix next" })
 
@@ -115,15 +115,6 @@ vim.keymap.set("n", "<localleader>fc", function()
     local cmd = ext == "c" and "gcc " or "g++ " .. vim.fn.expand("%") .. " -o " .. vim.fn.expand("%:t:r")
     cmd_in_tmux_window(cmd)
 end, { desc = "Run gcc/g++ file in new TMUX window" })
-
-vim.keymap.set("n", "<leader>ct", function ()
-    if vim.g.code_target == "kitty" then
-        vim.g.code_target = "tmux"
-    else
-        vim.g.code_target = "kitty"
-    end
-    vim.g.slime_target = vim.g.code_target
-end, {desc = "Switch g:code_target betwn kitty and tmux"})
 
 -- Others
 vim.keymap.set("n", "<C-d>", "<C-d>zz")

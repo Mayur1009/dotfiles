@@ -41,8 +41,10 @@ return {
                 --     return mapping.desc and mapping.desc ~= ""
                 -- end,
                 spec = {
-                    { "<leader>t", group = "+[t]oggle" },
+                    { "<leader>u", group = "+[t]oggle" },
                     { "<leader>v", group = "+terminals" },
+                    { "<leader>g", group = "+git" },
+                    { "<leader>q", group = "+session" },
                     { "<leader>f", group = "+[f]ind and replace" },
                     { "<localleader>f", group = "+run [f]ile" },
                 },
@@ -74,7 +76,7 @@ return {
                 max_lines = 4,
                 min_window_height = 25,
             })
-            vim.keymap.set("n", "<leader>tt", tsc.toggle, { desc = "[T]oggle [T]reesitter Context" })
+            vim.keymap.set("n", "<leader>ut", tsc.toggle, { desc = "[T]oggle [T]reesitter Context" })
         end,
     },
     {
@@ -82,9 +84,9 @@ return {
         event = "VeryLazy",
         cmd = { "UndotreeToggle" },
         config = function()
-            vim.keymap.set("n", "<leader>tu", vim.cmd.UndotreeToggle, { desc = "Toggle undotree" })
+            vim.keymap.set("n", "<leader>uu", vim.cmd.UndotreeToggle, { desc = "Toggle undotree" })
         end,
-        keys = { "<leader>tu" },
+        keys = { "<leader>uu" },
     },
     {
         "MagicDuck/grug-far.nvim",

@@ -49,28 +49,28 @@ return {
         },
         keys = {
             {
-                "<leader>z",
+                "<leader>uz",
                 function()
                     Snacks.zen()
                 end,
                 desc = "Toggle Zen Mode",
             },
             {
-                "<leader>Z",
+                "<leader>uZ",
                 function()
                     Snacks.zen.zoom()
                 end,
                 desc = "Toggle Zoom",
             },
             {
-                "<leader>b",
+                "<leader>ub",
                 function()
                     Snacks.scratch()
                 end,
                 desc = "Toggle Scratch Buffer",
             },
             {
-                "<leader>B",
+                "<leader>sB",
                 function()
                     Snacks.scratch.select()
                 end,
@@ -120,13 +120,6 @@ return {
                 desc = "Lazygit Log (cwd)",
             },
             {
-                "<c-/>",
-                function()
-                    Snacks.terminal()
-                end,
-                desc = "Toggle Terminal",
-            },
-            {
                 "]]",
                 function()
                     Snacks.words.jump(vim.v.count1)
@@ -144,20 +137,9 @@ return {
             },
             {
                 "<leader>N",
-                desc = "Neovim News",
+                desc = "Notification history",
                 function()
-                    Snacks.win({
-                        file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
-                        width = 0.75,
-                        height = 0.6,
-                        wo = {
-                            spell = false,
-                            wrap = true,
-                            signcolumn = "yes",
-                            statuscolumn = " ",
-                            conceallevel = 3,
-                        },
-                    })
+                    Snacks.notifier.show_history()
                 end,
             },
         },
