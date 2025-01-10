@@ -205,19 +205,6 @@ return {
                     },
                 },
                 zls = {},
-                -- ltex = {
-                --     settings = {
-                --         ltex = {
-                --             language = "en-US",
-                --             additionalRules = {
-                --                 languageModel = "~/ngrams/",
-                --             },
-                --         },
-                --     },
-                --     on_attach = function(_, _)
-                --         require("ltex_extra").setup({})
-                --     end,
-                -- },
             }
 
             require("mason").setup()
