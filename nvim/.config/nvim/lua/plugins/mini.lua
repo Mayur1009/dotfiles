@@ -65,6 +65,22 @@ return {
             require("mini.icons").setup()
             require("mini.icons").mock_nvim_web_devicons()
 
+            require("mini.files").setup({
+                options = {
+                    permanent_delete = false,
+                    use_as_default_explorer = false,
+                    width_focus = 30,
+                    width_preview = 30,
+                },
+                windows = {
+                    preview = true,
+                },
+            })
+
+            vim.keymap.set("n", "<leader>.", function()
+                require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
+            end, { desc = "Mini Files toggle" })
+
             vim.keymap.set("n", "<leader>up", function()
                 vim.g.minipairs_disable = not vim.g.minipairs_disable
             end, { desc = "[T]oggle auto [p]airs" })

@@ -3,26 +3,36 @@ return {
     {
         "folke/persistence.nvim",
         event = "BufReadPre",
-        config = function()
-            require("persistence").setup({})
-            vim.keymap.set("n", "<leader>qs", function()
-                require("persistence").load()
-            end)
-            vim.keymap.set("n", "<leader>qS", function()
-                require("persistence").select()
-            end)
-            vim.keymap.set("n", "<leader>ql", function()
-                require("persistence").load({ last = true })
-            end)
-            vim.keymap.set("n", "<leader>qd", function()
-                require("persistence").stop()
-            end)
-        end,
+        opts = {},
         keys = {
-            "<leader>qs",
-            "<leader>qS",
-            "<leader>ql",
-            "<leader>qd",
+            {
+                "<leader>qs",
+                function()
+                    require("persistence").load()
+                end,
+                desc = "Restore Session",
+            },
+            {
+                "<leader>qS",
+                function()
+                    require("persistence").select()
+                end,
+                desc = "Select Session",
+            },
+            {
+                "<leader>ql",
+                function()
+                    require("persistence").load({ last = true })
+                end,
+                desc = "Restore Last Session",
+            },
+            {
+                "<leader>qd",
+                function()
+                    require("persistence").stop()
+                end,
+                desc = "Don't Save Current Session",
+            },
         },
     },
     {
@@ -60,13 +70,6 @@ return {
             },
         },
     },
-    -- {
-    --     "nvimdev/indentmini.nvim",
-    --     event = { "BufReadPost", "BufNewFile" },
-    --     config = function()
-    --         require("indentmini").setup({})
-    --     end,
-    -- },
     {
         "nvim-treesitter/nvim-treesitter-context",
         event = { "BufReadPost", "BufNewFile" },
@@ -107,9 +110,9 @@ return {
                     flags = "--.",
                 },
             })
-            vim.keymap.set({ "n", "v" }, "<leader>fa", grug.grug_far, { desc = "Find with grug-far in all files" })
+            vim.keymap.set({ "n", "v" }, "<leader>fa", grug.open, { desc = "Find with grug-far in all files" })
             vim.keymap.set({ "n", "v" }, "<leader>ff", function()
-                grug.grug_far({
+                grug.open({
                     prefills = {
                         filesFilter = vim.fn.expand("%"),
                     },

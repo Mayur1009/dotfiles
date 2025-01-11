@@ -7,31 +7,15 @@ return {
         ---@type snacks.Config
         opts = {
             bigfile = { enabled = true },
-            dashboard = {
-                sections = {
-                    { section = "header", gap = 1, padding = 1 },
-                    { section = "keys", gap = 1, padding = 1 },
-                    {
-                        icon = " ",
-                        title = "Recent Files",
-                        section = "recent_files",
-                        indent = 2,
-                        padding = 1,
-                    },
-                    { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
-                    { section = "startup", gap = 1, padding = 1 },
-                },
-            },
             indent = { enabled = true },
             input = { enabled = true },
-            notifier = { enabled = true },
             quickfile = { enabled = true },
             scope = { enabled = true },
             scroll = {
                 enabled = true,
                 animate = {
                     duration = {
-                        step = 5,
+                        step = 20,
                         total = 200,
                     },
                 },
@@ -42,7 +26,7 @@ return {
                 right = { "sign", "fold" }, -- priority of signs on the right (high to low)
                 folds = {
                     open = true, -- show open fold icons
-                    git_hl = false, -- use Git Signs hl for fold icons
+                    git_hl = true, -- use Git Signs hl for fold icons
                 },
             },
             words = { enabled = true },
@@ -134,13 +118,6 @@ return {
                 end,
                 desc = "Prev Reference",
                 mode = { "n", "t" },
-            },
-            {
-                "<leader>N",
-                desc = "Notification history",
-                function()
-                    Snacks.notifier.show_history()
-                end,
             },
         },
         init = function()
