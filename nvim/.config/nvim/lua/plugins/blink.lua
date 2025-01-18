@@ -43,6 +43,7 @@ return {
             { "kdheepak/cmp-latex-symbols" },
             { "jmbuhr/cmp-pandoc-references" },
             { "micangl/cmp-vimtex" },
+            "giuxtaposition/blink-cmp-copilot",
             -- { "rcarriga/cmp-dap" },
             "rafamadriz/friendly-snippets",
         },
@@ -75,6 +76,7 @@ return {
             sources = {
                 default = {
                     "lsp",
+                    "copilot",
                     "path",
                     "snippets",
                     "buffer",
@@ -102,6 +104,14 @@ return {
                     pandoc_references = {
                         name = "pandoc_references",
                         module = "blink.compat.source",
+                    },
+
+                    copilot = {
+                        name = "copilot",
+                        module = "blink-cmp-copilot",
+                        -- kind = "Copilot",
+                        score_offset = 100,
+                        async = true,
                     },
                     -- dap = {
                     --     name = "dap",
