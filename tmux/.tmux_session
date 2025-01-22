@@ -13,7 +13,7 @@ fi
 sname=$(basename "$selected" | tr . _)
 
 if ! tmux has -t="$sname" 2>/dev/null; then
-    tmux new -s "$sname" -n "nvim" -c "$selected" -d \; send-keys -t "$sname:nvim.1" nvim C-m
+    tmux new -s "$sname" -c "$selected" -d
 fi
 
 if [[ -n $TMUX ]]; then
