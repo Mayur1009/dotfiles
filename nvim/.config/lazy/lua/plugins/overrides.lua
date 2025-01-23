@@ -32,7 +32,8 @@ return {
   { "nvim-neo-tree/neo-tree.nvim", enabled = false },
   { "echasnovski/mini.tabline", opts = {} },
   {
-    "rafamadriz/friendly-snippets",
+    "L3MON4D3/LuaSnip",
+    lazy = true,
     config = function()
       require("luasnip.loaders.from_vscode").lazy_load()
       require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets" } })
@@ -47,7 +48,7 @@ return {
         ["<C-l>"] = { "snippet_forward", "fallback" },
         ["<C-h>"] = { "snippet_backward", "fallback" },
         ["<Tab>"] = { "accept", "fallback" },
-        ["<C-s>"] = {
+        ["<C-g>"] = {
           function(cmp)
             cmp.show({ providers = { "snippets" } })
           end,
@@ -67,9 +68,17 @@ return {
           end
           return {}
         end,
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-cmp-copilot",
+            score_offset = 0,
+            async = true,
+          },
+        },
       },
-
       completion = {
+        ghost_text = { enabled = false },
         menu = {
           draw = {
             columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
@@ -104,6 +113,22 @@ return {
       },
       popupmenu = {
         enabled = false,
+      },
+    },
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    opts = {
+      suggestion = {
+        enabled = true,
+        hide_during_completion = false,
+        keymap = {
+          dismiss = "<M-e>",
+          next = "<M-n>",
+          prev = "<M-p>",
+          accept_word = "<M-w>",
+          accept_line = "<M-l>",
+        },
       },
     },
   },
