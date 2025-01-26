@@ -22,3 +22,5 @@ opt.listchars = {
 }
 
 opt.showbreak = "↪"
+opt.wrap = true
+opt.breakindent = true
