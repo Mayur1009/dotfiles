@@ -9,7 +9,6 @@ return {
     "folke/snacks.nvim",
     opts = {
       statuscolumn = {
-        enabled = true,
         left = { "mark", "git" }, -- priority of signs on the left (high to low)
         right = { "sign", "fold" }, -- priority of signs on the right (high to low)
         folds = {
