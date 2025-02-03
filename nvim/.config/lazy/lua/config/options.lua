@@ -5,7 +5,6 @@ vim.g.is_work_laptop = vim.uv.os_uname().sysname == "Darwin"
 vim.g.maplocalleader = ","
 vim.g.autoformat = false
 vim.g.lazyvim_python_lsp = "basedpyright"
-vim.g.lazyvim_picker = "telescope"
 vim.g.python3_host_prog = vim.fn.expand("$HOME/.nvim_venv/bin/python3")
 vim.g.python_host_prog = vim.fn.expand("$HOME/.nvim_venv/bin/python")
 vim.g.vimtex_view_method = vim.g.is_work_laptop and "skim" or "zathura"

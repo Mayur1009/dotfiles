@@ -1,11 +1,5 @@
 return {
   {
-    "nvim-telescope/telescope.nvim",
-    keys = {
-      { "<leader>,", false },
-    },
-  },
-  {
     "folke/snacks.nvim",
     opts = {
       statuscolumn = {
@@ -16,8 +10,19 @@ return {
           git_hl = true, -- use Git Signs hl for fold icons
         },
       },
+      picker = {
+        sources = {
+          files = {
+            hidden = true,
+          },
+          grep = {
+            hidden = true,
+          },
+        },
+      },
     },
     keys = {
+      { "<leader>,", false },
       {
         "d<Tab>",
         function()
@@ -55,18 +60,18 @@ return {
         },
       },
       sources = {
-        cmdline = function()
-          local type = vim.fn.getcmdtype()
-          -- Search forward and backward
-          if type == "/" or type == "?" then
-            return { "buffer" }
-          end
-          -- Commands
-          if type == ":" or type == "@" then
-            return { "cmdline" }
-          end
-          return {}
-        end,
+        -- cmdline = function()
+        --   local type = vim.fn.getcmdtype()
+        --   -- Search forward and backward
+        --   if type == "/" or type == "?" then
+        --     return { "buffer" }
+        --   end
+        --   -- Commands
+        --   if type == ":" or type == "@" then
+        --     return { "cmdline" }
+        --   end
+        --   return {}
+        -- end,
         providers = {
           copilot = {
             name = "copilot",
