@@ -14,9 +14,6 @@ return {
         integrations = {
           diffview = true,
         },
-        telescope_sorter = function()
-          return require("telescope").extensions.fzf.native_fzf_sorter()
-        end,
       })
 
       local diffview_open = false

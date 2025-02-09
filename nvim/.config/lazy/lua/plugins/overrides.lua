@@ -60,19 +60,15 @@ return {
         },
       },
       sources = {
-        -- cmdline = function()
-        --   local type = vim.fn.getcmdtype()
-        --   -- Search forward and backward
-        --   if type == "/" or type == "?" then
-        --     return { "buffer" }
-        --   end
-        --   -- Commands
-        --   if type == ":" or type == "@" then
-        --     return { "cmdline" }
-        --   end
-        --   return {}
-        -- end,
         providers = {
+          path = {
+            opts = {
+              show_hidden_files_by_default = true,
+              get_cwd = function(ctx)
+                return vim.fn.getcwd()
+              end,
+            }
+          },
           copilot = {
             name = "copilot",
             module = "blink-cmp-copilot",
@@ -105,6 +101,20 @@ return {
       keys[#keys + 1] = { "gR", vim.lsp.buf.rename, desc = "LSP Rename" }
       keys[#keys + 1] = { "gF", vim.lsp.buf.format, desc = "LSP Format" }
     end,
+  },
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        ruff = {
+          keys = {
+            {
+              "<leader>co", false
+            },
+          },
+        },
+      },
+    },
   },
   {
     "folke/noice.nvim",

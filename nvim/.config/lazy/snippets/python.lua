@@ -8,11 +8,4 @@ return {
         "dbg",
         fmt("print(f'{{{}=}}'){}", {i(1), i(0)})
     ),
-    s(
-        "main",
-        {
-            t({'if __name__ == "__main__":'}),
-            i(0)
-        }
-    )
 }
