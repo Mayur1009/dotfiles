@@ -24,6 +24,8 @@ autoload -Uz compinit
 compinit
 bindkey -e
 
+eval "$(pixi completion --shell zsh)"
+
 # Starship
 eval "$(starship init zsh)"
 
