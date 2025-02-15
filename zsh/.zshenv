@@ -13,14 +13,10 @@ path_add_helper() {
 path_add_helper "$HOME/.local/bin"
 path_add_helper "$HOME/go/bin"
 path_add_helper "$HOME/zig"
+path_add_helper "$HOME/.fzf/bin"
+path_add_helper "$HOME/.pixi/bin"
+path_add_helper "$HOME/neovim/bin"
 
-# path=($path $HOME/.local/bin $HOME/go/bin)
-# if [ -d "$HOME/zig" ]; then
-#     path+=($HOME/zig)
-# fi
-# if [ -d "$HOME/.pixi/bin" ]; then
-#     path+=($HOME/.pixi/bin)
-# fi
 export PATH
 
 export EDITOR="nvim"

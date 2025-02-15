@@ -97,9 +97,9 @@ linux*)
     HISTSIZE=100000
     SAVEHIST=100000
     HISTFILE=~/.histfile
-    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source $HOME/.zsh/zsh-history-substring-search.zsh
+    source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
     ;;
 darwin*)
     source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
