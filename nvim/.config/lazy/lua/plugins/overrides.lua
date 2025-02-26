@@ -2,6 +2,7 @@ return {
   {
     "folke/snacks.nvim",
     opts = {
+      scroll = { enabled = false },
       statuscolumn = {
         left = { "mark", "git" }, -- priority of signs on the left (high to low)
         right = { "sign", "fold" }, -- priority of signs on the right (high to low)
@@ -67,7 +68,7 @@ return {
               get_cwd = function(ctx)
                 return vim.fn.getcwd()
               end,
-            }
+            },
           },
           copilot = {
             name = "copilot",
@@ -109,7 +110,8 @@ return {
         ruff = {
           keys = {
             {
-              "<leader>co", false
+              "<leader>co",
+              false,
             },
           },
         },
