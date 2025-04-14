@@ -73,7 +73,7 @@ alias md="mamba deactivate"
 alias kernel_create="python -m ipykernel install --user --name"
 alias cair16="docker -H ssh://cair-gpu16"
 
-alias lz="NVIM_APPNAME=lazy nvim"
+alias kick="NVIM_APPNAME=kickstart nvim"
 
 function t() {
     $HOME/.tmux_session
