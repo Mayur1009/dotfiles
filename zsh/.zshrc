@@ -1,8 +1,8 @@
-if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
-    autoload -Uz -- "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
-    ghostty-integration
-    # unfunction ghostty-integration
-fi
+# if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
+#     autoload -Uz -- "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
+#     ghostty-integration
+#     # unfunction ghostty-integration
+# fi
 
 # INIT
 zstyle ':completion:*' menu select
@@ -73,7 +73,7 @@ alias md="mamba deactivate"
 alias kernel_create="python -m ipykernel install --user --name"
 alias cair16="docker -H ssh://cair-gpu16"
 
-alias kick="NVIM_APPNAME=kickstart nvim"
+alias lz="NVIM_APPNAME=lazy nvim"
 
 function t() {
     $HOME/.tmux_session
