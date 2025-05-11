@@ -1,14 +1,16 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
+vim.g.python3_host_prog = vim.fn.expand("$HOME/.nvim_venv/bin/python3")
+vim.g.python_host_prog = vim.fn.expand("$HOME/.nvim_venv/bin/python")
+vim.g.undotree_SetFocusWhenToggle = true
+vim.g.autoformat = false
 
 vim.opt.number = true
 vim.opt.mouse = "a"
 vim.opt.showmode = false
-
 vim.schedule(function()
     vim.opt.clipboard = "unnamedplus"
 end)
-
 vim.opt.breakindent = true
 vim.opt.undofile = true
 vim.opt.ignorecase = true
@@ -24,6 +26,18 @@ vim.opt.inccommand = "split"
 vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 vim.opt.confirm = true
+vim.opt.foldlevel = 99
+vim.opt.statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]]
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.wrap = true
+vim.opt.smoothscroll = true
+
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+
 
 vim.filetype.add({
     pattern = {

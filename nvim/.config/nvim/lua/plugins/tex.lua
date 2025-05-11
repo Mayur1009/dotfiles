@@ -10,9 +10,13 @@ return {
             -- vim.g.vimtex_view_method = "sioyek"
             vim.g.vimtex_view_method = vim.g.is_work_laptop and "skim" or "zathura"
 
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("my_nvim_latex_lsp_attach", { clear = true }),
+                pattern = "*.tex",
+                callback = function(event)
+                    vim.keymap.set("n", "<leader>K", "<Plug>(vimtex-doc-package)", { desc = "Vimtex Docs", silent = true, buffer = event.buf })
+                end,
+            })
         end,
-        keys = {
-            { "<localleader>l", desc = "+tex", ft = "tex" },
-        },
     },
 }

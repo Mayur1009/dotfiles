@@ -22,18 +22,23 @@ return {
                 },
             })
 
-            require("mini.hipatterns").setup({
+            local hipattern = require("mini.hipatterns")
+            hipattern.setup({
                 highlighters = {
-                    fixme = extra.gen_highlighter.words({ "FIX", "FIXME", "fixme", "Fixme" }, "MiniHipatternsFixme"),
-                    warn = extra.gen_highlighter.words({ "WARN", "warn", "Warn" }, "MiniHipatternsHack"),
-                    hack = extra.gen_highlighter.words({ "HACK", "hack", "Hack" }, "MiniHipatternsHack"),
-                    todo = extra.gen_highlighter.words({ "TODO", "todo", "Todo" }, "MiniHipatternsTodo"),
-                    wip = extra.gen_highlighter.words({ "WIP", "wip", "Wip" }, "MiniHipatternsTodo"),
-                    note = extra.gen_highlighter.words({ "NOTE", "note", "Note" }, "MiniHipatternsNote"),
-                    -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
-
                     -- Highlight hex color strings (`#rrggbb`) using that color
-                    hex_color = require("mini.hipatterns").gen_highlighter.hex_color(),
+                    hex_color = hipattern.gen_highlighter.hex_color({ priority = 2000 }),
+                    shorthand = {
+                        pattern = "()#%x%x%x()%f[^%x%w]",
+                        group = function(_, _, data)
+                            ---@type string
+                            local match = data.full_match
+                            local r, g, b = match:sub(2, 2), match:sub(3, 3), match:sub(4, 4)
+                            local hex_color = "#" .. r .. r .. g .. g .. b .. b
+
+                            return hipattern.compute_hex_color_group(hex_color, "bg")
+                        end,
+                        extmark_opts = { priority = 2000 },
+                    },
                 },
             })
 
@@ -65,10 +70,18 @@ return {
             require("mini.icons").setup()
             require("mini.icons").mock_nvim_web_devicons()
 
-
-            vim.keymap.set("n", "<leader>up", function()
-                vim.g.minipairs_disable = not vim.g.minipairs_disable
-            end, { desc = "[T]oggle auto [p]airs" })
+            Snacks.toggle
+                .new({
+                    id = "minipairs",
+                    name = "Mini.Pairs",
+                    get = function()
+                        return not vim.g.minipairs_disable
+                    end,
+                    set = function(_)
+                        vim.g.minipairs_disable = not vim.g.minipairs_disable
+                    end,
+                })
+                :map("<leader>up")
         end,
     },
 }

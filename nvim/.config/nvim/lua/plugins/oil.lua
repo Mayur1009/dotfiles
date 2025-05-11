@@ -1,7 +1,6 @@
 return {
     {
         "stevearc/oil.nvim",
-        event = "VeryLazy",
         config = function()
             local oil = require("oil")
             oil.setup({
@@ -18,7 +17,15 @@ return {
                     ["q"] = "actions.close",
                 },
             })
-            vim.keymap.set("n", "<leader>e", oil.open_float, { desc = "Oil [f]ile [e]xplorer" })
         end,
+        keys = {
+            {
+                "<leader>e",
+                function()
+                    require("oil").open_float()
+                end,
+                desc = "Oil [f]ile [e]xplorer",
+            },
+        }
     },
 }

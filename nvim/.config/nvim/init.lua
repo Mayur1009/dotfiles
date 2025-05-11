@@ -1,5 +1,9 @@
+-- Initial setup
 require("options")
+require("keymaps")
+require("autocmds")
 
+-- Install Lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -14,14 +18,31 @@ require("lazy").setup({
     spec = {
         { import = "plugins" },
     },
-    install = { colorscheme = { "tokyonight", "habamax" } },
-    checker = {
-        enabled = false,
-    },
+    defaults = { lazy = false },
+    install = { colorscheme = { "habamax" } },
+    checker = { enabled = true, notify = false },
     change_detection = {
         enabled = false,
     },
+    performance = {
+        rtp = {
+            disabled_plugins = {
+                -- "gzip",
+                -- "matchit",
+                -- "matchparen",
+                -- "netrwPlugin",
+                -- "tarPlugin",
+                -- "tohtml",
+                -- "tutor",
+                -- "zipPlugin",
+            },
+        },
+    },
 })
 
-require("autocmds")
-require("keymaps")
+-- Set colorsheme
+require("tokyonight").load()
+
+-- Enable lsp
+local lsp = require("lsp")
+lsp.enable()
