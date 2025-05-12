@@ -4,6 +4,7 @@ local langs = {
     "c",
     "cpp",
     "cmake",
+    "cuda",
     "diff",
     "dockerfile",
     "git_config",

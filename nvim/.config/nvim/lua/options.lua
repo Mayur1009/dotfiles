@@ -34,6 +34,7 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.wrap = true
 vim.opt.smoothscroll = true
+vim.opt.linebreak = true
 
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
