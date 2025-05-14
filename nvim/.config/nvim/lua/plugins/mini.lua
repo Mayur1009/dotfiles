@@ -60,9 +60,6 @@ return {
                 },
             })
 
-            local MiniStatusline = require("mini.statusline")
-            MiniStatusline.setup({})
-            require("mini.tabline").setup()
             require("mini.move").setup()
             require("mini.splitjoin").setup() -- gS
             require("mini.misc").setup() -- printing table and stuff

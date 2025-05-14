@@ -6,7 +6,6 @@ return {
         ---@type snacks.Config
         opts = {
             bigfile = { enabled = true },
-            dashboard = { enabled = true },
             explorer = { enabled = true },
             indent = { enabled = true },
             input = { enabled = true },
@@ -26,6 +25,23 @@ return {
                     open = true, -- show open fold icons
                     git_hl = true, -- use Git Signs hl for fold icons
                 },
+            },
+            dashboard = {
+                enabled = true,
+                -- sections = {
+                --     {
+                --         section = "terminal",
+                --         cmd = "chafa ~/Downloads/one_piece_skull.png --format symbols --symbols vhalf --size 40x --stretch; sleep .1",
+                --         height = 30,
+                --         padding = 1,
+                --     },
+                --     {
+                --         pane = 2,
+                --         { section = "header" },
+                --         { section = "keys", gap = 1, padding = 1 },
+                --         { section = "startup" },
+                --     },
+                -- },
             },
         },
         keys = {
