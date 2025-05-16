@@ -9,6 +9,7 @@ return {
             vim.g.vimtex_quickfix_open_on_warning = 0
             -- vim.g.vimtex_view_method = "sioyek"
             vim.g.vimtex_view_method = vim.g.is_work_laptop and "skim" or "zathura"
+            vim.g.vimtex_format_enabled = true
 
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("my_nvim_latex_lsp_attach", { clear = true }),

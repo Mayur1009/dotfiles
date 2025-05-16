@@ -54,6 +54,9 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "<leader>S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "ThePrimeLord" })
 
+-- Break visual selection lines by .
+vim.keymap.set("v", "<localleader>lf", [[:s/\([.]\)/\1\r/g]], { desc = "Break lines by ." })
+
 vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete to void" })
 
 vim.keymap.set("n", "<leader>cr", function()

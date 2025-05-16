@@ -53,7 +53,11 @@ return {
                 ensure_installed = langs,
                 sync_install = false,
                 auto_install = true,
-                highlight = { enable = true },
+                highlight = {
+                    enable = true,
+                    disable = { "latex" },
+                    additional_vim_regex_highlighting = { "latex" },
+                },
                 indent = { enable = true },
                 incremental_selection = {
                     enable = true,
