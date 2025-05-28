@@ -14,7 +14,24 @@ return {
             scope = { enabled = true },
             scroll = { enabled = false },
             words = { enabled = false },
-            image = { enabled = true },
+            image = {
+                enabled = true,
+                math = {
+                    enabled = false,
+                },
+                doc = {
+                    inline = false,
+                }
+            },
+            styles = {
+                snacks_image = {
+                    relative = "editor",
+                    row=1,
+                    col=99999,
+                    title = "Snacks Image",
+                    focusable = true,
+                }
+            },
             picker = { enabled = true },
 
             statuscolumn = {
@@ -200,14 +217,6 @@ return {
                 end,
                 desc = "Quickfix List",
             },
-
-            -- {
-            --     "d<Tab>",
-            --     function()
-            --         Snacks.bufdelete()
-            --     end,
-            --     desc = "Delete Buffer",
-            -- },
         },
         init = function()
             vim.api.nvim_create_autocmd("User", {

@@ -10,6 +10,21 @@ return {
             -- vim.g.vimtex_view_method = "sioyek"
             vim.g.vimtex_view_method = vim.g.is_work_laptop and "skim" or "zathura"
             vim.g.vimtex_format_enabled = true
+            vim.g.vimtex_syntax_conceal = {
+                accents = 0,
+                ligatures = 0,
+                cites = 0,
+                fancy = 0,
+                spacing = 0,
+                greek = 1,
+                math_bounds = 1,
+                math_delimiters = 1,
+                math_fracs = 1,
+                math_super_sub = 1,
+                math_symbols = 1,
+                sections = 0,
+                styles = 0,
+            }
 
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("my_nvim_latex_lsp_attach", { clear = true }),

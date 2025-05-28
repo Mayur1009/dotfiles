@@ -43,6 +43,5 @@ require("lazy").setup({
 -- Set colorsheme
 require("tokyonight").load()
 
--- Enable lsp
-local lsp = require("lsp")
-lsp.enable()
+-- Setup LSP
+require("lsp").setup()

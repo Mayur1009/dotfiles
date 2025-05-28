@@ -38,6 +38,9 @@ vim.opt.linebreak = true
 vim.opt.showbreak = "↪ "
 vim.opt.breakindent = true
 vim.opt.title = true
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = "n"
+vim.opt.virtualedit = "block"
 
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"

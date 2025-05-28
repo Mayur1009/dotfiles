@@ -26,6 +26,16 @@ return {
                     return
                 end
             end,
+            formatters = {
+                ["latexindent"] = {
+                    command = "latexindent",
+                    args = { "-l", "-m" },
+                    range_args = function(_, ctx)
+                        return { "--lines", ctx.range.start[1] .. "-" .. ctx.range["end"][1], "-" }
+                    end,
+                    stdin = true,
+                },
+            },
         },
         keys = {
             {
@@ -34,6 +44,7 @@ return {
                     require("conform").format({ async = true })
                 end,
                 desc = "Format buffer",
+                mode = { "n", "v" },
             },
         },
         init = function()
