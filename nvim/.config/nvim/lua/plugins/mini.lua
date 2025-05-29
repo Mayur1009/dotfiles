@@ -9,12 +9,12 @@ return {
                 n_lines = 500,
                 custom_textobjects = {
                     o = ai.gen_spec.treesitter({
-                        a = { "@block.outer", "@conditional.outer", "@loop.outer" },
-                        i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+                        a = { "@block.outer", "@conditional.outer", "@loop.outer", "@code_cell.outer" },
+                        i = { "@block.inner", "@conditional.inner", "@loop.inner", "@code_cell.inner" },
                     }, {}),
                     f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
                     c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
-                    b = ai.gen_spec.treesitter({ a = "@code_cell.outer", i = "@code_cell.inner" }, {}),
+                    j = require("utils").ts_textobj_delimiter_miniai({ a = "@jps", i = "@jps" }),
                     i = extra.gen_ai_spec.indent(),
                     g = extra.gen_ai_spec.buffer(),
                     d = extra.gen_ai_spec.number(),

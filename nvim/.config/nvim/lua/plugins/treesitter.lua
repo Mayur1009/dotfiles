@@ -75,10 +75,10 @@ return {
                     move = {
                         enable = true,
                         set_jumps = true,
-                        goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner", ["]b"] = "@code_cell.inner" },
-                        goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]A"] = "@parameter.inner", ["]B"] = "@code_cell.inner" },
-                        goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer", ["[a"] = "@parameter.inner", ["[b"] = "@code_cell.inner" },
-                        goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner", ["[B"] = "@code_cell.inner" },
+                        goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner", ["]o"] = "@code_cell.inner" , ["]j"] = "@jps"},
+                        goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]A"] = "@parameter.inner", ["]O"] = "@code_cell.inner" },
+                        goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer", ["[a"] = "@parameter.inner", ["[o"] = "@code_cell.inner", ["[j"] = "@jps" },
+                        goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner", ["[O"] = "@code_cell.inner" },
                     },
                     select = {
                         enable = true,
