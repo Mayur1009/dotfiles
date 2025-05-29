@@ -59,6 +59,18 @@ vim.keymap.set("v", "<localleader>lf", [[:s/\([.]\)/\1\r/g]], { desc = "Break li
 
 vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete to void" })
 
+function _G.operator_replace_with_yank(type)
+    if type == "line" then
+        vim.cmd("normal! '[V']\"rdP")
+    elseif type == "char" then
+        vim.cmd('normal! `[v`]"rdP')
+    else
+        vim.notify("Block mode not supported.")
+    end
+end
+
+vim.keymap.set({ "n", "o" }, "<leader>p", "<cmd>set operatorfunc=v:lua.operator_replace_with_yank<CR>g@", { desc = "Replace with yank" })
+
 vim.keymap.set("n", "<leader>cr", function()
     return ":IncRename " .. vim.fn.expand("<cword>")
 end, { expr = true, desc = "IncRename" })
