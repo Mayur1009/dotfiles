@@ -1,21 +1,27 @@
 return {
     {
         "MeanderingProgrammer/render-markdown.nvim",
+        dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" },
+        ft = { "markdown", "quarto" },
+        ---@module 'render-markdown'
+        ---@type render.md.UserConfig
         opts = {
+            file_types = { "markdown", "quarto" },
+            completions = {
+                blink = { enabled = true },
+                lsp = { enabled = true },
+            },
             code = {
-                sign = false,
                 width = "block",
-                right_pad = 1,
+                border = "thick",
+
             },
-            heading = {
-                sign = false,
-                icons = {},
-            },
-            checkbox = {
-                enabled = false,
-            },
+            win_options = {
+                conceallevel = {
+                    rendered = 2
+                }
+            }
         },
-        ft = { "markdown", "norg", "rmd", "org", "codecompanion" },
         config = function(_, opts)
             require("render-markdown").setup(opts)
             Snacks.toggle({

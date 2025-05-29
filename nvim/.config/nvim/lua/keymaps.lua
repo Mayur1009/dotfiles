@@ -94,6 +94,27 @@ vim.keymap.set("n", "<localleader>fc", function()
     cmd_in_tmux_window(cmd)
 end, { desc = "Run gcc/g++ file in new TMUX window" })
 
+local open_repl = function(prog)
+    if vim.env.TMUX == nil then
+        vim.cmd("vsplit | terminal " .. prog)
+    else
+        vim.fn.system("tmux splitw -hd '" .. prog .. "'\\; set -p -t :.2 remain-on-exit on;")
+    end
+end
+
+local repl_keymap = function(exe)
+    local prog = vim.fn.exepath(exe)
+    if prog == "" then
+        return
+    end
+    vim.keymap.set("n", "<leader>v" .. exe:sub(1, 1), function()
+        open_repl(prog)
+    end, { desc = exe:upper() .. " REPL" })
+end
+
+repl_keymap("python")
+repl_keymap("ipython")
+
 -- Norwegian keyboard layout
 vim.keymap.set({ "n", "o", "v", "x" }, "ø", "[", { remap = true })
 vim.keymap.set({ "n", "o", "v", "x" }, "æ", "]", { remap = true })

@@ -75,24 +75,26 @@ return {
                     move = {
                         enable = true,
                         set_jumps = true,
-                        goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner" },
-                        goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]A"] = "@parameter.inner" },
-                        goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer", ["[a"] = "@parameter.inner" },
-                        goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner" },
+                        goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner", ["]b"] = "@code_cell.inner" },
+                        goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]A"] = "@parameter.inner", ["]B"] = "@code_cell.inner" },
+                        goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer", ["[a"] = "@parameter.inner", ["[b"] = "@code_cell.inner" },
+                        goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner", ["[B"] = "@code_cell.inner" },
                     },
                     select = {
                         enable = true,
                         lookahead = true,
                         keymaps = {
+                            -- NOTE: Defined with mini.ai plugin
+                            --
                             -- You can use the capture groups defined in textobjects.scm
-                            ["af"] = "@function.outer",
-                            ["if"] = "@function.inner",
-                            ["ac"] = "@class.outer",
+                            -- ["af"] = "@function.outer",
+                            -- ["if"] = "@function.inner",
+                            -- ["ac"] = "@class.outer",
                             -- You can optionally set descriptions to the mappings (used in the desc parameter of
                             -- nvim_buf_set_keymap) which plugins like which-key display
-                            ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+                            -- ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
                             -- You can also use captures from other query groups like `locals.scm`
-                            ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
+                            -- ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
                         },
                     },
                     lsp_interop = {
