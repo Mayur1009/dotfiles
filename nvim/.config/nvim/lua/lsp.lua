@@ -1,7 +1,7 @@
 local M = {}
 
 ---@type table<string, vim.lsp.Config>
-local lsp_overrides = {
+M.lsp_config = {
     lua_ls = {
         settings = {
             version = "LuaJIT",
@@ -23,6 +23,13 @@ local lsp_overrides = {
                     ["local"] = "localSettings.yaml",
                     modifyLineBreaks = true,
                 },
+            },
+        },
+    },
+    harper_ls = {
+        settings = {
+            ["harper-ls"] = {
+                userDictPath = vim.fn.stdpath("config") .. "/.harper_dict.txt",
             },
         },
     },
@@ -70,7 +77,7 @@ M.setup = function()
     })
 
     -- Enable LSP servers
-    for name, config in pairs(lsp_overrides) do
+    for name, config in pairs(M.lsp_config) do
         vim.lsp.config(name, config)
         vim.lsp.enable(name)
     end

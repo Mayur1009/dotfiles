@@ -8,7 +8,7 @@ return {
         dependencies = { "mason.nvim" },
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = require("lsp").list,
+                ensure_installed = vim.tbl_keys(require("lsp").lsp_config),
                 automatic_enable = false,
             })
         end,
