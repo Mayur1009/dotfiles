@@ -1,7 +1,6 @@
-; extends
+;extends
 
-( (comment) @jps (#match? @jps "^\\# ?\\%\\%") )@code_cell.inner
-
+; CUDA injection
 (
 (comment) @com (#match? @com "# ?\\@cuda")
 (expression_statement
@@ -9,6 +8,7 @@
     left: (identifier)
     right: (string
              (string_start)
-             (string_content) @cuda_string
+             (string_content) @injection.content
              (string_end))))
+    (#set! injection.language "cuda")
 )
