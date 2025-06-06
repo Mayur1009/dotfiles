@@ -98,7 +98,7 @@ local open_repl = function(prog)
     if vim.env.TMUX == nil then
         vim.cmd("vsplit | terminal " .. prog)
     else
-        vim.fn.system("tmux splitw -hd '" .. prog .. "'\\; set -p -t :.2 remain-on-exit on;")
+        vim.fn.system("tmux splitw -hd\\; send-keys -t :.2 '" .. prog .. "' C-m;" )
     end
 end
 
