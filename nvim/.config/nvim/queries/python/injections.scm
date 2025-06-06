@@ -2,13 +2,12 @@
 
 ; CUDA injection
 (
-(comment) @com (#match? @com "# ?\\@cuda")
-(expression_statement
-  (assignment
-    left: (identifier)
-    right: (string
-             (string_start)
-             (string_content) @injection.content
-             (string_end))))
-    (#set! injection.language "cuda")
-)
+  (comment) @_comment
+  (#match? @_comment "^# ?\\@cuda$")
+  .
+  (expression_statement
+    (assignment
+      left: (identifier) @_id
+      right: (string (string_content) @injection.content)))
+  (#set! injection.language "cuda"))
+
