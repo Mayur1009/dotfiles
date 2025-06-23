@@ -26,16 +26,31 @@ M.lsp_config = {
             },
         },
     },
-    harper_ls = {
-        settings = {
-            ["harper-ls"] = {
-                userDictPath = vim.fn.stdpath("config") .. "/.harper_dict.txt",
-            },
-        },
-    },
+    -- harper_ls = {
+    --     settings = {
+    --         ["harper-ls"] = {
+    --             userDictPath = vim.fn.stdpath("config") .. "/.harper_dict.txt",
+    --         },
+    --     },
+    -- },
     basedpyright = {},
     ruff = {},
-    clangd = {},
+    clangd = {
+        cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders",
+            "--fallback-style=llvm",
+        },
+        init_options = {
+            usePlaceholders = true,
+            completeUnimported = true,
+            clangdFileStatus = true,
+        },
+    },
     neocmake = {},
     dockerls = {},
     docker_compose_language_service = {},

@@ -16,32 +16,7 @@ return {
                     },
                 },
             },
-            {
-                "zbirenbaum/copilot.lua",
-                cmd = "Copilot",
-                build = ":Copilot auth",
-                event = "InsertEnter",
-                opts = {
-                    suggestion = {
-                        enabled = true,
-                        auto_trigger = true,
-                        keymap = {
-                            accept = false, -- handled by nvim-cmp / blink.cmp
-                            next = "<M-n>",
-                            prev = "<M-p>",
-                            accept_word = "<M-w>",
-                            accept_line = "<M-l>",
-                            dismiss = "<M-e>",
-                        },
-                    },
-                    panel = { enabled = false },
-                    filetypes = {
-                        markdown = true,
-                        help = true,
-                    },
-                },
-            },
-            "giuxtaposition/blink-cmp-copilot",
+            -- "giuxtaposition/blink-cmp-copilot",
             {
                 "L3MON4D3/LuaSnip",
                 version = "2.*",
@@ -122,13 +97,20 @@ return {
                 enabled = true,
                 window = {
                     border = "rounded",
-                    show_documentation = false,
+                    show_documentation = true,
                     treesitter_highlighting = true,
                 },
             },
 
             sources = {
-                default = { "lsp", "path", "snippets", "buffer", "lazydev", "copilot" },
+                default = {
+                    "lsp",
+                    "path",
+                    "snippets",
+                    "buffer",
+                    "lazydev",
+                    -- "copilot",
+                },
                 providers = {
                     path = {
                         opts = {
@@ -143,12 +125,12 @@ return {
                         module = "lazydev.integrations.blink",
                         score_offset = 100, -- show at a higher priority than lsp
                     },
-                    copilot = {
-                        name = "copilot",
-                        module = "blink-cmp-copilot",
-                        score_offset = 100,
-                        async = true,
-                    },
+                    -- copilot = {
+                    --     name = "copilot",
+                    --     module = "blink-cmp-copilot",
+                    --     score_offset = 100,
+                    --     async = true,
+                    -- },
                 },
             },
             cmdline = {

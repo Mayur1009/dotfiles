@@ -67,23 +67,23 @@ return {
 
         -- stylua: ignore
         keys = {
-            { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
-            { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
-            { "<leader>dc", function() require("dap").continue() end, desc = "Run/Continue" },
-            { "<leader>da", function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
-            { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
-            { "<leader>dg", function() require("dap").goto_() end, desc = "Go to Line (No Execute)" },
-            { "<leader>di", function() require("dap").step_into() end, desc = "Step Into" },
-            { "<leader>dj", function() require("dap").down() end, desc = "Down" },
-            { "<leader>dk", function() require("dap").up() end, desc = "Up" },
-            { "<leader>dl", function() require("dap").run_last() end, desc = "Run Last" },
-            { "<leader>do", function() require("dap").step_out() end, desc = "Step Out" },
-            { "<leader>dO", function() require("dap").step_over() end, desc = "Step Over" },
-            { "<leader>dP", function() require("dap").pause() end, desc = "Pause" },
-            { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
-            { "<leader>ds", function() require("dap").session() end, desc = "Session" },
-            { "<leader>dt", function() require("dap").terminate() end, desc = "Terminate" },
-            { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
+            { "<localleader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
+            { "<localleader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+            { "<localleader>dc", function() require("dap").continue() end, desc = "Run/Continue" },
+            { "<localleader>da", function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
+            { "<localleader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
+            { "<localleader>dg", function() require("dap").goto_() end, desc = "Go to Line (No Execute)" },
+            { "<localleader>di", function() require("dap").step_into() end, desc = "Step Into" },
+            { "<localleader>dj", function() require("dap").down() end, desc = "Down" },
+            { "<localleader>dk", function() require("dap").up() end, desc = "Up" },
+            { "<localleader>dl", function() require("dap").run_last() end, desc = "Run Last" },
+            { "<localleader>do", function() require("dap").step_out() end, desc = "Step Out" },
+            { "<localleader>dO", function() require("dap").step_over() end, desc = "Step Over" },
+            { "<localleader>dP", function() require("dap").pause() end, desc = "Pause" },
+            { "<localleader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
+            { "<localleader>ds", function() require("dap").session() end, desc = "Session" },
+            { "<localleader>dt", function() require("dap").terminate() end, desc = "Terminate" },
+            { "<localleader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
         },
 
         config = function()
@@ -102,8 +102,8 @@ return {
         dependencies = { "nvim-neotest/nvim-nio" },
         -- stylua: ignore
         keys = {
-            { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
-            { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
+            { "<localleader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
+            { "<localleader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
         },
         opts = {},
         config = function(_, opts)
@@ -167,8 +167,8 @@ return {
         "mfussenegger/nvim-dap-python",
         -- stylua: ignore
         keys = {
-            { "<leader>dPt", function() require('dap-python').test_method() end, desc = "Debug Method", ft = "python" },
-            { "<leader>dPc", function() require('dap-python').test_class() end, desc = "Debug Class", ft = "python" },
+            { "<localleader>dPt", function() require('dap-python').test_method() end, desc = "Debug Method", ft = "python" },
+            { "<localleader>dPc", function() require('dap-python').test_class() end, desc = "Debug Class", ft = "python" },
         },
         config = function()
             local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
