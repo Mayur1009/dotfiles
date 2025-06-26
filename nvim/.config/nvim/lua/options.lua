@@ -8,9 +8,7 @@ vim.g.autoformat = false
 vim.opt.number = true
 vim.opt.mouse = "a"
 vim.opt.showmode = false
-vim.schedule(function()
-    vim.opt.clipboard = "unnamedplus"
-end)
+vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
 vim.opt.breakindent = true
 vim.opt.undofile = true
 vim.opt.ignorecase = true

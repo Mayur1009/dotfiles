@@ -8,7 +8,7 @@ return {
             vim.g.vimtex_quickfix_mode = 0
             vim.g.vimtex_quickfix_open_on_warning = 0
             -- vim.g.vimtex_view_method = "sioyek"
-            vim.g.vimtex_view_method = vim.g.is_work_laptop and "skim" or "zathura"
+            vim.g.vimtex_view_method = vim.fn.has("mac") and "skim" or "zathura"
             vim.g.vimtex_format_enabled = true
             vim.g.vimtex_syntax_conceal = {
                 accents = 0,
