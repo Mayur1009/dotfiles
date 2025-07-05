@@ -1,3 +1,7 @@
+local cwd = function()
+    local dir = vim.fn.getcwd()
+    return dir
+end
 return {
     {
         "nvim-lualine/lualine.nvim",
@@ -18,14 +22,23 @@ return {
                             return str:sub(1, 4)
                         end,
                     } },
-                    lualine_b = { "branch" },
+                    lualine_b = { "branch", cwd },
                     -- lualine_c = {},
                     lualine_c = {
                         {
-                            "buffers",
-                            show_filename_only = false,
-                            use_mode_colors = true,
-                        },
+                            "filename",
+                            path=1,
+                            symbols = {
+                                modified = "[+]",
+                                readonly = "",
+                                unnamed = "[No Name]",
+                            },
+                        }
+                        -- {
+                        --     "buffers",
+                        --     show_filename_only = false,
+                        --     use_mode_colors = true,
+                        -- },
                     },
                     lualine_x = {
                         {
