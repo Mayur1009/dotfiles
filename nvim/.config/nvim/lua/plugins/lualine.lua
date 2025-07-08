@@ -1,7 +1,46 @@
-local cwd = function()
-    local dir = vim.fn.getcwd()
-    return dir
+local get_cwd = function()
+    local max_length = 30
+    local home = vim.env.HOME
+    local cwd = vim.fn.getcwd()
+    cwd = "~" .. cwd:sub(#home + 1)
+    if #cwd <= max_length then
+        return cwd
+    end
+
+    -- Split path into components
+    local parts = {}
+    for part in string.gmatch(cwd, "[^/]+") do
+        table.insert(parts, part)
+    end
+
+    local n = #parts
+    local function join()
+        return table.concat(parts, "/")
+    end
+
+    for i = 1, n - 1 do
+        if #parts[i] > 1 then
+            parts[i] = parts[i]:sub(1, 1)
+        end
+        if #join() <= max_length then
+            return join()
+        end
+    end
+
+    -- If still too long, clip the last part
+    local last_part = parts[n]
+    local cur_cwd = table.concat(parts, "/", 1, n - 1)
+    local remaining = (max_length - #cur_cwd) <= 10 and 10 or (max_length - #cur_cwd)
+
+    if #last_part > remaining then
+        cur_cwd = cur_cwd .. "/" .. last_part:sub(1, remaining - 4) .. "..."
+    else
+        cur_cwd = cur_cwd .. "/" .. last_part
+    end
+
+    return cur_cwd
 end
+
 return {
     {
         "nvim-lualine/lualine.nvim",
@@ -16,29 +55,25 @@ return {
                     globalstatus = true,
                 },
                 sections = {
-                    lualine_a = { {
-                        "mode",
-                        fmt = function(str)
-                            return str:sub(1, 4)
-                        end,
-                    } },
-                    lualine_b = { "branch", cwd },
-                    -- lualine_c = {},
+                    lualine_a = {
+                        {
+                            "mode",
+                            fmt = function(str)
+                                return str:sub(1, 4)
+                            end,
+                        },
+                    },
+                    lualine_b = { "branch", get_cwd },
                     lualine_c = {
                         {
                             "filename",
-                            path=1,
+                            path = 1,
                             symbols = {
                                 modified = "[+]",
                                 readonly = "",
                                 unnamed = "[No Name]",
                             },
-                        }
-                        -- {
-                        --     "buffers",
-                        --     show_filename_only = false,
-                        --     use_mode_colors = true,
-                        -- },
+                        },
                     },
                     lualine_x = {
                         {
@@ -52,9 +87,8 @@ return {
                                 return { fg = Snacks.util.color("Debug") }
                             end,
                         },
-                        "lsp_status",
                     },
-                    lualine_y = { "diagnostics", "diff", "filetype" },
+                    lualine_y = { "lsp_status", "diagnostics", "diff", "filetype" },
                     lualine_z = {
                         "encoding",
                         { "location", padding = { left = 0, right = 1 } },
