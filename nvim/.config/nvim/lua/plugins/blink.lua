@@ -11,8 +11,8 @@ return {
                 opts = {
                     library = {
                         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-                        { path = "snacks.nvim", words = { "Snacks" } },
-                        { path = "lazy.nvim", words = { "LazyVim" } },
+                        { path = "snacks.nvim",        words = { "Snacks" } },
+                        { path = "lazy.nvim",          words = { "LazyVim" } },
                     },
                 },
             },
@@ -30,7 +30,8 @@ return {
                                 paths = { vim.fn.stdpath("config") .. "/snippets" },
                             })
                             require("luasnip.loaders.from_vscode").lazy_load()
-                            vim.keymap.set("n", "<leader>sl", require("luasnip.loaders").edit_snippet_files, { desc = "Luasnip edit snippet" })
+                            vim.keymap.set("n", "<leader>sl", require("luasnip.loaders").edit_snippet_files,
+                                { desc = "Luasnip edit snippet" })
                         end,
                     },
                 },
@@ -45,18 +46,22 @@ return {
                 ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
                 ["<C-e>"] = { "hide", "fallback" },
                 ["<C-y>"] = { "accept" },
-                ["<Tab>"] = {
-                    function(cmp)
-                        if cmp.snippet_active() then
-                            return cmp.accept()
-                        else
-                            return cmp.select_and_accept()
-                        end
-                    end,
-                    "snippet_forward",
-                    "fallback",
-                },
-                ["<S-Tab>"] = { "snippet_backward", "fallback" },
+                ["<Tab>"] = { "select_and_accept", "fallback" },
+                -- ["<Tab>"] = {
+                --     function(cmp)
+                --         if cmp.snippet_active() then
+                --             return cmp.accept()
+                --         else
+                --             return cmp.select_and_accept()
+                --         end
+                --     end,
+                --     -- "snippet_forward",
+                --     "fallback",
+                -- },
+                -- ["<S-Tab>"] = { "snippet_backward", "fallback" },
+
+                ["<C-l>"] = { "snippet_forward", "fallback" },
+                ["<C-h>"] = { "snippet_backward", "fallback" },
 
                 ["<Up>"] = {},
                 ["<Down>"] = {},
@@ -77,7 +82,7 @@ return {
 
             completion = {
                 list = {
-                    selection = { preselect = false, auto_insert = true },
+                    selection = { preselect = true, auto_insert = false },
                 },
                 documentation = {
                     auto_show = false,
