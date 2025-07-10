@@ -30,14 +30,16 @@ default-root-container-layout = 'tiles'
 # Possible values: horizontal|vertical|auto
 # 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
 #               tall monitor (anything higher than wide) gets vertical orientation
-default-root-container-orientation = 'auto'
+default-root-container-orientation = 'horizontal'
 
 # Mouse follows focus when focused monitor changes
 # Drop it from your config, if you don't like this behavior
 # See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
 # See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
 # Fallback value (if you omit the key): on-focused-monitor-changed = []
-on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+# on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+on-focus-changed = ['move-mouse window-lazy-center']
 
 # You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
 # Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
@@ -64,6 +66,10 @@ automatically-unhide-macos-hidden-apps = true
     outer.bottom =     4
     outer.top =        4
     outer.right =      4
+
+[workspace-to-monitor-force-assignment]
+    1 = [1 , "T27h-30", "^built-in*"]
+    2 = [2 , "P27h-20", "^built-in*"]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -98,33 +104,19 @@ automatically-unhide-macos-hidden-apps = true
     # end tell'
     # '''
 
+    # Apps
     cmd-enter = 'exec-and-forget open -n -a ghostty'
     cmd-e = 'exec-and-forget open -na ghostty --args -e yazi'
+    cmd-shift-e = '''exec-and-forget osascript -e 'tell application "Finder" to make new Finder window to folder (path to home folder)''''
     cmd-b = 'exec-and-forget open -n -a "Brave Browser"'
     cmd-shift-s = 'exec-and-forget open -n -a screenshot'
 
-    cmd-left = 'focus-monitor left'
-    cmd-right = 'focus-monitor right'
-    cmd-up = 'focus-monitor up'
-    cmd-down = 'focus-monitor down'
-
-    cmd-shift-left = 'move-node-to-monitor left'
-    cmd-shift-right = 'move-node-to-monitor right'
-    cmd-shift-up = 'move-node-to-monitor up'
-    cmd-shift-down = 'move-node-to-monitor down'
-
+    # FOCUS
     # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-    cmd-h = 'focus left'
-    cmd-j = 'focus down'
-    cmd-k = 'focus up'
-    cmd-l = 'focus right'
-
-    # See: https://nikitabobko.github.io/AeroSpace/commands#move
-    cmd-shift-h = 'move left'
-    cmd-shift-j = 'move down'
-    cmd-shift-k = 'move up'
-    cmd-shift-l = 'move right'
-
+    cmd-h = 'focus left --boundaries all-monitors-outer-frame'
+    cmd-j = 'focus down --boundaries all-monitors-outer-frame'
+    cmd-k = 'focus up --boundaries all-monitors-outer-frame'
+    cmd-l = 'focus right --boundaries all-monitors-outer-frame'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
     cmd-1 = 'workspace 1'
@@ -137,6 +129,21 @@ automatically-unhide-macos-hidden-apps = true
     cmd-8 = 'workspace 8'
     cmd-9 = 'workspace 9'
 
+    cmd-f1 = 'focus-monitor 1'
+    cmd-f2 = 'focus-monitor 2'
+    cmd-f3 = 'focus-monitor 3'
+    cmd-left = 'focus-monitor left'
+    cmd-right = 'focus-monitor right'
+    cmd-up = 'focus-monitor up'
+    cmd-down = 'focus-monitor down'
+
+    # MOVE
+    # See: https://nikitabobko.github.io/AeroSpace/commands#move
+    cmd-shift-h = 'move left'
+    cmd-shift-j = 'move down'
+    cmd-shift-k = 'move up'
+    cmd-shift-l = 'move right'
+
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     cmd-shift-1 = 'move-node-to-workspace 1'
     cmd-shift-2 = 'move-node-to-workspace 2'
@@ -148,35 +155,63 @@ automatically-unhide-macos-hidden-apps = true
     cmd-shift-8 = 'move-node-to-workspace 8'
     cmd-shift-9 = 'move-node-to-workspace 9'
 
-    cmd-f1 = 'fullscreen'
+
+    # MISC
+    cmd-shift-f = 'fullscreen'
+    cmd-shift-slash = 'layout tiles horizontal vertical'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-    cmd-i = 'mode service'
+    cmd-r = 'mode service'
 
-    cmd-r = 'mode resize'
+    cmd-s = 'mode tiles'
+    cmd-d = 'mode workspace'
+    cmd-f12 = 'mode empty'
 
-[mode.resize.binding]
+[mode.tiles.binding]
     esc = ['mode main']
     # See: https://nikitabobko.github.io/AeroSpace/commands#resize
     minus = 'resize smart -20'
     equal = 'resize smart +20'
 
+    h = ['join-with left']
+    j = ['join-with down']
+    k = ['join-with up']
+    l = ['join-with right']
+    f = ['layout floating tiling'] # Toggle between floating and tiling layout
+
+    slash = 'layout tiles horizontal vertical'
+    period = 'layout accordion horizontal vertical'
+
+[mode.workspace.binding]
+    esc = ['mode main']
+
+    r = ['flatten-workspace-tree'] # reset layout
+
+    shift-f1 = "move-workspace-to-monitor 1"
+    shift-f2 = "move-workspace-to-monitor 2"
+    shift-f3 = "move-workspace-to-monitor 3"
+
+    shift-left = 'move-workspace-to-monitor left'
+    shift-right = 'move-workspace-to-monitor right'
+    shift-up = 'move-workspace-to-monitor up'
+    shift-down = 'move-workspace-to-monitor down'
+
+    1 = 'workspace 1'
+    2 = 'workspace 2'
+    3 = 'workspace 3'
+    4 = 'workspace 4'
+    5 = 'workspace 5'
+    6 = 'workspace 6'
+    7 = 'workspace 7'
+    8 = 'workspace 8'
+    9 = 'workspace 9'
+
+
 [mode.service.binding]
     esc = ['reload-config', 'mode main']
-    r = ['flatten-workspace-tree', 'mode main'] # reset layout
-    f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+    r = ['reload-config']
     backspace = ['close-all-windows-but-current', 'mode main']
 
-    h = ['join-with left', 'mode main']
-    j = ['join-with down', 'mode main']
-    k = ['join-with up', 'mode main']
-    l = ['join-with right', 'mode main']
 
-    # See: https://nikitabobko.github.io/AeroSpace/commands#layout
-    slash = 'layout tiles horizontal vertical'
-    a = 'layout accordion horizontal vertical'
-
-    left = 'move-workspace-to-monitor left'
-    right = 'move-workspace-to-monitor right'
-    up = 'move-workspace-to-monitor up'
-    down = 'move-workspace-to-monitor down'
+[mode.empty.binding]
+    cmd-f12 = ['mode main']
