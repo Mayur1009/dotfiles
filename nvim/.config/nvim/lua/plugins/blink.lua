@@ -82,7 +82,7 @@ return {
 
             completion = {
                 list = {
-                    selection = { preselect = true, auto_insert = false },
+                    selection = { preselect = true, auto_insert = true },
                 },
                 documentation = {
                     auto_show = false,
