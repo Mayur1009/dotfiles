@@ -35,6 +35,7 @@ M.lsp_config = {
     -- },
     basedpyright = {},
     ruff = {},
+    julials = {},
     clangd = {
         cmd = {
             "clangd",

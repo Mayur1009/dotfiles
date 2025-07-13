@@ -17,6 +17,7 @@ local langs = {
     "jsdoc",
     "json",
     "jsonc",
+    "julia",
     "latex",
     "lua",
     "luadoc",
