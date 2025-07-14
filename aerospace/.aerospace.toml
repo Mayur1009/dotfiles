@@ -139,10 +139,10 @@ automatically-unhide-macos-hidden-apps = true
 
     # MOVE
     # See: https://nikitabobko.github.io/AeroSpace/commands#move
-    cmd-shift-h = 'move left'
-    cmd-shift-j = 'move down'
-    cmd-shift-k = 'move up'
-    cmd-shift-l = 'move right'
+    cmd-shift-h = 'move left --boundaries all-monitors-outer-frame'
+    cmd-shift-j = 'move down --boundaries all-monitors-outer-frame'
+    cmd-shift-k = 'move up --boundaries all-monitors-outer-frame'
+    cmd-shift-l = 'move right --boundaries all-monitors-outer-frame'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     cmd-shift-1 = 'move-node-to-workspace 1'
