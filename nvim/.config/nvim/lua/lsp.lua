@@ -33,7 +33,17 @@ M.lsp_config = {
     --         },
     --     },
     -- },
-    basedpyright = {},
+    basedpyright = {
+        settings = {
+            basedpyright = {
+                disableOrganizeImports = true,
+                analysis = {
+                    autoSearchPaths = true,
+                    diagnosticMode = "workspace",
+                },
+            },
+        },
+    },
     ruff = {},
     julials = {},
     clangd = {
