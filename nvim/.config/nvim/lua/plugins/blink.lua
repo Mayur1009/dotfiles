@@ -60,8 +60,8 @@ return {
                 -- },
                 -- ["<S-Tab>"] = { "snippet_backward", "fallback" },
 
-                ["<C-l>"] = { "snippet_forward", "fallback" },
-                ["<C-h>"] = { "snippet_backward", "fallback" },
+                ["<M-n>"] = { "snippet_forward", "fallback" },
+                ["<M-p>"] = { "snippet_backward", "fallback" },
 
                 ["<Up>"] = {},
                 ["<Down>"] = {},
