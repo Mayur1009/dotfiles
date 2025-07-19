@@ -18,7 +18,14 @@ return {
         keys = {
             { "<M-e>", "<Plug>SlimeMotionSend", desc = "Slime motion", mode = { "n" } },
             { "<M-e>", "<Plug>SlimeRegionSend<cr>", desc = "Slime region send", mode = "v" },
-            { "<M-e><M-e>", "<Plug>SlimeLineSend<cr>", desc = "Slime line send" },
+            { "<M-e>l", "<Plug>SlimeLineSend<cr>", desc = "Slime line send" },
+            {
+                "<M-e><M-e>",
+                function()
+                    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<M-e>ij", true, false, true), "o", false)
+                end,
+                desc = "Slime send Code block",
+            },
         },
     },
 }
