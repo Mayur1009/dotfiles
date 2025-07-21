@@ -203,6 +203,16 @@ automatically-unhide-macos-hidden-apps = true
     shift-up = 'move-workspace-to-monitor up'
     shift-down = 'move-workspace-to-monitor down'
 
+    shift-1 = 'summon-workspace 1'
+    shift-2 = 'summon-workspace 2'
+    shift-3 = 'summon-workspace 3'
+    shift-4 = 'summon-workspace 4'
+    shift-5 = 'summon-workspace 5'
+    shift-6 = 'summon-workspace 6'
+    shift-7 = 'summon-workspace 7'
+    shift-8 = 'summon-workspace 8'
+    shift-9 = 'summon-workspace 9'
+
 [mode.service.binding]
     esc = ['reload-config', 'mode main']
     r = ['reload-config']
