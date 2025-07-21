@@ -10,7 +10,7 @@ after-login-command = []
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
-  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=4.0'
+  'exec-and-forget borders active_color=0xffff9e64 inactive_color=0xff494d64 width=8.0'
 ]
 # Start AeroSpace at login
 start-at-login = true
@@ -163,8 +163,8 @@ automatically-unhide-macos-hidden-apps = true
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
     cmd-r = 'mode service'
 
-    cmd-s = 'mode tiles'
-    cmd-d = 'mode workspace'
+    cmd-t = 'mode tiles'
+    cmd-m = 'mode monitors'
     cmd-f12 = 'mode empty'
 
 [mode.tiles.binding]
@@ -182,36 +182,31 @@ automatically-unhide-macos-hidden-apps = true
     slash = 'layout tiles horizontal vertical'
     period = 'layout accordion horizontal vertical'
 
-[mode.workspace.binding]
+[mode.monitors.binding]
     esc = ['mode main']
 
     r = ['flatten-workspace-tree'] # reset layout
 
+    f1 = 'focus-monitor 1'
+    f2 = 'focus-monitor 2'
+    f3 = 'focus-monitor 3'
+    left = 'focus-monitor left'
+    right = 'focus-monitor right'
+    up = 'focus-monitor up'
+    down = 'focus-monitor down'
+
     shift-f1 = "move-workspace-to-monitor 1"
     shift-f2 = "move-workspace-to-monitor 2"
     shift-f3 = "move-workspace-to-monitor 3"
-
     shift-left = 'move-workspace-to-monitor left'
     shift-right = 'move-workspace-to-monitor right'
     shift-up = 'move-workspace-to-monitor up'
     shift-down = 'move-workspace-to-monitor down'
 
-    1 = 'workspace 1'
-    2 = 'workspace 2'
-    3 = 'workspace 3'
-    4 = 'workspace 4'
-    5 = 'workspace 5'
-    6 = 'workspace 6'
-    7 = 'workspace 7'
-    8 = 'workspace 8'
-    9 = 'workspace 9'
-
-
 [mode.service.binding]
     esc = ['reload-config', 'mode main']
     r = ['reload-config']
     backspace = ['close-all-windows-but-current', 'mode main']
-
 
 [mode.empty.binding]
     cmd-f12 = ['mode main']
