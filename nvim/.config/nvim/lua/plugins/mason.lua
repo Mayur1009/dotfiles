@@ -35,6 +35,9 @@ return {
 
                 -- dap
                 "codelldb",
+
+                -- jupytext
+                "jupytext",
             },
         },
         config = function(_, opts)
