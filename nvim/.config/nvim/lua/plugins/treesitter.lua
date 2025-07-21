@@ -76,10 +76,32 @@ return {
                     move = {
                         enable = true,
                         set_jumps = true,
-                        goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner", ["]o"] = "@code_cell.inner" , ["]j"] = "@jps"},
-                        goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]A"] = "@parameter.inner", ["]O"] = "@code_cell.inner" },
-                        goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer", ["[a"] = "@parameter.inner", ["[o"] = "@code_cell.inner", ["[j"] = "@jps" },
-                        goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner", ["[O"] = "@code_cell.inner" },
+                        goto_next_start = {
+                            ["]f"] = "@function.outer",
+                            ["]c"] = "@class.outer",
+                            ["]a"] = "@parameter.inner",
+                            ["]o"] = "@code_cell.inner" ,
+                            ["]j"] = "@jps"
+                        },
+                        goto_next_end = {
+                            ["]F"] = "@function.outer",
+                            ["]C"] = "@class.outer",
+                            ["]A"] = "@parameter.inner",
+                            ["]O"] = "@code_cell.inner"
+                        },
+                        goto_previous_start = {
+                            ["[f"] = "@function.outer",
+                            ["[c"] = "@class.outer",
+                            ["[a"] = "@parameter.inner",
+                            ["[o"] = "@code_cell.inner",
+                            ["[j"] = "@jps"
+                        },
+                        goto_previous_end = {
+                            ["[F"] = "@function.outer",
+                            ["[C"] = "@class.outer",
+                            ["[A"] = "@parameter.inner",
+                            ["[O"] = "@code_cell.inner"
+                        },
                     },
                     select = {
                         enable = true,
@@ -96,6 +118,10 @@ return {
                             -- ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
                             -- You can also use captures from other query groups like `locals.scm`
                             -- ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
+
+                            -- NOTE: Why they dont work with mini.ai?
+                            ["io"] = { query = "@code_cell.inner", desc = "in block" },
+                            ["ao"] = { query = "@code_cell.outer", desc = "around block" },
                         },
                     },
                     lsp_interop = {

@@ -6,15 +6,20 @@ return {
             local ai = require("mini.ai")
             local extra = require("mini.extra")
             ai.setup({
-                n_lines = 500,
                 custom_textobjects = {
                     o = ai.gen_spec.treesitter({
-                        a = { "@block.outer", "@conditional.outer", "@loop.outer", "@code_cell.outer" },
-                        i = { "@block.inner", "@conditional.inner", "@loop.inner", "@code_cell.inner" },
-                    }, {}),
-                    f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
-                    c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
-                    j = require("utils").ts_textobj_delimiter_miniai({ a = "@jps", i = "@jps" }),
+                        a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+                        i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+                    }),
+                    f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+                    c = ai.gen_spec.treesitter({
+                        a = { "@class.outer" },
+                        i = { "@class.inner" },
+                    }),
+                    j = require("utils").ts_textobj_delimiter_miniai({
+                        a = { "@jps" },
+                        i = { "@jps" },
+                    }),
                     i = extra.gen_ai_spec.indent(),
                     g = extra.gen_ai_spec.buffer(),
                     d = extra.gen_ai_spec.number(),
@@ -66,7 +71,11 @@ return {
             require("mini.move").setup()
             require("mini.splitjoin").setup() -- gS
             require("mini.misc").setup() -- printing table and stuff
-            require("mini.pairs").setup()
+            require("mini.pairs").setup({
+                mappings = {
+                    ["`"] = false,
+                },
+            })
             require("mini.icons").setup()
             require("mini.icons").mock_nvim_web_devicons()
             require("mini.tabline").setup()

@@ -3,9 +3,9 @@ return {
         "GCBallesteros/jupytext.nvim",
         config = function()
             require("jupytext").setup({
-                style = "quarto",
-                output_extension = "qmd",
-                force_ft = "quarto",
+                style = "markdown",
+                output_extension = "md",
+                force_ft = "markdown",
             })
         end,
         lazy = false,
