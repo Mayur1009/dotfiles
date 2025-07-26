@@ -115,6 +115,19 @@ end
 repl_keymap("python")
 repl_keymap("ipython")
 
+-- Python code block
+vim.keymap.set("n", "<leader>cp", function()
+    local keys = [[<esc>o```{python}<cr>```<esc>O<esc>]]
+    keys = vim.api.nvim_replace_termcodes(keys, true, false, true)
+    vim.api.nvim_feedkeys(keys, "n", false)
+end, { desc = "Add python quarto code block" })
+
+vim.keymap.set("n", "<leader>cP", function()
+    local keys = [[<esc>o```python<cr>```<esc>O<esc>]]
+    keys = vim.api.nvim_replace_termcodes(keys, true, false, true)
+    vim.api.nvim_feedkeys(keys, "n", false)
+end, { desc = "Add python markdown code block" })
+
 -- Norwegian keyboard layout
 vim.keymap.set({ "n", "o", "v", "x" }, "ø", "[", { remap = true })
 vim.keymap.set({ "n", "o", "v", "x" }, "æ", "]", { remap = true })

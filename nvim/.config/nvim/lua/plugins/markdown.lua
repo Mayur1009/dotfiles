@@ -14,13 +14,12 @@ return {
             code = {
                 width = "block",
                 border = "thick",
-
             },
             win_options = {
                 conceallevel = {
                     rendered = 2
                 }
-            }
+            },
         },
         config = function(_, opts)
             require("render-markdown").setup(opts)
