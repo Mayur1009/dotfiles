@@ -1,11 +1,6 @@
 return {
     { "neovim/nvim-lspconfig", lazy = false },
     { "tpope/vim-sleuth" },
-    {
-        "folke/ts-comments.nvim",
-        event = "VeryLazy",
-        opts = {},
-    },
     { "j-hui/fidget.nvim", event = { "LspAttach" }, opts = {} },
     {
         "smjonas/inc-rename.nvim",

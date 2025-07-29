@@ -79,6 +79,7 @@ return {
             require("mini.icons").setup()
             require("mini.icons").mock_nvim_web_devicons()
             require("mini.tabline").setup()
+            require("mini.comment").setup()
 
             Snacks.toggle
                 .new({

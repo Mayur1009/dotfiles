@@ -8,12 +8,12 @@ return {
             style = "night",
             dim_inactive = true,
             lualine_bold = true,
-            on_colors = function(colors)
-                colors.border = "#ff9e64" --"#565f89"
+            on_colors = function(c)
+                c.border = "#ff9e64" --"#565f89"
             end,
-            on_highlights = function (highlights, colors)
-                highlights.RenderMarkdownCode = {bg = "#192b38"}
-            end
+            on_highlights = function(hl, _)
+                hl.RenderMarkdownCode = { bg = "#192b38" }
+            end,
         },
     },
 }
