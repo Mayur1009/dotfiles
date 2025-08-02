@@ -110,6 +110,7 @@ automatically-unhide-macos-hidden-apps = true
     cmd-shift-e = '''exec-and-forget osascript -e 'tell application "Finder" to make new Finder window to folder (path to home folder)''''
     cmd-b = 'exec-and-forget open -n -a "Brave Browser"'
     cmd-shift-s = 'exec-and-forget open -n -a screenshot'
+    cmd-f11 = 'exec-and-forget open -a "Xquartz"'
 
     # FOCUS
     # See: https://nikitabobko.github.io/AeroSpace/commands#focus
@@ -157,11 +158,12 @@ automatically-unhide-macos-hidden-apps = true
 
 
     # MISC
+    cmd-w = 'close'
     cmd-shift-f = 'fullscreen'
     cmd-shift-slash = 'layout tiles horizontal vertical'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-    cmd-r = 'mode service'
+    cmd-r = 'mode reload'
 
     cmd-t = 'mode tiles'
     cmd-m = 'mode monitors'
@@ -170,8 +172,8 @@ automatically-unhide-macos-hidden-apps = true
 [mode.tiles.binding]
     esc = ['mode main']
     # See: https://nikitabobko.github.io/AeroSpace/commands#resize
-    minus = 'resize smart -20'
-    equal = 'resize smart +20'
+    minus = ['resize smart -20']
+    equal = ['resize smart +20']
 
     h = ['join-with left']
     j = ['join-with down']
@@ -185,35 +187,35 @@ automatically-unhide-macos-hidden-apps = true
 [mode.monitors.binding]
     esc = ['mode main']
 
-    r = ['flatten-workspace-tree'] # reset layout
+    r = ['flatten-workspace-tree', 'mode main'] # reset layout
 
-    f1 = 'focus-monitor 1'
-    f2 = 'focus-monitor 2'
-    f3 = 'focus-monitor 3'
-    left = 'focus-monitor left'
-    right = 'focus-monitor right'
-    up = 'focus-monitor up'
-    down = 'focus-monitor down'
+    f1 = ['focus-monitor 1']
+    f2 = ['focus-monitor 2']
+    f3 = ['focus-monitor 3']
+    left = ['focus-monitor left']
+    right = ['focus-monitor right']
+    up = ['focus-monitor up']
+    down = ['focus-monitor down']
 
-    shift-f1 = "move-workspace-to-monitor 1"
-    shift-f2 = "move-workspace-to-monitor 2"
-    shift-f3 = "move-workspace-to-monitor 3"
-    shift-left = 'move-workspace-to-monitor left'
-    shift-right = 'move-workspace-to-monitor right'
-    shift-up = 'move-workspace-to-monitor up'
-    shift-down = 'move-workspace-to-monitor down'
+    shift-f1 = ["move-workspace-to-monitor 1"]
+    shift-f2 = ["move-workspace-to-monitor 2"]
+    shift-f3 = ["move-workspace-to-monitor 3"]
+    shift-left = ['move-workspace-to-monitor left']
+    shift-right = ['move-workspace-to-monitor right']
+    shift-up = ['move-workspace-to-monitor up']
+    shift-down = ['move-workspace-to-monitor down']
 
-    shift-1 = 'summon-workspace 1'
-    shift-2 = 'summon-workspace 2'
-    shift-3 = 'summon-workspace 3'
-    shift-4 = 'summon-workspace 4'
-    shift-5 = 'summon-workspace 5'
-    shift-6 = 'summon-workspace 6'
-    shift-7 = 'summon-workspace 7'
-    shift-8 = 'summon-workspace 8'
-    shift-9 = 'summon-workspace 9'
+    shift-1 = ['summon-workspace 1', 'mode main']
+    shift-2 = ['summon-workspace 2', 'mode main']
+    shift-3 = ['summon-workspace 3', 'mode main']
+    shift-4 = ['summon-workspace 4', 'mode main']
+    shift-5 = ['summon-workspace 5', 'mode main']
+    shift-6 = ['summon-workspace 6', 'mode main']
+    shift-7 = ['summon-workspace 7', 'mode main']
+    shift-8 = ['summon-workspace 8', 'mode main']
+    shift-9 = ['summon-workspace 9', 'mode main']
 
-[mode.service.binding]
+[mode.reload.binding]
     esc = ['reload-config', 'mode main']
     r = ['reload-config']
     backspace = ['close-all-windows-but-current', 'mode main']

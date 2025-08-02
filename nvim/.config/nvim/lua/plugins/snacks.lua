@@ -21,16 +21,16 @@ return {
                 },
                 doc = {
                     inline = false,
-                }
+                },
             },
             styles = {
                 snacks_image = {
                     relative = "editor",
-                    row=1,
-                    col=99999,
+                    row = 1,
+                    col = 99999,
                     title = "Snacks Image",
                     focusable = true,
-                }
+                },
             },
             picker = { enabled = true },
 
@@ -45,29 +45,15 @@ return {
             },
             dashboard = {
                 enabled = true,
-                -- sections = {
-                --     {
-                --         section = "terminal",
-                --         cmd = "chafa ~/Downloads/one_piece_skull.png --format symbols --symbols vhalf --size 40x --stretch; sleep .1",
-                --         height = 30,
-                --         padding = 1,
-                --     },
-                --     {
-                --         pane = 2,
-                --         { section = "header" },
-                --         { section = "keys", gap = 1, padding = 1 },
-                --         { section = "startup" },
-                --     },
-                -- },
             },
         },
         keys = {
             {
                 "<leader><space>",
                 function()
-                    Snacks.picker.smart()
+                    Snacks.picker.files({ hidden = true })
                 end,
-                desc = "Smart Find Files",
+                desc = "Find Files",
             },
             {
                 "<leader>/",
