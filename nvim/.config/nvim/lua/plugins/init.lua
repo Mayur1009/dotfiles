@@ -36,6 +36,7 @@ return {
                 { "<leader>c", group = "+code" },
                 { "<leader>s", group = "+search" },
                 { "<leader>t", group = "+treesitter" },
+                { "<leader>l", group = "+lsp" },
                 { "<localleader>d", group = "+debug" },
                 { "<localleader>f", group = "+run [f]ile" },
                 { "<localleader>l", group = "+vimtex" },
