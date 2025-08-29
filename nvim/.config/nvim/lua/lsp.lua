@@ -133,9 +133,9 @@ M.setup = function()
                 })
             end, "Hover Documentation")
 
-            if client:supports_method("textDocument/inlayHints") then
-                vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-            end
+            -- if client:supports_method("textDocument/inlayHints") then
+            --     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+            -- end
         end,
     })
 end
