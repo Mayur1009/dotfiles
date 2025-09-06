@@ -1,6 +1,7 @@
 return {
     {
         "lewis6991/gitsigns.nvim",
+        cond = not vim.g.vscode,
         event = { "BufReadPost", "BufNewFile" },
         opts = {
             signs = {
@@ -41,6 +42,7 @@ return {
     },
     {
         "NeogitOrg/neogit",
+        cond = not vim.g.vscode,
         dependencies = {
             "nvim-lua/plenary.nvim", -- required
             "sindrets/diffview.nvim",

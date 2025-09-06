@@ -1,6 +1,7 @@
 return {
     {
         "jpalardy/vim-slime",
+        cond = not vim.g.vscode,
         ft = { "python", "quarto", "markdown" },
         init = function()
             if vim.env.TMUX == nil then

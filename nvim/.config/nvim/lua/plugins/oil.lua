@@ -1,6 +1,7 @@
 return {
     {
         "stevearc/oil.nvim",
+        cond = not vim.g.vscode,
         config = function()
             local oil = require("oil")
             oil.setup({

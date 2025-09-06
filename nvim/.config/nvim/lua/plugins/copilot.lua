@@ -1,6 +1,7 @@
 return {
     {
         "zbirenbaum/copilot.lua",
+        cond = not vim.g.vscode,
         cmd = "Copilot",
         build = ":Copilot auth",
         event = "InsertEnter",

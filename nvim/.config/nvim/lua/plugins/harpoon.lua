@@ -1,6 +1,7 @@
 return {
     {
         "ThePrimeagen/harpoon",
+        cond = not vim.g.vscode,
         branch = "harpoon2",
         opts = {
             menu = {

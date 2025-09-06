@@ -1,6 +1,7 @@
 return {
     {
         "quarto-dev/quarto-nvim",
+        cond = not vim.g.vscode,
         dependencies = {
             "jmbuhr/otter.nvim",
             "nvim-treesitter/nvim-treesitter",

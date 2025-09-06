@@ -19,6 +19,7 @@ end
 return {
     {
         "mfussenegger/nvim-dap",
+        cond = not vim.g.vscode,
         dependencies = {
             "rcarriga/nvim-dap-ui",
             -- virtual text for the debugger
@@ -99,6 +100,7 @@ return {
     },
     {
         "rcarriga/nvim-dap-ui",
+        cond = not vim.g.vscode,
         dependencies = { "nvim-neotest/nvim-nio" },
         -- stylua: ignore
         keys = {
@@ -124,6 +126,7 @@ return {
 
     {
         "mfussenegger/nvim-dap",
+        cond = not vim.g.vscode,
         opts = function()
             local dap = require("dap")
             if not dap.adapters["codelldb"] then
@@ -165,6 +168,7 @@ return {
 
     {
         "mfussenegger/nvim-dap-python",
+        cond = not vim.g.vscode,
         -- stylua: ignore
         keys = {
             { "<localleader>dPt", function() require('dap-python').test_method() end, desc = "Debug Method", ft = "python" },

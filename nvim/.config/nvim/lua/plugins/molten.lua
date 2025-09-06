@@ -50,6 +50,7 @@ end
 return {
     {
         "benlubas/molten-nvim",
+        cond = not vim.g.vscode,
         build = ":UpdateRemotePlugins",
         init = function()
             vim.g.molten_auto_image_popup = true
