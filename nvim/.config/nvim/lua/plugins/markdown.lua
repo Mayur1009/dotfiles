@@ -1,6 +1,7 @@
 return {
     {
         "MeanderingProgrammer/render-markdown.nvim",
+        cond = not vim.g.vscode,
         dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" },
         ft = { "markdown", "quarto" },
         ---@module 'render-markdown'

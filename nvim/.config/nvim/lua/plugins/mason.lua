@@ -1,10 +1,12 @@
 return {
     {
         "mason-org/mason.nvim",
+        cond = not vim.g.vscode,
         opts = {},
     },
     {
         "mason-org/mason-lspconfig.nvim",
+        cond = not vim.g.vscode,
         dependencies = { "mason.nvim" },
         config = function()
             require("mason-lspconfig").setup({
@@ -15,6 +17,7 @@ return {
     },
     {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
+        cond = not vim.g.vscode,
         dependencies = {
             "mason.nvim",
             "mason-lspconfig.nvim",

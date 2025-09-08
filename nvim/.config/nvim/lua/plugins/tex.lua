@@ -1,6 +1,7 @@
 return {
     {
         "lervag/vimtex",
+        cond = not vim.g.vscode,
         lazy = false, -- Lazy-loading will disable inverse search
         config = function()
             vim.g.vimtex_mappings_disable = { ["n"] = { "K" } } -- Disable `K` as it conflicts with LSP hover

@@ -25,18 +25,18 @@ return {
     --         },
     --     },
     -- },
-    {
-        "supermaven-inc/supermaven-nvim",
-        cond = not vim.g.vscode,
-        event = "InsertEnter",
-        config = function()
-            require("supermaven-nvim").setup({
-                keymaps = {
-                    accept_suggestion = "<M-l>",
-                    clear_suggestion = "<M-e>",
-                    accept_word = "<M-w>",
-                },
-            })
-        end,
-    },
+    -- {
+    --     "supermaven-inc/supermaven-nvim",
+    --     cond = not vim.g.vscode,
+    --     event = "InsertEnter",
+    --     config = function()
+    --         require("supermaven-nvim").setup({
+    --             keymaps = {
+    --                 accept_suggestion = "<M-l>",
+    --                 clear_suggestion = "<M-e>",
+    --                 accept_word = "<M-w>",
+    --             },
+    --         })
+    --     end,
+    -- },
 }
