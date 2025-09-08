@@ -25,12 +25,14 @@ require("lazy").setup({
     change_detection = { enabled = false },
 })
 
--- Set colorsheme
-require("tokyonight").load()
+if not vim.g.vscode then
+    -- Set colorsheme
+    require("tokyonight").load()
 
--- treesitter highlight for python cell delimiters
-local colors = require("tokyonight.colors").setup()
-vim.api.nvim_set_hl(0, "@jps", { fg = colors.teal, reverse = true })
+    -- treesitter highlight for python cell delimiters
+    local colors = require("tokyonight.colors").setup()
+    vim.api.nvim_set_hl(0, "@jps", { fg = colors.teal, reverse = true })
 
--- Setup LSP
-require("lsp").setup()
+    -- Setup LSP
+    require("lsp").setup()
+end
