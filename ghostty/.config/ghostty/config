@@ -1,5 +1,5 @@
 font-family = "JetBrainsMono Nerd Font Mono"
-theme = "tokyonight"
+theme = "TokyoNight Night"
 cursor-invert-fg-bg = true
 copy-on-select = true
 quit-after-last-window-closed = true
