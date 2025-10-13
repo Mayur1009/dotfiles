@@ -11,10 +11,9 @@ path_add_helper() {
 }
 
 path_add_helper "$HOME/.local/bin"
+path_add_helper "$HOME/.pixi/bin" 1
 path_add_helper "$HOME/go/bin"
 path_add_helper "$HOME/zig"
-path_add_helper "$HOME/.fzf/bin"
-path_add_helper "$HOME/.pixi/bin"
 path_add_helper "$HOME/texlive/2025/bin/x86_64-linux"
 path_add_helper "$HOME/.juliaup/bin" 1
 

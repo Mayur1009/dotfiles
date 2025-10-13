@@ -1,9 +1,3 @@
-# if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
-#     autoload -Uz -- "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
-#     ghostty-integration
-#     # unfunction ghostty-integration
-# fi
-
 # INIT
 zstyle ':completion:*' menu select
 zstyle ':completion:*' use-cache on
@@ -16,14 +10,7 @@ zstyle ':completion:*:kill:*' force-list always
 zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
-zmodload zsh/complist
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-fi
-autoload -Uz compinit
-compinit
-bindkey -e
-
+# Pixi
 eval "$(pixi completion --shell zsh)"
 
 # Starship
@@ -35,21 +22,20 @@ source <(fzf --zsh)
 # Direnv
 eval "$(direnv hook zsh)"
 
-# Mamba
-# __conda_setup="$('$HOME/miniforge3/bin/conda' 'shell.zsh' 'hook' 2>/dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "$HOME/miniforge3/etc/profile.d/conda.sh" ]; then
-#         . "$HOME/miniforge3/etc/profile.d/conda.sh"
-#     else
-#         export PATH="$HOME/miniforge3/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
-# if [ -f "$HOME/miniforge3/etc/profile.d/mamba.sh" ]; then
-#     . "$HOME/miniforge3/etc/profile.d/mamba.sh"
-# fi
+# Completions
+zmodload zsh/complist
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+fi
+
+# If ~/.pixi/completions exists, add it to fpath
+if [ -d "$HOME/.pixi/completions" ]; then
+    fpath+=("$HOME/.pixi/completions/zsh")
+fi
+
+autoload -Uz compinit
+compinit
+bindkey -e
 
 # Alias
 alias diff='diff --color=auto'
