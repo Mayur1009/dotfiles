@@ -17,6 +17,12 @@ return {
                     ["gt"] = "actions.toggle_trash",
                     ["q"] = "actions.close",
                 },
+                lsp_file_methods = { enabled = false },
+                float = { border = "rounded" },
+                confirmation = { border = "rounded" },
+                progress = { border = "rounded" },
+                ssh = { border = "rounded" },
+                keymaps_help = { border = "rounded" },
             })
         end,
         keys = {
@@ -27,6 +33,6 @@ return {
                 end,
                 desc = "Oil [f]ile [e]xplorer",
             },
-        }
+        },
     },
 }
