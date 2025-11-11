@@ -22,6 +22,12 @@ source <(fzf --zsh)
 # Direnv
 eval "$(direnv hook zsh)"
 
+# Mise
+if command -v mise &> /dev/null; then
+    eval "$(mise activate zsh)"
+    eval "$(mise completion zsh)"
+fi
+
 # Completions
 zmodload zsh/complist
 if type brew &>/dev/null; then
