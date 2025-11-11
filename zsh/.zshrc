@@ -9,18 +9,29 @@ zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:kill:*' force-list always
 zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
+autoload -Uz compinit
+compinit
+bindkey -e
 
 # Pixi
-eval "$(pixi completion --shell zsh)"
+if command -v pixi &> /dev/null; then
+    eval "$(pixi completion --shell zsh)"
+fi
 
 # Starship
-eval "$(starship init zsh)"
+if command -v starship &> /dev/null; then
+    eval "$(starship init zsh)"
+fi
 
 # fzf
-source <(fzf --zsh)
+if command -v fzf &> /dev/null; then
+    source <(fzf --zsh)
+fi
 
 # Direnv
-eval "$(direnv hook zsh)"
+if command -v direnv &> /dev/null; then
+    eval "$(direnv hook zsh)"
+fi
 
 # Mise
 if command -v mise &> /dev/null; then
@@ -39,9 +50,6 @@ if [ -d "$HOME/.pixi/completions" ]; then
     fpath+=("$HOME/.pixi/completions/zsh")
 fi
 
-autoload -Uz compinit
-compinit
-bindkey -e
 
 # Alias
 alias diff='diff --color=auto'
@@ -99,3 +107,4 @@ darwin*)
     source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     ;;
 esac
+
