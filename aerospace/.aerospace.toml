@@ -161,6 +161,7 @@ automatically-unhide-macos-hidden-apps = true
     cmd-w = 'close'
     cmd-shift-f = 'fullscreen'
     cmd-shift-slash = 'layout tiles horizontal vertical'
+    cmd-shift-period = 'layout accordion horizontal vertical'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
     cmd-r = 'mode reload'
