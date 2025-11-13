@@ -13,6 +13,11 @@ autoload -Uz compinit
 compinit
 bindkey -e
 
+# Mise
+if command -v mise &> /dev/null; then
+    eval "$(mise completion zsh)"
+fi
+
 # Pixi
 if command -v pixi &> /dev/null; then
     eval "$(pixi completion --shell zsh)"
@@ -33,12 +38,6 @@ if command -v direnv &> /dev/null; then
     eval "$(direnv hook zsh)"
 fi
 
-# Mise
-if command -v mise &> /dev/null; then
-    eval "$(mise activate zsh)"
-    eval "$(mise completion zsh)"
-fi
-
 # Completions
 zmodload zsh/complist
 if type brew &>/dev/null; then
@@ -49,7 +48,6 @@ fi
 if [ -d "$HOME/.pixi/completions" ]; then
     fpath+=("$HOME/.pixi/completions/zsh")
 fi
-
 
 # Alias
 alias diff='diff --color=auto'
